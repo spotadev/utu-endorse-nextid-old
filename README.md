@@ -15,7 +15,7 @@ trust in both the Web 2 and Web 3 space.
 
     npm install
     npm run start
-    Open in Browser
+    Open in Browser:  http://localhost:3000/
 
  ## Resources
 
