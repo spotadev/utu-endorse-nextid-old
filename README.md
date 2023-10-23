@@ -70,5 +70,5 @@ next.id.
 
 This is an open source project and is visible to the public.  
 
-Note that Symbiont is a provate prokect thatwill make use of the utu-endorse-nextid app but the 
+Note that Symbiont is a private project that will make use of the utu-endorse-nextid app but the 
 dApp will be a generic one that other projects can easily consume.
