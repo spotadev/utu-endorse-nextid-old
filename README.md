@@ -9,3 +9,9 @@ For example you could endorse someone as being a full stack JavaScript Developer
 
 This inniative makes it harder for Bots and Fake Accounts to push false narratives.  It improves
 trust in both the Web 2 and Web 3 space.
+
+ ## Run instructions
+
+ npm install
+ npm run start
+ Open in Browser
