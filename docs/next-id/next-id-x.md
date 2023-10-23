@@ -76,7 +76,15 @@ Information taken from:
 
   The tee command allows you to see the keys on the console as well as putting them in keys.txt
 
-###
+### Post to proof payload
+
+curl -X POST https://proof-service.next.id/v1/proof/payload
+   -H 'Content-Type: application/json'
+   -d '{"action": "create", "platform": "twitter", "identity" : "your_twitter_handle", "public_key": "your_public_key"}'
+
+### Sign response
+
+
 
 ## How to model the above manual steps in utu-endorse-nextid
 

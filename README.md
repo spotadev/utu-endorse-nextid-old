@@ -25,6 +25,10 @@ trust in both the Web 2 and Web 3 space.
 
   [https://docs.utu.io/](https://docs.utu.io/)
 
+  [https://github.com/NextDotID/sdk-example/tree/main/src](https://github.com/NextDotID/sdk-example/tree/main/src)
+
+  [https://github.com/NextDotID/Signature-Generating-Sample/blob/main/typescript/src/index.ts](https://github.com/NextDotID/Signature-Generating-Sample/blob/main/typescript/src/index.ts)
+
 
 ## Background
 
