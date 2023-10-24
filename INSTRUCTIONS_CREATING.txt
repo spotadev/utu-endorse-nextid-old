@@ -1,0 +1,61 @@
+
+(i) npx create-react-app . --template typescript
+
+
+(ii) npm install react-app-rewired --save-dev
+
+
+(iii) Create a config-overrides.js file in the root directory
+
+  Add:
+
+    module.exports = function override(config, env) {
+      //do stuff with the webpack config...
+      return config;
+    }
+
+
+(iv) Change package.json
+
+    "scripts": {
+  -   "start": "react-scripts start",
+  +   "start": "react-app-rewired start",
+  -   "build": "react-scripts build",
+  +   "build": "react-app-rewired build",
+  -   "test": "react-scripts test",
+  +   "test": "react-app-rewired test",
+      "eject": "react-scripts eject"
+
+
+(v) Add typescript to package.json:
+
+  (a) Insert typescript into devDependencies and create overrides:
+
+    "devDependencies": {
+      "react-app-rewired": "^2.2.1",
+      "typescript": "^5.2.2"
+    },
+    "overrides": {
+      "typescript": "^5.2.2"
+    },
+  
+  (b) npm install
+
+
+(vi) npm install @web3modal/wagmi@beta wagmi viem
+
+
+(vii) Add .env.sample and add in it:
+
+  REACT_APP_WALLET_CONNECT_PROJECT_ID=get_from_https://cloud.walletconnect.com/sign-in
+
+
+(viii) Copy .env.sample and create .env
+
+  Go to https://cloud.walletconnect.com/sign-in and get your project id
+
+
+(ix) To code App.tsx and the other files look at:
+
+  https://docs.walletconnect.com/2.0/web3modal/v3/react/about
+

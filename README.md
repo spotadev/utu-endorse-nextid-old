@@ -11,11 +11,29 @@ This inniative makes it harder for Bots and Fake Accounts to push false narrativ
 trust in both the Web 2 and Web 3 space.
 
 
- ## Run instructions
+## Install and run example
 
-    npm install
-    npm run start
-    Open in Browser:  http://localhost:3000/
+(i) mkdir ~/workspace
+
+(ii) cd workspace
+
+(iii) git clone https://github.com/spotadev/utu-endorse-nextid.git
+
+(iv) cd utu-endorse-nextid
+
+(v) Copy .env.sample to .env
+
+(vi) Go to https://cloud.walletconnect.com/sign-in and get your projectId.  Put it in .env.
+
+(vii) npm install
+
+(viii) npm run start
+
+(ix) Open app in web browser:  http://localhost:3000/
+
+(x) You will see:
+
+![App Screen Shot](images/app.png)  
 
  ## Resources
 

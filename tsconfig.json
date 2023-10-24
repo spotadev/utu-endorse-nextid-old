@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "sourceMap": true,
+    "inlineSources": true,
     "target": "es5",
     "lib": [
       "dom",
