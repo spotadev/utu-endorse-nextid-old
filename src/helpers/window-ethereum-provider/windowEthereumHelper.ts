@@ -2,7 +2,7 @@ interface EthereumProvider {
   request: (args: { method: string, params?: any[] }) => Promise<any>;
 }
 
-export const getSelectedAddress = async (): Promise<string | null> => {
+const getSelectedAddress = async (): Promise<string | null> => {
   const provider = window.ethereum as EthereumProvider | undefined;
 
   if (provider) {
@@ -20,7 +20,7 @@ export const getSelectedAddress = async (): Promise<string | null> => {
   }
 }
 
-export const getPublicKey = async (selectedAddress: string): Promise<string | null> => {
+const getPublicKey = async (selectedAddress: string): Promise<string | null> => {
   const provider = window.ethereum as EthereumProvider | undefined;
 
   if (provider) {
@@ -33,3 +33,8 @@ export const getPublicKey = async (selectedAddress: string): Promise<string | nu
     return null;
   }
 }
+
+export const windowEthereumHelper = {
+  getSelectedAddress,
+  getPublicKey,
+};
