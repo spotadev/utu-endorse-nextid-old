@@ -1,8 +1,8 @@
 import appStyle from '../App.module.css';
 
 import { useState } from "react";
-import { useAccount } from "wagmi";
-import ProofPayloadResponse, { nextIdProofService } from '../services/next-id-proof/nextIdProofService';
+import { useAccount, useSignMessage } from "wagmi";
+import ProofPayloadResponse, { PostContent, nextIdProofService } from '../services/next-id-proof/nextIdProofService';
 
 
 export default function GetNextIdProofPayload() {
@@ -10,13 +10,35 @@ export default function GetNextIdProofPayload() {
   const { isConnected } = useAccount();
   const [xHandle, setXHandle] = useState<string>('');
   const [submitted, setSubmitted] = useState<boolean>(false);
+  const [signPayload, setSignPayload] = useState<string>();
+  const [tweet, setTweet] = useState<string>();
+
+  const { data, isError, isLoading, isSuccess, signMessage } = useSignMessage({
+    message: signPayload,
+  })
+
+  const createTweet = (postContentEnUS: string, signedMessage: string) => {
+    const lastLine = 'Next.ID YOUR DIGITAL IDENTITIES IN ONE PLACE';
+    const _tweet = postContentEnUS + signedMessage + '\n\n' + lastLine;
+    setTweet(_tweet);
+  }
 
   const next = async () => {
     if (xHandle) {
       const proofPayloadResponse: ProofPayloadResponse =
         await nextIdProofService.getNextIdProofPayload(xHandle);
 
-      const signPayload = proofPayloadResponse.sign_payload;
+      setSignPayload(proofPayloadResponse.sign_payload);
+      signMessage();
+      const signedMessage = data;
+      console.log('signedMessage', signedMessage);
+      const postContent: PostContent = proofPayloadResponse.post_content;
+      const postContentEnUS = postContent.en_US;
+
+
+      if (signedMessage) {
+        const tweet = createTweet(postContentEnUS, signedMessage);
+      }
     }
   }
 

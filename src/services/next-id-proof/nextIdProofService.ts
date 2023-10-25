@@ -9,7 +9,7 @@ curl -X POST https://proof-service.next.id/v1/proof/payload
 import { axiosHelper } from "../../helpers/axios/axiosHelper";
 import { windowEthereumHelper } from "../window-ethereum-provider/windowEthereumProviderService";
 
-interface PostContent {
+export interface PostContent {
   default: string;
   en_US: string;
   zh_CN: string;
@@ -24,14 +24,14 @@ interface SignPayload {
   uuid: string;
 }
 
-interface ProofPayloadResponse {
+export default interface ProofPayloadResponse {
   post_content: PostContent;
-  sign_payload: SignPayload;
+  sign_payload: string;
   uuid: string;
   created_at: string;
 }
 
-export default ProofPayloadResponse;
+// export default ProofPayloadResponse;
 
 const getProofPayloadResponse =
   async (twitterHandle: string, publicKey: string): Promise<ProofPayloadResponse> => {
