@@ -2,8 +2,8 @@ import appStyle from '../App.module.css';
 
 import { useState } from "react";
 import { useAccount } from "wagmi";
-import { nextIdProofService } from '../services/next-id-proof/nextIdProofService';
-import { ProofPayloadResponse } from '../services/next-id-proof/ProofPayloadResponse';
+import ProofPayloadResponse, { nextIdProofService } from '../services/next-id-proof/nextIdProofService';
+
 
 export default function GetNextIdProofPayload() {
 
@@ -15,6 +15,8 @@ export default function GetNextIdProofPayload() {
     if (xHandle) {
       const proofPayloadResponse: ProofPayloadResponse =
         await nextIdProofService.getNextIdProofPayload(xHandle);
+
+      const signPayload = proofPayloadResponse.sign_payload;
     }
   }
 
