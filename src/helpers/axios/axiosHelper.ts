@@ -44,7 +44,7 @@ const configuredInterceptors =
     configureResponseInterceptor(axiosInstance);
   };
 
-export const createSecuredAxiosInstance =
+const createSecuredAxiosInstance =
   (
     baseUrl: string,
     tokenSessionKeyName: string,
@@ -63,7 +63,7 @@ export const createSecuredAxiosInstance =
     return securedAxiosInstance;
   };
 
-export const createUnsecuredAxiosInstance =
+const createUnsecuredAxiosInstance =
   (baseUrl: string, accessControlAllowOrigin: boolean = false) => {
     let unSecuredAxiosInstance: AxiosInstance = axios.create({});
     unSecuredAxiosInstance.defaults.baseURL = baseUrl;
@@ -75,3 +75,8 @@ export const createUnsecuredAxiosInstance =
     unSecuredAxiosInstance.defaults.timeout = getTimeout();
     return unSecuredAxiosInstance;
   };
+
+export const axiosHelper = {
+  createUnsecuredAxiosInstance,
+  createSecuredAxiosInstance,
+};

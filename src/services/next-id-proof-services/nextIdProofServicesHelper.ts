@@ -6,7 +6,44 @@ curl -X POST https://proof-service.next.id/v1/proof/payload
 "public_key": "your_public_key"}'
 */
 
+import { axiosHelper } from "../../helpers/axios/axiosHelper";
 import { windowEthereumHelper } from "../../helpers/window-ethereum-provider/windowEthereumHelper";
+import { ProofPayloadResponse } from "./ProofPayloadResponse";
+
+const getProofPayloadResponse =
+  async (twitterHandle: string, publicKey: string): Promise<ProofPayloadResponse> => {
+
+    const baseUrl = 'https://proof-service.next.id';
+    const url = '/v1/proof/payload';
+    const accessControlAllowOrigin = false;
+    const axios = axiosHelper.createUnsecuredAxiosInstance(baseUrl, accessControlAllowOrigin);
+
+    let config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+    const request =
+    {
+      "action": "create",
+      "platform": "twitter",
+      "identity": twitterHandle,
+      "public_key": publicKey
+    };
+
+
+    let { data, status } =
+      await axios.post<ProofPayloadResponse>(url, request, config);
+
+    if (status === 200) {
+      return data;
+    } else if (status === 404) {
+      throw new Error('Not Found: 404');
+    } else {
+      throw new Error('Fauled to get ProofPayloadResponse: ' + status);
+    }
+  }
 
 const getNextIdProofPayload = async (twitterHandle: string) => {
   const selectedAddress = await windowEthereumHelper.getSelectedAddress();
@@ -14,10 +51,21 @@ const getNextIdProofPayload = async (twitterHandle: string) => {
   if (selectedAddress) {
     const publicKey = await windowEthereumHelper.getPublicKey(selectedAddress);
 
-    // @todo
+    if (publicKey) {
+      const proofPayloadResponse: ProofPayloadResponse =
+        await getProofPayloadResponse(twitterHandle, publicKey);
 
+      console.log('proofPayloadResponse', proofPayloadResponse);
+    }
+    else {
+      throw new Error('Cannot retrieve the public key from the wallet');
+    }
   }
   else {
-    throw new Error('Cannot retrieve public key');
+    throw new Error('Cannot retrieve the selected Address from the wallet');
   }
 }
+
+export const nextIdProofServicesHelper = {
+  getNextIdProofPayload
+};
