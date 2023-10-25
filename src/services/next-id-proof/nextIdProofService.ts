@@ -7,7 +7,7 @@ curl -X POST https://proof-service.next.id/v1/proof/payload
 */
 
 import { axiosHelper } from "../../helpers/axios/axiosHelper";
-import { windowEthereumHelper } from "../../helpers/window-ethereum-provider/windowEthereumHelper";
+import { windowEthereumHelper } from "../window-ethereum-provider/windowEthereumProviderService";
 import { ProofPayloadResponse } from "./ProofPayloadResponse";
 
 const getProofPayloadResponse =
@@ -45,7 +45,7 @@ const getProofPayloadResponse =
     }
   }
 
-const getNextIdProofPayload = async (twitterHandle: string) => {
+const getNextIdProofPayload = async (twitterHandle: string): Promise<ProofPayloadResponse> => {
   const selectedAddress = await windowEthereumHelper.getSelectedAddress();
 
   if (selectedAddress) {
@@ -56,6 +56,7 @@ const getNextIdProofPayload = async (twitterHandle: string) => {
         await getProofPayloadResponse(twitterHandle, publicKey);
 
       console.log('proofPayloadResponse', proofPayloadResponse);
+      return proofPayloadResponse;
     }
     else {
       throw new Error('Cannot retrieve the public key from the wallet');
@@ -66,6 +67,6 @@ const getNextIdProofPayload = async (twitterHandle: string) => {
   }
 }
 
-export const nextIdProofServicesHelper = {
+export const nextIdProofService = {
   getNextIdProofPayload
 };

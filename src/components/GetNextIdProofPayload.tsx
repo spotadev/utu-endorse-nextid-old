@@ -2,15 +2,20 @@ import appStyle from '../App.module.css';
 
 import { useState } from "react";
 import { useAccount } from "wagmi";
+import { nextIdProofService } from '../services/next-id-proof/nextIdProofService';
+import { ProofPayloadResponse } from '../services/next-id-proof/ProofPayloadResponse';
 
 export default function GetNextIdProofPayload() {
 
   const { isConnected } = useAccount();
-  const [linkedInHandle, setLinkedInHandle] = useState<string>();
+  const [xHandle, setXHandle] = useState<string>('');
   const [submitted, setSubmitted] = useState<boolean>(false);
 
-  const next = () => {
-
+  const next = async () => {
+    if (xHandle) {
+      const proofPayloadResponse: ProofPayloadResponse =
+        await nextIdProofService.getNextIdProofPayload(xHandle);
+    }
   }
 
   if (!isConnected) {
@@ -24,14 +29,14 @@ export default function GetNextIdProofPayload() {
     return (
       <>
         <div>
-          <span style={{ fontWeight: 'bold' }}>Step 2:</span> Submit Linked In Handle - PENDING
+          <span style={{ fontWeight: 'bold' }}>Step 2:</span> Submit X Handle - PENDING
           &nbsp;&nbsp;
           <input
             className={appStyle.input}
             placeholder="Linked In Handle (mandatory)"
-            value={linkedInHandle} onChange={(event) => setLinkedInHandle(event.target.value)} />
+            value={xHandle} onChange={(event) => setXHandle(event.target.value)} />
           &nbsp;&nbsp;
-          <button className={appStyle.button} onClick={next}>Next</button>
+          <button disabled={xHandle.length == 0} className={appStyle.button} onClick={next}>Next</button>
         </div>
       </>
     );

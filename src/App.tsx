@@ -42,7 +42,7 @@ function App() {
   return (
     <WagmiConfig config={wagmiConfig}>
       <div className={appStyle.centeredPage}>
-        <span style={{ fontWeight: 'bold' }}>Demo using Next.id, Linked in and UTU Trust</span>
+        <span style={{ fontWeight: 'bold' }}>Demo using Next.id, X (Twitter) and UTU Trust</span>
         <br /><br />
         <Information />
         <hr />
