@@ -1,5 +1,5 @@
 import appStyle from '../App.module.css';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useGlobalStateContext } from "../App";
 import { useSignMessage } from "wagmi";
 import { PostContent } from "../services/next-id/nextIdProofService";
@@ -43,17 +43,6 @@ export default function GetNextIdProofPayload() {
       throw new Error(errrorMessage);
     }
 
-    setSignPayload(proofPayloadResponse.sign_payload);
-    signMessage();
-    const signedMessage = data;
-    console.log('signedMessage', signedMessage);
-    const postContent: PostContent = proofPayloadResponse.post_content;
-    const postContentEnUS = postContent.en_US;
-
-    if (signedMessage) {
-      createTweet(postContentEnUS, signedMessage);
-    }
-
     if (tweetUrl) {
       const numberAtEndTweetUrl = getNumberAtEndTweetUrl(tweetUrl);
       const uuid = proofPayloadResponse.uuid;
@@ -70,6 +59,24 @@ export default function GetNextIdProofPayload() {
 
     }
   }
+
+  useEffect(() => {
+    if (!proofPayloadResponse || !xHandle || !publicKey) {
+      return;
+    }
+
+    setSignPayload(proofPayloadResponse.sign_payload);
+    signMessage();
+    const signedMessage = data;
+    console.log('signedMessage', signedMessage);
+    const postContent: PostContent = proofPayloadResponse.post_content;
+    const postContentEnUS = postContent.en_US;
+
+    if (signedMessage) {
+      createTweet(postContentEnUS, signedMessage);
+    }
+  }, []);
+
 
   if (!proofPayloadResponse) {
 
