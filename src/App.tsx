@@ -10,6 +10,39 @@ import Information from './components/Information';
 import PostTweetInstructions from './components/PostTweetInstructions';
 import ShowProofHere from './components/ShowProofHere';
 import ShowProofOnWeb3Bio from './components/ShowProofOnWeb3Bio';
+import { createContext, useContext, useState } from 'react';
+import ProofPayloadResponse from './services/next-id/nextIdProofService';
+
+// =================================================================================================
+// Start: Create Global Context
+
+export type GlobalState = {
+  xHandle: string | null;
+  setXHandle: (c: string) => void;
+  proofPayloadResponse: ProofPayloadResponse | null;
+  setProofPayloadResponse: (c: ProofPayloadResponse) => void;
+  publicKey: string | null;
+  setPublicKey: (c: string) => void;
+};
+
+export const SharedDataContext = createContext<GlobalState>({
+  xHandle: null,
+  setXHandle: () => { },
+  proofPayloadResponse: null,
+  setProofPayloadResponse: () => { },
+  publicKey: null,
+  setPublicKey: (c: string) => { }
+});
+
+export const useGlobalStateContext = () => {
+  return useContext(SharedDataContext);
+};
+
+// End: Create Global Context
+// =================================================================================================
+
+// =================================================================================================
+// Start: Configure web3modal
 
 // 1. Get projectId
 const projectId = process.env.REACT_APP_WALLET_CONNECT_PROJECT_ID;
@@ -38,29 +71,43 @@ createWeb3Modal({ wagmiConfig, projectId, chains })
 // https://github.com/WalletConnect/walletconnect-monorepo/issues/3165
 // localStorage.clear();
 
+
+// End: Configure web3modal
+// =================================================================================================
+
 function App() {
+  const [xHandle, setXHandle] = useState<string | null>(null);
+  const [proofPayloadResponse, setProofPayloadResponse] = useState<ProofPayloadResponse | null>(null);
+  const [publicKey, setPublicKey] = useState<string | null>(null);
+
   return (
-    <WagmiConfig config={wagmiConfig}>
-      <div className={appStyle.centeredPage}>
-        <span style={{ fontWeight: 'bold' }}>Demo using Next.id, X (Twitter) and UTU Trust</span>
-        <br /><br />
-        <Information />
-        <hr />
-        <Buttons />
-        <hr />
-        <GetNextIdProofPayload />
-        <hr />
-        <PostTweetInstructions />
-        <hr />
-        <ShowProofHere />
-        <hr />
-        <ShowProofOnWeb3Bio />
-        <hr />
-        <div style={{ backgroundColor: 'pink' }}>
-          NOTE: This in progress - next.id and UTU Trust not yet integrated but will soon be.
+    <SharedDataContext.Provider value={{
+      xHandle, setXHandle,
+      proofPayloadResponse, setProofPayloadResponse,
+      publicKey, setPublicKey
+    }}>
+      <WagmiConfig config={wagmiConfig}>
+        <div className={appStyle.centeredPage}>
+          <span style={{ fontWeight: 'bold' }}>Demo using Next.id, X (Twitter) and UTU Trust</span>
+          <br /><br />
+          <Information />
+          <hr />
+          <Buttons />
+          <hr />
+          <GetNextIdProofPayload />
+          <hr />
+          <PostTweetInstructions />
+          <hr />
+          <ShowProofHere />
+          <hr />
+          <ShowProofOnWeb3Bio />
+          <hr />
+          <div style={{ backgroundColor: 'pink' }}>
+            NOTE: This in progress - next.id and UTU Trust not yet integrated but will soon be.
+          </div>
         </div>
-      </div>
-    </WagmiConfig>
+      </WagmiConfig>
+    </SharedDataContext.Provider>
   );
 }
 

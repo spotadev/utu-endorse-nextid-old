@@ -31,8 +31,6 @@ export default interface ProofPayloadResponse {
   created_at: string;
 }
 
-// export default ProofPayloadResponse;
-
 const getProofPayloadResponse =
   async (twitterHandle: string, publicKey: string): Promise<ProofPayloadResponse> => {
 
@@ -68,27 +66,32 @@ const getProofPayloadResponse =
     }
   }
 
-const getNextIdProofPayload = async (twitterHandle: string): Promise<ProofPayloadResponse> => {
-  const selectedAddress = await windowEthereumHelper.getSelectedAddress();
+const getNextIdProofPayload =
+  async (
+    twitterHandle: string,
+    setPublicKeyUseStateFunction: any
+  ): Promise<ProofPayloadResponse> => {
+    const selectedAddress = await windowEthereumHelper.getSelectedAddress();
 
-  if (selectedAddress) {
-    const publicKey = await windowEthereumHelper.getPublicKey(selectedAddress);
+    if (selectedAddress) {
+      const publicKey = await windowEthereumHelper.getPublicKey(selectedAddress);
+      setPublicKeyUseStateFunction(publicKey);
 
-    if (publicKey) {
-      const proofPayloadResponse: ProofPayloadResponse =
-        await getProofPayloadResponse(twitterHandle, publicKey);
+      if (publicKey) {
+        const proofPayloadResponse: ProofPayloadResponse =
+          await getProofPayloadResponse(twitterHandle, publicKey);
 
-      console.log('proofPayloadResponse', proofPayloadResponse);
-      return proofPayloadResponse;
+        console.log('proofPayloadResponse', proofPayloadResponse);
+        return proofPayloadResponse;
+      }
+      else {
+        throw new Error('Cannot retrieve the public key from the wallet');
+      }
     }
     else {
-      throw new Error('Cannot retrieve the public key from the wallet');
+      throw new Error('Cannot retrieve the selected Address from the wallet');
     }
   }
-  else {
-    throw new Error('Cannot retrieve the selected Address from the wallet');
-  }
-}
 
 export const nextIdProofService = {
   getNextIdProofPayload
