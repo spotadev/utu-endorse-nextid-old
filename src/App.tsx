@@ -12,6 +12,7 @@ import ShowProofHere from './components/ShowProofHere';
 import ShowProofOnWeb3Bio from './components/ShowProofOnWeb3Bio';
 import { createContext, useContext, useState } from 'react';
 import ProofPayloadResponse from './services/next-id/nextIdProofService';
+import AvatarStatusResponse from './services/next-id/nextIdCheckAvatarService';
 
 // =================================================================================================
 // Start: Create Global Context
@@ -23,6 +24,8 @@ export type GlobalState = {
   setProofPayloadResponse: (c: ProofPayloadResponse) => void;
   publicKey: string | null;
   setPublicKey: (c: string) => void;
+  avatarStatusResponse: AvatarStatusResponse | null;
+  setAvatarStatusResponse: (c: AvatarStatusResponse) => void;
 };
 
 export const SharedDataContext = createContext<GlobalState>({
@@ -31,7 +34,9 @@ export const SharedDataContext = createContext<GlobalState>({
   proofPayloadResponse: null,
   setProofPayloadResponse: () => { },
   publicKey: null,
-  setPublicKey: (c: string) => { }
+  setPublicKey: (c: string) => { },
+  avatarStatusResponse: null,
+  setAvatarStatusResponse: (c: AvatarStatusResponse) => { }
 });
 
 export const useGlobalStateContext = () => {
@@ -79,12 +84,14 @@ function App() {
   const [xHandle, setXHandle] = useState<string | null>(null);
   const [proofPayloadResponse, setProofPayloadResponse] = useState<ProofPayloadResponse | null>(null);
   const [publicKey, setPublicKey] = useState<string | null>(null);
+  const [avatarStatusResponse, setAvatarStatusResponse] = useState<AvatarStatusResponse | null>(null);
 
   return (
     <SharedDataContext.Provider value={{
       xHandle, setXHandle,
       proofPayloadResponse, setProofPayloadResponse,
-      publicKey, setPublicKey
+      publicKey, setPublicKey,
+      avatarStatusResponse, setAvatarStatusResponse
     }}>
       <WagmiConfig config={wagmiConfig}>
         <div className={appStyle.centeredPage}>

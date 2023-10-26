@@ -1,10 +1,5 @@
 import { axiosHelper } from "../../helpers/axios/axiosHelper";
 
-export default interface VerifyProofResponse {
-  // @todo
-}
-
-
 const verifyProof = async (
   xHandle: string,
   publicKey: string,
@@ -36,9 +31,7 @@ const verifyProof = async (
     "created_at": createdAt
   };
 
-
-  let { data, status } =
-    await axios.post<{}>(url, request, config);
+  let { status } = await axios.post<{}>(url, request, config);
 
   if (status === 201) {
     console.log('Verified');
