@@ -4,7 +4,7 @@ import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi/react'
 
 import { WagmiConfig } from 'wagmi'
 import { arbitrum, mainnet } from 'wagmi/chains'
-import Buttons from './components/Buttons';
+import Buttons from './components/Web3ModalButtons';
 import GetNextIdProofPayload from './components/GetNextIdProofPayload';
 import Information from './components/Information';
 import PostTweetInstructions from './components/PostTweetInstructions';
@@ -13,6 +13,7 @@ import ShowProofOnWeb3Bio from './components/ShowProofOnWeb3Bio';
 import { createContext, useContext, useState } from 'react';
 import ProofPayloadResponse from './services/next-id/nextIdProofService';
 import AvatarStatusResponse from './services/next-id/nextIdCheckAvatarService';
+import Web3ModalButtons from './components/Web3ModalButtons';
 
 // =================================================================================================
 // Start: Create Global Context
@@ -99,7 +100,7 @@ function App() {
           <br /><br />
           <Information />
           <hr />
-          <Buttons />
+          <Web3ModalButtons />
           <hr />
           <GetNextIdProofPayload />
           <hr />

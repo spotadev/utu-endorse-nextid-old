@@ -3,13 +3,16 @@ import appStyle from '../App.module.css';
 import { useAccount } from "wagmi";
 import ProofPayloadResponse, { nextIdProofService } from '../services/next-id/nextIdProofService';
 import { useGlobalStateContext } from '../App';
+import { nextIdCheckAvatarService } from '../services/next-id/nextIdCheckAvatarService';
+import { useEffect } from 'react';
 
 
 export default function GetNextIdProofPayload() {
   const {
     xHandle, setXHandle,
     proofPayloadResponse, setProofPayloadResponse,
-    publicKey, setPublicKey
+    avatarStatusResponse, setAvatarStatusResponse,
+    setPublicKey
   } = useGlobalStateContext();
 
   const { isConnected } = useAccount();
@@ -23,6 +26,20 @@ export default function GetNextIdProofPayload() {
     }
   }
 
+  useEffect(() => {
+    const getAvatarStatusResponse = async (xHandle: string) => {
+      const avatarStatusResponse = await nextIdCheckAvatarService.getAvatarStatus(xHandle);
+      console.log('avatarStatusResponse', avatarStatusResponse);
+      setAvatarStatusResponse(avatarStatusResponse);
+    };
+
+    if (xHandle) {
+      (async () => {
+        await getAvatarStatusResponse(xHandle);
+      })();
+    }
+  }, []);
+
   if (!isConnected) {
     return (
       <div>
@@ -30,7 +47,7 @@ export default function GetNextIdProofPayload() {
       </div>
     );
   }
-  else if (isConnected && !proofPayloadResponse) {
+  else if (isConnected && !proofPayloadResponse && !avatarStatusResponse) {
     return (
       <div>
         <span style={{ fontWeight: 'bold' }}>Step 2:</span> Submit X Handle - PENDING

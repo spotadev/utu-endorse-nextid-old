@@ -31,6 +31,9 @@ export default function ShowProofHere() {
           <span style={{ fontWeight: 'bold' }}>Step 4:</span> Show Proof here - Done
         </div>
         <div>
+          Proof of your Universal Decentralised ID:
+        </div>
+        <div style={{ backgroundColor: 'pink' }}>
           ${avatarStatusResponseString}
         </div>
       </>

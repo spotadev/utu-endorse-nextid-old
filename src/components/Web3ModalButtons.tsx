@@ -2,7 +2,7 @@
 import { useWeb3Modal } from '@web3modal/wagmi/react'
 import { useAccount } from 'wagmi';
 
-export default function Buttons() {
+export default function Web3ModalButtons() {
 
   const { open, close } = useWeb3Modal()
   const { address, isConnected } = useAccount();
