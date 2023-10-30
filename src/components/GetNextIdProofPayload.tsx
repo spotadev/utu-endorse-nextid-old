@@ -5,6 +5,7 @@ import ProofPayloadResponse, { nextIdProofService } from '../services/next-id/ne
 import { useGlobalStateContext } from '../App';
 import { nextIdCheckAvatarService } from '../services/next-id/nextIdCheckAvatarService';
 import { useEffect } from 'react';
+import { avatarStatusResponseHelper } from '../helpers/avatar-status-response/avatarStatusResponseHelper';
 
 
 export default function GetNextIdProofPayload() {
@@ -12,33 +13,48 @@ export default function GetNextIdProofPayload() {
     xHandle, setXHandle,
     proofPayloadResponse, setProofPayloadResponse,
     avatarStatusResponse, setAvatarStatusResponse,
-    setPublicKey
+    setPublicKey,
+    xProofVerified,
+    setXProofVerified
   } = useGlobalStateContext();
 
   const { isConnected } = useAccount();
 
   const next = async () => {
     if (xHandle) {
-      const proofPayloadResponse: ProofPayloadResponse =
-        await nextIdProofService.getNextIdProofPayload(xHandle, setPublicKey);
 
-      setProofPayloadResponse(proofPayloadResponse);
+      const avatarStatusResponse = await nextIdCheckAvatarService.getAvatarStatus(xHandle);
+      console.log('avatarStatusResponse', avatarStatusResponse);
+
+      const xHandleLinkedToUniversalID =
+        avatarStatusResponseHelper.hasXHandle(avatarStatusResponse);
+
+      console.log('xHandleLinkedToUniversalID', xHandleLinkedToUniversalID);
+
+      setXProofVerified(xHandleLinkedToUniversalID);
+      setAvatarStatusResponse(avatarStatusResponse);
+
+      if (!xHandleLinkedToUniversalID) {
+
+        const proofPayloadResponse: ProofPayloadResponse =
+          await nextIdProofService.getNextIdProofPayload(xHandle, setPublicKey);
+
+        setProofPayloadResponse(proofPayloadResponse);
+      }
     }
   }
 
-  useEffect(() => {
-    const getAvatarStatusResponse = async (xHandle: string) => {
-      const avatarStatusResponse = await nextIdCheckAvatarService.getAvatarStatus(xHandle);
-      console.log('avatarStatusResponse', avatarStatusResponse);
-      setAvatarStatusResponse(avatarStatusResponse);
-    };
+  // useEffect(() => {
+  // }, []);
 
-    if (xHandle) {
-      (async () => {
-        await getAvatarStatusResponse(xHandle);
-      })();
-    }
-  }, []);
+  if (xProofVerified) {
+    return (
+      <div >
+        <span style={{ fontWeight: 'bold' }}>Step 2: </span>
+        Submit X Handle - X handle is already linked to your Universal ID
+      </div >
+    );
+  }
 
   if (!isConnected) {
     return (

@@ -27,6 +27,8 @@ export type GlobalState = {
   setPublicKey: (c: string) => void;
   avatarStatusResponse: AvatarStatusResponse | null;
   setAvatarStatusResponse: (c: AvatarStatusResponse) => void;
+  xProofVerified: boolean;
+  setXProofVerified: (c: boolean) => void;
 };
 
 export const SharedDataContext = createContext<GlobalState>({
@@ -37,7 +39,9 @@ export const SharedDataContext = createContext<GlobalState>({
   publicKey: null,
   setPublicKey: (c: string) => { },
   avatarStatusResponse: null,
-  setAvatarStatusResponse: (c: AvatarStatusResponse) => { }
+  setAvatarStatusResponse: (c: AvatarStatusResponse) => { },
+  xProofVerified: false,
+  setXProofVerified: (c: boolean) => { }
 });
 
 export const useGlobalStateContext = () => {
@@ -86,13 +90,15 @@ function App() {
   const [proofPayloadResponse, setProofPayloadResponse] = useState<ProofPayloadResponse | null>(null);
   const [publicKey, setPublicKey] = useState<string | null>(null);
   const [avatarStatusResponse, setAvatarStatusResponse] = useState<AvatarStatusResponse | null>(null);
+  const [xProofVerified, setXProofVerified] = useState<boolean>(false);
 
   return (
     <SharedDataContext.Provider value={{
       xHandle, setXHandle,
       proofPayloadResponse, setProofPayloadResponse,
       publicKey, setPublicKey,
-      avatarStatusResponse, setAvatarStatusResponse
+      avatarStatusResponse, setAvatarStatusResponse,
+      xProofVerified, setXProofVerified
     }}>
       <WagmiConfig config={wagmiConfig}>
         <div className={appStyle.centeredPage}>

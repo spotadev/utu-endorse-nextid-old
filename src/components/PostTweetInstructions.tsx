@@ -11,6 +11,9 @@ export default function GetNextIdProofPayload() {
     xHandle,
     proofPayloadResponse,
     publicKey,
+    avatarStatusResponse,
+    xProofVerified,
+    setXProofVerified
   } = useGlobalStateContext();
 
   const [signPayload, setSignPayload] = useState<string>();
@@ -49,19 +52,17 @@ export default function GetNextIdProofPayload() {
 
       try {
         nextIdVerifyService.verifyProof(xHandle, publicKey, numberAtEndTweetUrl, uuid);
+        setXProofVerified(true);
       }
       catch (error) {
         // @todo: we get an error if verify failed
         throw error;
       }
     }
-    else {
-
-    }
   }
 
   useEffect(() => {
-    if (!proofPayloadResponse || !xHandle || !publicKey) {
+    if (!proofPayloadResponse || !xHandle || !publicKey || !xProofVerified) {
       return;
     }
 
@@ -77,21 +78,29 @@ export default function GetNextIdProofPayload() {
     }
   }, []);
 
+  if (xProofVerified) {
+    return (
+      <div >
+        <span style={{ fontWeight: 'bold' }}>Step 3: </span>
+        Post Tweet: X handle is already linked to your Universal ID
+      </div >
+    );
+  }
 
-  if (!proofPayloadResponse) {
-
+  if (!proofPayloadResponse || !avatarStatusResponse || !xProofVerified) {
     return (
       <div>
-        <span style={{ fontWeight: 'bold' }}>Step 3:</span> Post Tweet - PENDING
+        <span style={{ fontWeight: 'bold' }}>Step 3: </span>
+        Post Tweet - PENDING
       </div>
     );
   }
-  else {
-
+  else if (proofPayloadResponse && !xProofVerified) {
     return (
       <>
         <div>
-          <span style={{ fontWeight: 'bold' }}>Step 2:</span> Submit X Handle - IN PROGRESS
+          <span style={{ fontWeight: 'bold' }}>Step 2: </span>
+          Submit X Handle - IN PROGRESS
         </div>
         <div>
           Please copy the text in the pink box below into a tweet and send it:
