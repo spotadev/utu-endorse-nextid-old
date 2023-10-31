@@ -74,23 +74,25 @@ const getNextIdProofPayload =
     const selectedAddress = await windowEthereumHelper.getSelectedAddress();
 
     if (selectedAddress) {
-      const publicKey = await windowEthereumHelper.getPublicKey(selectedAddress);
-      setPublicKeyUseStateFunction(publicKey);
+      const publicKeyBase64 = await windowEthereumHelper.getPublicKey(selectedAddress);
 
-      if (publicKey) {
-        const proofPayloadResponse: ProofPayloadResponse =
-          await getProofPayloadResponse(twitterHandle, publicKey);
+      if (publicKeyBase64) {
 
-        console.log('proofPayloadResponse', proofPayloadResponse);
-        return proofPayloadResponse;
-      }
-      else {
-        throw new Error('Cannot retrieve the public key from the wallet');
+        const rawPublicKey = Buffer.from(publicKeyBase64, 'base64');
+        const hexPublicKey = rawPublicKey.toString('hex');
+        setPublicKeyUseStateFunction(hexPublicKey);
+
+        if (hexPublicKey) {
+          const proofPayloadResponse: ProofPayloadResponse =
+            await getProofPayloadResponse(twitterHandle, hexPublicKey);
+
+          console.log('proofPayloadResponse', proofPayloadResponse);
+          return proofPayloadResponse;
+        }
       }
     }
-    else {
-      throw new Error('Cannot retrieve the selected Address from the wallet');
-    }
+
+    throw new Error('Cannot retrieve the public key from the wallet and convert it to hex');
   }
 
 export const nextIdProofService = {
