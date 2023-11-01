@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import AvatarStatusResponse, { nextIdCheckAvatarService } from "../services/next-id/nextIdCheckAvatarService";
+import AvatarStatusResponse, { Proof, nextIdCheckAvatarService } from "../services/next-id/nextIdCheckAvatarService";
 import { useGlobalStateContext } from "../App";
+import { avatarStatusResponseHelper } from "../helpers/avatar-status-response/avatarStatusResponseHelper";
 
 export default function ShowProofHere() {
   const {
@@ -8,22 +9,35 @@ export default function ShowProofHere() {
     avatarStatusResponse, setAvatarStatusResponse
   } = useGlobalStateContext();
 
+  const [proofs, setProofs] = useState<Proof[] | null>(null);
+
   useEffect(() => {
     const getAvatarStatusResponse = async (xHandle: string) => {
-      const avatarStatusResponse = await nextIdCheckAvatarService.getAvatarStatus(xHandle);
+      const avatarStatusResponse: AvatarStatusResponse =
+        await nextIdCheckAvatarService.getAvatarStatus(xHandle);
+
       console.log('avatarStatusResponse', avatarStatusResponse);
       setAvatarStatusResponse(avatarStatusResponse);
+      return avatarStatusResponse;
     };
 
     if (xHandle) {
       (async () => {
-        await getAvatarStatusResponse(xHandle);
+        let avatarStatusResponse = await getAvatarStatusResponse(xHandle);
+
+        let platform = 'twitter';
+
+        let proofs: Proof[] =
+          avatarStatusResponseHelper.getProofs(avatarStatusResponse, platform, xHandle);
+
+        setProofs(proofs);
       })();
     }
-  }, []);
+  }, [xHandle]);
 
-  if (avatarStatusResponse) {
-    const avatarStatusResponseString = JSON.stringify(avatarStatusResponse);
+
+  if (proofs && proofs.length > 0) {
+    console.log('rendering');
 
     return (
       <>
@@ -33,8 +47,20 @@ export default function ShowProofHere() {
         <div>
           Proof of your Universal Decentralised ID:
         </div>
-        <div style={{ backgroundColor: 'pink' }}>
-          ${avatarStatusResponseString}
+        <div style={{ backgroundColor: 'pink', wordWrap: 'break-word' }}>
+          {proofs.map((proof, index) => (
+            <div>
+              <span style={{ width: '33%' }}>
+                ${proof.platform} :
+              </span>
+              <span style={{ width: '33%' }}>
+                ${proof.identity}
+              </span>
+              <span style={{ width: '34%' }}>
+                - created: ${proof.created_at}
+              </span>
+            </div>
+          ))}
         </div>
       </>
     );

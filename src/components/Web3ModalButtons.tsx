@@ -22,7 +22,8 @@ export default function Web3ModalButtons() {
   else {
     return (
       <div>
-        Step 1: Connect to Wallet - PENDING
+        <span style={{ fontWeight: 'bold' }}>Step 1: </span>
+        Connect to Wallet - PENDING
         &nbsp;&nbsp;
         <button onClick={() => open()}>Connect / Disconnect Wallet</button>
         &nbsp;&nbsp;

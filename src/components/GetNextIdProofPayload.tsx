@@ -26,8 +26,10 @@ export default function GetNextIdProofPayload() {
       const avatarStatusResponse = await nextIdCheckAvatarService.getAvatarStatus(xHandle);
       console.log('avatarStatusResponse', avatarStatusResponse);
 
+      const platform = 'twitter';
+
       const xHandleLinkedToUniversalID =
-        avatarStatusResponseHelper.hasXHandle(avatarStatusResponse);
+        avatarStatusResponseHelper.hasHandle(avatarStatusResponse, xHandle, platform);
 
       console.log('xHandleLinkedToUniversalID', xHandleLinkedToUniversalID);
 
@@ -39,6 +41,7 @@ export default function GetNextIdProofPayload() {
         const proofPayloadResponse: ProofPayloadResponse =
           await nextIdProofService.getNextIdProofPayload(xHandle, setPublicKey);
 
+        console.log('proofPayloadResponse', proofPayloadResponse);
         setProofPayloadResponse(proofPayloadResponse);
       }
     }
@@ -59,7 +62,8 @@ export default function GetNextIdProofPayload() {
   if (!isConnected) {
     return (
       <div>
-        Step 2: Submit X Handle - PENDING
+        <span style={{ fontWeight: 'bold' }}>Step 2: </span>
+        Submit X Handle - PENDING
       </div>
     );
   }
@@ -78,8 +82,10 @@ export default function GetNextIdProofPayload() {
     );
   }
   else {
-    <div >
-      <span style={{ fontWeight: 'bold' }}>Step 2:</span> Submit X Handle - DONE
-    </div >
+    return (
+      <div >
+        <span style={{ fontWeight: 'bold' }}>Step 2:</span> Submit X Handle - DONE
+      </div >
+    );
   }
 }
