@@ -12,19 +12,9 @@ export default function ShowProofHere() {
   const [proofs, setProofs] = useState<Proof[] | null>(null);
 
   useEffect(() => {
-    const getAvatarStatusResponse = async (xHandle: string) => {
-      const avatarStatusResponse: AvatarStatusResponse =
-        await nextIdCheckAvatarService.getAvatarStatus(xHandle);
 
-      console.log('avatarStatusResponse', avatarStatusResponse);
-      setAvatarStatusResponse(avatarStatusResponse);
-      return avatarStatusResponse;
-    };
-
-    if (xHandle) {
+    if (xHandle && avatarStatusResponse) {
       (async () => {
-        let avatarStatusResponse = await getAvatarStatusResponse(xHandle);
-
         let platform = 'twitter';
 
         let proofs: Proof[] =
@@ -37,7 +27,6 @@ export default function ShowProofHere() {
 
 
   if (proofs && proofs.length > 0) {
-    console.log('rendering');
 
     return (
       <>
