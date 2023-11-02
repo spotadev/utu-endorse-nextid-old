@@ -4,16 +4,12 @@ import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi/react'
 
 import { WagmiConfig } from 'wagmi'
 import { arbitrum, mainnet } from 'wagmi/chains'
-import Buttons from './components/Web3ModalButtons';
-import GetNextIdProofPayload from './components/GetNextIdProofPayload';
-import Information from './components/Information';
-import PostTweetInstructions from './components/PostTweetInstructions';
-import ShowProofHere from './components/ShowProofHere';
-import ShowProofOnWeb3Bio from './components/ShowProofOnWeb3Bio';
 import { createContext, useContext, useState } from 'react';
 import ProofPayloadResponse from './services/next-id/nextIdProofService';
 import AvatarStatusResponse from './services/next-id/nextIdCheckAvatarService';
-import Web3ModalButtons from './components/Web3ModalButtons';
+import Home from './components/home/Home';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import X from './components/connectors/x/X';
 
 // =================================================================================================
 // Start: Create Global Context
@@ -85,7 +81,7 @@ createWeb3Modal({ wagmiConfig, projectId, chains })
 // End: Configure web3modal
 // =================================================================================================
 
-function App() {
+function App(props: any) {
   const [xHandle, setXHandle] = useState<string | null>(null);
   const [proofPayloadResponse, setProofPayloadResponse] = useState<ProofPayloadResponse | null>(null);
   const [publicKey, setPublicKey] = useState<string | null>(null);
@@ -103,22 +99,12 @@ function App() {
       <WagmiConfig config={wagmiConfig}>
         <div className={appStyle.centeredPage}>
           <span style={{ fontWeight: 'bold' }}>Demo using Next.id, X (Twitter) and UTU Trust</span>
-          <br /><br />
-          <Information />
-          <hr />
-          <Web3ModalButtons />
-          <hr />
-          <GetNextIdProofPayload />
-          <hr />
-          <PostTweetInstructions />
-          <hr />
-          <ShowProofHere />
-          <hr />
-          <ShowProofOnWeb3Bio />
-          <hr />
-          <div style={{ backgroundColor: 'pink' }}>
-            NOTE: This in progress - next.id and UTU Trust not yet integrated but will soon be.
-          </div>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Home {...props} />} />
+              <Route path="/x" element={<X {...props} />} />
+            </Routes>
+          </BrowserRouter>
         </div>
       </WagmiConfig>
     </SharedDataContext.Provider>

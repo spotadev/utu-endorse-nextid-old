@@ -17,6 +17,7 @@
     "@types/node": "^16.18.59",
     "@types/react": "^18.2.31",
     "@types/react-dom": "^18.2.14",
+    "react-router-dom": "^6.16.0",
     "@web3modal/wagmi": "^3.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import AvatarStatusResponse, { Proof, nextIdCheckAvatarService } from "../services/next-id/nextIdCheckAvatarService";
-import { useGlobalStateContext } from "../App";
-import { avatarStatusResponseHelper } from "../helpers/avatar-status-response/avatarStatusResponseHelper";
+import { Proof } from "../../../services/next-id/nextIdCheckAvatarService";
+import { useGlobalStateContext } from "../../../App";
+import { avatarStatusResponseHelper } from "../../../helpers/avatar-status-response/avatarStatusResponseHelper";
 
 export default function ShowProofHere() {
   const {

@@ -1,11 +1,11 @@
-import appStyle from '../App.module.css';
+import appStyle from '../../../App.module.css';
 import { useEffect, useState } from "react";
-import { useGlobalStateContext } from "../App";
+import { useGlobalStateContext } from "../../../App";
 import { useSignMessage } from "wagmi";
-import { PostContent } from "../services/next-id/nextIdProofService";
-import { nextIdVerifyService } from "../services/next-id/nextIdVerifyService";
+import { PostContent } from "../../../services/next-id/nextIdProofService";
+import { nextIdVerifyService } from "../../../services/next-id/nextIdVerifyService";
 
-export default function GetNextIdProofPayload() {
+export default function PostTweetInstructions() {
 
   const {
     xHandle,
