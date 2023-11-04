@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import AvatarStatusResponse, { Proof, nextIdCheckAvatarService } from "../services/next-id/nextIdCheckAvatarService";
+import AvatarStatusResponse, { IdsItem, Proof, nextIdCheckAvatarService } from "../services/next-id/nextIdCheckAvatarService";
 import { useGlobalStateContext } from "../App";
 import { avatarStatusResponseHelper } from "../helpers/avatar-status-response/avatarStatusResponseHelper";
 
@@ -17,9 +17,10 @@ export default function ShowProofHere() {
       (async () => {
         let platform = 'twitter';
 
-        let proofs: Proof[] =
+        let response: { idItem: IdsItem | null, proofs: Proof[] } =
           avatarStatusResponseHelper.getProofs(avatarStatusResponse, platform, xHandle);
 
+        const proofs = response.proofs;
         setProofs(proofs);
       })();
     }

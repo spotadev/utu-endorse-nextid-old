@@ -52,7 +52,7 @@ const getProofs = (avatarStatusResponse: AvatarStatusResponse, platform: string,
     }
   }
 
-  return proofsToRender;
+  return { idItem: matchingIdItem, proofs: proofsToRender };
 }
 
 export const avatarStatusResponseHelper = {

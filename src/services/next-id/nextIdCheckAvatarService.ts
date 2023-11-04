@@ -11,6 +11,9 @@ export interface Proof {
 
 export interface IdsItem {
   avatar: string;
+  persona: string;
+  activated_at: string;
+  last_arweave_id: String;
   proofs: Proof[];
 }
 

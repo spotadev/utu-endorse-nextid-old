@@ -99,7 +99,7 @@ function App() {
     }}>
       <WagmiConfig config={wagmiConfig}>
         <div className={appStyle.centeredPage}>
-          <span style={{ fontWeight: 'bold' }}>Create your next.id Universal Profile</span>
+          <span style={{ fontWeight: 'bold' }}>Create / Update your Next.ID - Decentralized ID (DID))</span>
           <br /><br />
           <BrowserRouter>
             <Routes>

@@ -10,13 +10,17 @@ export default function Web3ModalButtons() {
 
   if (isConnected) {
     return (
-      <div>
-        <span style={{ fontWeight: 'bold' }}>Step 1:</span> Connected to Wallet - DONE
-        <br /><br />
-        Wallet Address: ${address}
-        <br /><br />
-        <button onClick={() => open()}>Disconnect Wallet</button>
-      </div>
+      <>
+        <div>
+          <span style={{ fontWeight: 'bold' }}>Wallet Address:</span>
+        </div>
+        <div style={{ paddingTop: '20px' }}>
+          ${address}
+        </div>
+        <div style={{ paddingTop: '20px' }}>
+          <button onClick={() => open()}>Disconnect Wallet</button>
+        </div >
+      </>
     );
   }
   else {
