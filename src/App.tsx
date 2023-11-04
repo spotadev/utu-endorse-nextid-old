@@ -98,7 +98,7 @@ function App(props: any) {
     }}>
       <WagmiConfig config={wagmiConfig}>
         <div className={appStyle.centeredPage}>
-          <span style={{ fontWeight: 'bold' }}>Demo using Next.id, X (Twitter) and UTU Trust</span>
+          <span style={{ fontWeight: 'bold' }}>Universal Next.id Profile Helper</span>
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Home {...props} />} />
