@@ -11,6 +11,8 @@ import AvatarStatusResponse from './services/next-id/nextIdCheckAvatarService';
 import Web3ModalButtons from './components/home/children/Web3ModalButtons';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './components/home/Home';
+import LinkXTwitter from './components/link-platform/x-twitter/LinkXTwitter';
+import LinkGithub from './components/link-platform/github/LinkGithub';
 
 // =================================================================================================
 // Start: Create Global Context
@@ -104,6 +106,8 @@ function App() {
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/link/platform/twitter" element={<LinkXTwitter />} />
+              <Route path="/link/platform/github" element={<LinkGithub />} />
             </Routes>
           </BrowserRouter>
         </div>

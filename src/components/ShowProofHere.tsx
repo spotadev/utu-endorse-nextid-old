@@ -17,7 +17,7 @@ export default function ShowProofHere() {
       (async () => {
         let platform = 'twitter';
 
-        let response: { idItem: IdsItem | null, proofs: Proof[] } =
+        let response: { idsItem: IdsItem | null, proofs: Proof[] } =
           avatarStatusResponseHelper.getProofs(avatarStatusResponse, platform, xHandle);
 
         const proofs = response.proofs;

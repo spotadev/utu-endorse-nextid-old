@@ -1,4 +1,4 @@
-import AvatarStatusResponse, { IdsItem, Proof } from "../../services/next-id/nextIdCheckAvatarService";
+import AvatarStatusResponse, { IdsItem, Platform, Proof } from "../../services/next-id/nextIdCheckAvatarService";
 
 
 const hasHandle = (avatarStatusResponse: AvatarStatusResponse, handle: string, platform: string) => {
@@ -39,11 +39,11 @@ const getIdsItem = (handle: string, platform: string, idItems: IdsItem[]): IdsIt
 const getProofs = (avatarStatusResponse: AvatarStatusResponse, platform: string, handle: string) => {
   let proofsToRender: Proof[] = [];
 
-  const idItems: IdsItem[] = avatarStatusResponse.ids;
-  const matchingIdItem = getIdsItem(handle, platform, idItems);
+  const idsItems: IdsItem[] = avatarStatusResponse.ids;
+  const matchingIdsItem = getIdsItem(handle, platform, idsItems);
 
-  if (matchingIdItem) {
-    let proofs: Proof[] = matchingIdItem.proofs;
+  if (matchingIdsItem) {
+    let proofs: Proof[] = matchingIdsItem.proofs;
 
     for (let proof of proofs) {
       if (proof.is_valid) {
@@ -52,10 +52,34 @@ const getProofs = (avatarStatusResponse: AvatarStatusResponse, platform: string,
     }
   }
 
-  return { idItem: matchingIdItem, proofs: proofsToRender };
+  return { idsItem: matchingIdsItem, proofs: proofsToRender };
+}
+
+const getPlatformsNeedToConnectTo = (idsItem: IdsItem, supportedPlatforms: string[]): Platform[] => {
+  const proofs: Proof[] = idsItem.proofs;
+
+  const platforms: Platform[] = [];
+
+  for (let supportedPlatform of supportedPlatforms) {
+
+    let found = false;
+
+    for (let proof of proofs) {
+      if (supportedPlatform === proof.platform) {
+        found = true;
+      }
+    }
+
+    if (!found) {
+      platforms.push({ name: supportedPlatform, url: `/linkplatform/${supportedPlatform}` });
+    }
+  }
+
+  return platforms;
 }
 
 export const avatarStatusResponseHelper = {
   hasHandle,
-  getProofs
+  getProofs,
+  getPlatformsNeedToConnectTo
 }

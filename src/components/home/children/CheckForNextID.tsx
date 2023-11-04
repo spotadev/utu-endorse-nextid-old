@@ -1,14 +1,9 @@
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
-import { IdsItem, Proof, nextIdCheckAvatarService } from "../../../services/next-id/nextIdCheckAvatarService";
+import AvatarStatusResponse, { IdsItem, Platform, Proof, nextIdCheckAvatarService } from "../../../services/next-id/nextIdCheckAvatarService";
 import { useGlobalStateContext } from "../../../App";
 import { avatarStatusResponseHelper } from "../../../helpers/avatar-status-response/avatarStatusResponseHelper";
 import GuiProof from "./GuiProof";
-
-interface Platform {
-  name: string;
-  url: string;
-}
 
 export default function CheckForNextID() {
 
@@ -37,12 +32,23 @@ export default function CheckForNextID() {
 
       setAvatarStatusResponse(avatarStatusResponse);
 
-      let response: { idItem: IdsItem | null, proofs: Proof[] } =
+      let response: { idsItem: IdsItem | null, proofs: Proof[] } =
         avatarStatusResponseHelper.getProofs(avatarStatusResponse, platform, handle);
 
       console.log('proofs', response.proofs);
       setProofs(response.proofs);
-      setIdItem(response.idItem);
+      setIdItem(response.idsItem);
+
+      const supportedPlatforms = ['twitter', 'github'];
+
+      if (response.idsItem) {
+
+        const platformsNeedToConnectTo: Platform[] =
+          avatarStatusResponseHelper.getPlatformsNeedToConnectTo(
+            response.idsItem, supportedPlatforms);
+
+        setPlatforms(platformsNeedToConnectTo);
+      }
     }
 
     if (address) {
@@ -67,7 +73,6 @@ export default function CheckForNextID() {
           {proofs.map((proof, index) => (
             <div key={proof.identity} style={{ paddingTop: '20px' }}>
               <GuiProof proof={proof} />
-
             </div>
           ))}
           <br />

@@ -1,5 +1,10 @@
 import { axiosHelper } from "../../helpers/axios/axiosHelper";
 
+export interface Platform {
+  name: string;
+  url: string;
+}
+
 export interface Proof {
   platform: string;
   identity: string;
