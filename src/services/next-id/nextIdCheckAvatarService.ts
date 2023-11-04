@@ -27,10 +27,11 @@ export default interface AvatarStatusResponse {
 }
 
 const getAvatarStatus = async (
-  xHandle: string
+  handle: string,
+  platform: string,
 ): Promise<AvatarStatusResponse> => {
   const baseUrl = 'https://proof-service.next.id';
-  const url = `/v1/proof?platform=twitter&identity=${xHandle}`;
+  const url = `/v1/proof?platform=${platform}&identity=${handle}`;
   const accessControlAllowOrigin = false;
   const axios = axiosHelper.createUnsecuredAxiosInstance(baseUrl, accessControlAllowOrigin);
 

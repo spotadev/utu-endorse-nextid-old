@@ -22,11 +22,12 @@ export default function GetNextIdProofPayload() {
 
   const next = async () => {
     if (xHandle) {
-
-      const avatarStatusResponse = await nextIdCheckAvatarService.getAvatarStatus(xHandle);
-      console.log('avatarStatusResponse', avatarStatusResponse);
-
       const platform = 'twitter';
+
+      const avatarStatusResponse =
+        await nextIdCheckAvatarService.getAvatarStatus(xHandle, platform);
+
+      console.log('avatarStatusResponse', avatarStatusResponse);
 
       const xHandleLinkedToUniversalID =
         avatarStatusResponseHelper.hasHandle(avatarStatusResponse, xHandle, platform);
