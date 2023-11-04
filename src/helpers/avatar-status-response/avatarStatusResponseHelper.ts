@@ -55,8 +55,12 @@ const getProofs = (avatarStatusResponse: AvatarStatusResponse, platform: string,
   return { idsItem: matchingIdsItem, proofs: proofsToRender };
 }
 
-const getPlatformsNeedToConnectTo = (idsItem: IdsItem, supportedPlatforms: string[]): Platform[] => {
-  const proofs: Proof[] = idsItem.proofs;
+const getPlatformsNeedToConnectTo = (idsItem: IdsItem | null, supportedPlatforms: string[]): Platform[] => {
+  let proofs: Proof[] = []
+
+  if (idsItem) {
+    proofs = idsItem?.proofs;
+  }
 
   const platforms: Platform[] = [];
 

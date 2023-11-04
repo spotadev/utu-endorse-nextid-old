@@ -4,6 +4,7 @@ import AvatarStatusResponse, { IdsItem, Platform, Proof, nextIdCheckAvatarServic
 import { useGlobalStateContext } from "../../../App";
 import { avatarStatusResponseHelper } from "../../../helpers/avatar-status-response/avatarStatusResponseHelper";
 import GuiProof from "./GuiProof";
+import GuiPlatform from "./GuiPlatform";
 
 export default function CheckForNextID() {
 
@@ -23,7 +24,7 @@ export default function CheckForNextID() {
     const getAvatarStatusResponse = async (handle: string, platform: string) => {
 
       // this is a temporary overide for testing
-      handle = '0x0bd793ea8334a77b2bfd604dbaedca11ea094306';
+      // handle = '0x0bd793ea8334a77b2bfd604dbaedca11ea094306';
 
       const avatarStatusResponse =
         await nextIdCheckAvatarService.getAvatarStatus(handle, platform);
@@ -41,14 +42,13 @@ export default function CheckForNextID() {
 
       const supportedPlatforms = ['twitter', 'github'];
 
-      if (response.idsItem) {
+      const platformsNeedToConnectTo: Platform[] =
+        avatarStatusResponseHelper.getPlatformsNeedToConnectTo(
+          response.idsItem, supportedPlatforms);
 
-        const platformsNeedToConnectTo: Platform[] =
-          avatarStatusResponseHelper.getPlatformsNeedToConnectTo(
-            response.idsItem, supportedPlatforms);
+      console.log('platformsNeedToConnectTo', platformsNeedToConnectTo);
+      setPlatforms(platformsNeedToConnectTo);
 
-        setPlatforms(platformsNeedToConnectTo);
-      }
     }
 
     if (address) {
@@ -79,16 +79,33 @@ export default function CheckForNextID() {
           <hr />
           <br />
           <div>
-            <span style={{ fontWeight: 'bold' }}>Below are the platforms you have not yet connected:</span>
+            <span style={{ fontWeight: 'bold' }}>Link Platform:</span>
           </div>
-
+          {platforms.map((platform, index) => (
+            <div key={platform.name} style={{ paddingTop: '20px' }}>
+              <GuiPlatform platform={platform} />
+            </div>
+          ))}
         </>
       );
     }
     else {
       return (
         <>
-          You do not yet have a next.ID associated with your wallet address.
+          <div>
+            You do not yet have a next.ID associated with your wallet address.
+          </div>
+          <br />
+          <hr />
+          <br />
+          <div>
+            <span style={{ fontWeight: 'bold' }}>Create Next.id and Link Platform:</span>
+          </div>
+          {platforms.map((platform, index) => (
+            <div key={platform.name} style={{ paddingTop: '20px' }}>
+              <GuiPlatform platform={platform} />
+            </div>
+          ))}
         </>
       );
     }
