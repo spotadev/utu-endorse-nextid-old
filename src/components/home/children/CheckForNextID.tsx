@@ -3,8 +3,12 @@ import { useAccount } from "wagmi";
 import { IdsItem, Proof, nextIdCheckAvatarService } from "../../../services/next-id/nextIdCheckAvatarService";
 import { useGlobalStateContext } from "../../../App";
 import { avatarStatusResponseHelper } from "../../../helpers/avatar-status-response/avatarStatusResponseHelper";
+import GuiProof from "./GuiProof";
 
-
+interface Platform {
+  name: string;
+  url: string;
+}
 
 export default function CheckForNextID() {
 
@@ -16,12 +20,7 @@ export default function CheckForNextID() {
 
   const [proofs, setProofs] = useState<Proof[]>([]);
   const [idItem, setIdItem] = useState<IdsItem | null>(null);
-
-  const formatTimestamp = (timestamp: string) => {
-    const timestampNumber = parseInt(timestamp, 10);
-    const date = new Date(timestampNumber * 1000);
-    return date.toLocaleString(); // Format the date as per your requirements
-  };
+  const [platforms, setPlatforms] = useState<Platform[]>([]);
 
   useEffect(() => {
     const platform = 'ethereum';
@@ -67,19 +66,8 @@ export default function CheckForNextID() {
           </div>
           {proofs.map((proof, index) => (
             <div key={proof.identity} style={{ paddingTop: '20px' }}>
-              <div>
-                <span style={{ display: 'inline-block', width: '90px', fontWeight: 'bold' }}>
-                  {proof.platform}:
-                </span>
-                <span>
-                  &nbsp;{proof.identity}
-                </span>
-              </div>
-              <div>
-                <span style={{ width: '34%' }}>
-                  Created: {formatTimestamp(proof.created_at)}
-                </span>
-              </div>
+              <GuiProof proof={proof} />
+
             </div>
           ))}
           <br />
@@ -95,14 +83,12 @@ export default function CheckForNextID() {
     else {
       return (
         <>
-          You do not yet have a Universal Decentralised next ID associated with your wallet address.
+          You do not yet have a next.ID associated with your wallet address.
         </>
       );
     }
-
-
   }
   else {
-    return '';
+    return 'You need to connect your wallet before you can see your next.ID';
   }
 }

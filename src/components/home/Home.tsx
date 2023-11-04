@@ -10,7 +10,7 @@ export default function Home() {
       <hr />
       <br />
       <CheckForNextID />
-      <br />
+      <br /><br />
       <hr />
     </>
   );
