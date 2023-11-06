@@ -2,7 +2,7 @@ import appStyle from '../../../../App.module.css';
 import { useEffect, useState } from "react";
 import { useGlobalStateContext } from "../../../../App";
 import { useSignMessage } from "wagmi";
-import { PostContent } from "../../../../services/next-id/nextIdProofService";
+import ProofPayloadResponse, { PostContent } from "../../../../services/next-id/nextIdProofService";
 import { nextIdVerifyService } from "../../../../services/next-id/nextIdVerifyService";
 
 export default function GetNextIdProofPayload() {
@@ -16,7 +16,6 @@ export default function GetNextIdProofPayload() {
     setXProofVerified
   } = useGlobalStateContext();
 
-  const [tweet, setTweet] = useState<string>();
   const [tweetUrl, setTweetUrl] = useState<string>();
 
   // const { data, isError, isLoading, isSuccess, signMessage } = useSignMessage({
@@ -31,10 +30,18 @@ export default function GetNextIdProofPayload() {
     return number;
   }
 
-  const createTweet = (postContentEnUS: string, signedMessage: string) => {
-    const lastLine = 'Next.ID YOUR DIGITAL IDENTITIES IN ONE PLACE';
-    const _tweet = postContentEnUS + signedMessage + '\n\n' + lastLine;
-    setTweet(_tweet);
+  const createTweet = (signedMessage: string | undefined, proofPayloadResponse: ProofPayloadResponse) => {
+
+    if (signedMessage) {
+      const postContent: PostContent = proofPayloadResponse.post_content;
+      const postContentEnUS = postContent.en_US;
+      const lastLine = 'Next.ID YOUR DIGITAL IDENTITIES IN ONE PLACE';
+      const tweet = postContentEnUS + signedMessage + lastLine;
+      return tweet;
+    }
+    else {
+      return null;
+    }
   }
 
   const verify = async () => {
@@ -63,21 +70,8 @@ export default function GetNextIdProofPayload() {
   }
 
   useEffect(() => {
-    console.log('proofPayloadResponse', proofPayloadResponse);
-    console.log('proofPayloadResponse.sign_payload', proofPayloadResponse?.sign_payload);
-
     if (proofPayloadResponse) {
-      console.log('Set signPayload', proofPayloadResponse.sign_payload);
-
       signMessage({ message: proofPayloadResponse.sign_payload });
-
-      const postContent: PostContent = proofPayloadResponse.post_content;
-      const postContentEnUS = postContent.en_US;
-      console.log('data', data);
-
-      if (data) {
-        createTweet(postContentEnUS, data);
-      }
     }
   }, [proofPayloadResponse]);
 
@@ -92,7 +86,9 @@ export default function GetNextIdProofPayload() {
           Please copy the text in the pink box below into a tweet and send it:
         </div>
         <div style={{ marginTop: '20px', backgroundColor: 'pink', height: '80px', wordWrap: 'break-word' }}>
-          {tweet}
+          {
+            createTweet(data, proofPayloadResponse)
+          }
         </div >
         <div style={{ paddingTop: '20px' }}>
           Once you have sent the tweet, paste the web url of the newly created tweet into the box
@@ -100,12 +96,13 @@ export default function GetNextIdProofPayload() {
         </div>
         <div style={{ paddingTop: '20px' }}>
           <input
+            style={{ width: '80%' }}
             className={appStyle.input}
             placeholder="Tweet Url"
             value={tweetUrl} onChange={(event) => setTweetUrl(event.target.value)} />
           &nbsp;&nbsp;
           <button disabled={xHandle?.length == 0} className={appStyle.button}
-            onClick={verify}>Next</button>
+            onClick={verify}>Verify</button>
         </div>
       </>
     );
