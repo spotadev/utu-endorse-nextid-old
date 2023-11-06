@@ -5,7 +5,7 @@ import { useSignMessage } from "wagmi";
 import ProofPayloadResponse, { PostContent } from "../../../../services/next-id/nextIdProofService";
 import { nextIdVerifyService } from "../../../../services/next-id/nextIdVerifyService";
 
-export default function GetNextIdProofPayload() {
+export default function PostTweetInstructions() {
 
   const {
     xHandle,
