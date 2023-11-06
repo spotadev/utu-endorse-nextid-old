@@ -75,7 +75,9 @@ const getPlatformsNeedToConnectTo = (idsItem: IdsItem | null, supportedPlatforms
     }
 
     if (!found) {
-      platforms.push({ name: supportedPlatform, url: `/linkplatform/${supportedPlatform}` });
+      platforms.push({
+        name: supportedPlatform, url: `/link/platform/${supportedPlatform}`
+      });
     }
   }
 
