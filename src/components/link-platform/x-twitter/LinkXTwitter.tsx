@@ -1,5 +1,6 @@
 import CaptureXHandle from './children/CaptureXHandle';
 import { Link } from "react-router-dom";
+import PostTweetInstructions from './children/PostTweetInstructions';
 
 export default function LinkXTwitter() {
 
@@ -11,6 +12,12 @@ export default function LinkXTwitter() {
         </Link>
       </div>
       <CaptureXHandle />
+      <br />
+      <hr />
+      <br />
+      <PostTweetInstructions />
+      <br />
+      <hr />
     </div>
   );
 }

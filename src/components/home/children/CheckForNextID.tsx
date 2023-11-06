@@ -10,6 +10,7 @@ export default function CheckForNextID() {
 
   const {
     setAvatarStatusResponse,
+    setXProofVerified,
   } = useGlobalStateContext();
 
   const { address, isConnected } = useAccount();
@@ -17,6 +18,18 @@ export default function CheckForNextID() {
   const [proofs, setProofs] = useState<Proof[]>([]);
   const [idItem, setIdItem] = useState<IdsItem | null>(null);
   const [platforms, setPlatforms] = useState<Platform[]>([]);
+
+  const setPlatformVerifiedStates = (proofs: Proof[]) => {
+    for (let proof of proofs) {
+
+      // @todo need to add github
+      switch (proof.platform) {
+        case 'twitter':
+          setXProofVerified(true);
+          break;
+      }
+    }
+  }
 
   useEffect(() => {
     const platform = 'ethereum';
@@ -26,17 +39,20 @@ export default function CheckForNextID() {
       // this is a temporary overide for testing
       // handle = '0x0bd793ea8334a77b2bfd604dbaedca11ea094306';
 
+      // This is a network call
       const avatarStatusResponse =
         await nextIdCheckAvatarService.getAvatarStatus(handle, platform);
 
       console.log('avatarStatusResponse', avatarStatusResponse);
-
       setAvatarStatusResponse(avatarStatusResponse);
 
       let response: { idsItem: IdsItem | null, proofs: Proof[] } =
         avatarStatusResponseHelper.getProofs(avatarStatusResponse, platform, handle);
 
       console.log('proofs', response.proofs);
+
+      setPlatformVerifiedStates(response.proofs);
+
       setProofs(response.proofs);
       setIdItem(response.idsItem);
 

@@ -20,19 +20,30 @@ export default function LinkXTwitter() {
 
       console.log('proofPayloadResponse', proofPayloadResponse);
       setProofPayloadResponse(proofPayloadResponse);
+      // setSignPayload(proofPayloadResponse.sign_payload);
+
     }
   }
 
-  return (
-    <div>
-      <span style={{ fontWeight: 'bold' }}>Step 1:</span> Submit X Handle - PENDING
-      &nbsp;&nbsp;
-      <input
-        className={appStyle.input}
-        placeholder="X / Twitter Handle (mandatory)"
-        value={xHandle ? xHandle : ''} onChange={(event) => setXHandle(event.target.value)} />
-      &nbsp;&nbsp;
-      <button disabled={xHandle?.length == 0} className={appStyle.button} onClick={next}>Next</button>
-    </div>
-  );
+  if (!proofPayloadResponse) {
+    return (
+      <div>
+        <span style={{ fontWeight: 'bold' }}>Step 1:</span> Submit X Handle - PENDING
+        &nbsp;&nbsp;
+        <input
+          className={appStyle.input}
+          placeholder="X / Twitter Handle (mandatory)"
+          value={xHandle ? xHandle : ''} onChange={(event) => setXHandle(event.target.value)} />
+        &nbsp;&nbsp;
+        <button disabled={xHandle?.length == 0} className={appStyle.button} onClick={next}>Next</button>
+      </div>
+    );
+  }
+  else {
+    return (
+      <div>
+        <span style={{ fontWeight: 'bold' }}>Step 1:</span> Submit X Handle - DONE
+      </div>
+    );
+  }
 }

@@ -66,6 +66,9 @@ const getProofPayloadResponse =
     }
   }
 
+// Look here:
+//
+// https://github.com/NextDotID/Signature-Generating-Sample/blob/main/typescript/src/index.ts
 const getNextIdProofPayload =
   async (
     twitterHandle: string,
@@ -76,19 +79,22 @@ const getNextIdProofPayload =
     if (selectedAddress) {
       const publicKeyBase64 = await windowEthereumHelper.getPublicKey(selectedAddress);
 
+      console.log('publicKeyBase64', publicKeyBase64);
+
       if (publicKeyBase64) {
 
-        const rawPublicKey = Buffer.from(publicKeyBase64, 'base64');
-        const hexPublicKey = rawPublicKey.toString('hex');
-        setPublicKeyUseStateFunction(hexPublicKey);
+        const publicKeyRaw = Buffer.from(publicKeyBase64, 'base64');
 
-        if (hexPublicKey) {
-          const proofPayloadResponse: ProofPayloadResponse =
-            await getProofPayloadResponse(twitterHandle, hexPublicKey);
+        // It was a guess adding this 03 - have to confirm this was correct.
+        // However am now getting a response
+        const publicKeyHex = '037' + publicKeyRaw.toString('hex');
+        console.log('publicKeyHex', publicKeyHex);
 
-          console.log('proofPayloadResponse', proofPayloadResponse);
-          return proofPayloadResponse;
-        }
+        const proofPayloadResponse: ProofPayloadResponse =
+          await getProofPayloadResponse(twitterHandle, publicKeyHex);
+
+        console.log('proofPayloadResponse', proofPayloadResponse);
+        return proofPayloadResponse;
       }
     }
 

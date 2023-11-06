@@ -16,13 +16,14 @@ export default function GetNextIdProofPayload() {
     setXProofVerified
   } = useGlobalStateContext();
 
-  const [signPayload, setSignPayload] = useState<string>();
   const [tweet, setTweet] = useState<string>();
   const [tweetUrl, setTweetUrl] = useState<string>();
 
-  const { data, isError, isLoading, isSuccess, signMessage } = useSignMessage({
-    message: signPayload,
-  })
+  // const { data, isError, isLoading, isSuccess, signMessage } = useSignMessage({
+  //    message: signPayload,
+  // })
+
+  const { data, isError, isLoading, isSuccess, signMessage } = useSignMessage();
 
   const getNumberAtEndTweetUrl = (tweetUrl: string) => {
     const pathParts = tweetUrl.split("/");
@@ -62,57 +63,42 @@ export default function GetNextIdProofPayload() {
   }
 
   useEffect(() => {
-    if (!proofPayloadResponse || !xHandle || !publicKey || !xProofVerified) {
-      return;
+    console.log('proofPayloadResponse', proofPayloadResponse);
+    console.log('proofPayloadResponse.sign_payload', proofPayloadResponse?.sign_payload);
+
+    if (proofPayloadResponse) {
+      console.log('Set signPayload', proofPayloadResponse.sign_payload);
+
+      signMessage({ message: proofPayloadResponse.sign_payload });
+
+      const postContent: PostContent = proofPayloadResponse.post_content;
+      const postContentEnUS = postContent.en_US;
+      console.log('data', data);
+
+      if (data) {
+        createTweet(postContentEnUS, data);
+      }
     }
+  }, [proofPayloadResponse]);
 
-    setSignPayload(proofPayloadResponse.sign_payload);
-    signMessage();
-    const signedMessage = data;
-    console.log('signedMessage', signedMessage);
-    const postContent: PostContent = proofPayloadResponse.post_content;
-    const postContentEnUS = postContent.en_US;
-
-    if (signedMessage) {
-      createTweet(postContentEnUS, signedMessage);
-    }
-  }, []);
-
-  if (xProofVerified) {
-    return (
-      <div >
-        <span style={{ fontWeight: 'bold' }}>Step 3: </span>
-        Post Tweet: X handle is already linked to your Universal ID
-      </div >
-    );
-  }
-
-  if (!proofPayloadResponse || !avatarStatusResponse || !xProofVerified) {
-    return (
-      <div>
-        <span style={{ fontWeight: 'bold' }}>Step 3: </span>
-        Post Tweet - PENDING
-      </div>
-    );
-  }
-  else if (proofPayloadResponse && !xProofVerified) {
+  if (proofPayloadResponse && !xProofVerified) {
     return (
       <>
         <div>
           <span style={{ fontWeight: 'bold' }}>Step 2: </span>
           Submit X Handle - IN PROGRESS
         </div>
-        <div>
+        <div style={{ paddingTop: '20px' }}>
           Please copy the text in the pink box below into a tweet and send it:
         </div>
-        <div style={{ backgroundColor: 'pink' }}>
-          ${tweet}
-        </div>
-        <div>
+        <div style={{ marginTop: '20px', backgroundColor: 'pink', height: '80px', wordWrap: 'break-word' }}>
+          {tweet}
+        </div >
+        <div style={{ paddingTop: '20px' }}>
           Once you have sent the tweet, paste the web url of the newly created tweet into the box
           below and press the Verify Button.
         </div>
-        <div>
+        <div style={{ paddingTop: '20px' }}>
           <input
             className={appStyle.input}
             placeholder="Tweet Url"
@@ -121,6 +107,14 @@ export default function GetNextIdProofPayload() {
           <button disabled={xHandle?.length == 0} className={appStyle.button}
             onClick={verify}>Next</button>
         </div>
+      </>
+    );
+  }
+  else if (xProofVerified) {
+    return (
+      <>
+        <span style={{ fontWeight: 'bold' }}>Step 2: </span>
+        Submit X Handle - Handle added successfullt to next.id DID
       </>
     );
   }
