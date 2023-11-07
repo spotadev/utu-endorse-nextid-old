@@ -34,7 +34,7 @@ const getPublicKey = async (selectedAddress: string): Promise<string | null> => 
   }
 }
 
-export const windowEthereumHelper = {
+export const windowEthereumService = {
   getSelectedAddress,
   getPublicKey,
 };

@@ -6,8 +6,10 @@ curl -X POST https://proof-service.next.id/v1/proof/payload
 "public_key": "your_public_key"}'
 */
 
+import { ECKeyIdentifier } from "@masknet/base";
 import { axiosHelper } from "../../helpers/axios/axiosHelper";
-import { windowEthereumHelper } from "../window-ethereum-provider/windowEthereumProviderService";
+import { windowEthereumService } from "../window-ethereum-provider/windowEthereumProviderService";
+import { SigningKey, ethers } from "ethers";
 
 export interface PostContent {
   default: string;
@@ -66,40 +68,44 @@ const getProofPayloadResponse =
     }
   }
 
+const convertPublicKeyToCorrectFormat = (base64PublicKey: string) => {
+
+  //console.log('base64PublicKey', base64PublicKey);
+  // Decode Base64 string to a raw string
+  //const rawPublicKey = atob(base64PublicKey);
+  //console.log('rawPublicKey', rawPublicKey);
+
+  // const ecKeyIdentifier = new ECKeyIdentifier('secp256k1', rawPublicKey);
+  const ecKeyIdentifier = new ECKeyIdentifier('secp256k1', base64PublicKey);
+  const publicKeyAsHex = ecKeyIdentifier.publicKeyAsHex;
+  return publicKeyAsHex;
+}
+
 // Look here:
 //
 // https://github.com/NextDotID/Signature-Generating-Sample/blob/main/typescript/src/index.ts
 const getNextIdProofPayload =
   async (
     twitterHandle: string,
-    setPublicKeyUseStateFunction: any
+    setPublicKeyUseStateFunction: any,
+    signMessageFunction: any,
+    data: any
   ): Promise<ProofPayloadResponse> => {
-    const selectedAddress = await windowEthereumHelper.getSelectedAddress();
 
-    if (selectedAddress) {
-      const publicKeyBase64 = await windowEthereumHelper.getPublicKey(selectedAddress);
+    const message = 'next.id rocks';
+    await signMessageFunction({ message: message });
+    const signature = data;
+    console.log('signature', signature);
+    const messageHash = ethers.hashMessage(message);
+    const recoveredPublicKey = SigningKey.recoverPublicKey(messageHash, signature);
 
-      console.log('publicKeyBase64', publicKeyBase64);
+    const proofPayloadResponse: ProofPayloadResponse =
+      await getProofPayloadResponse(twitterHandle, recoveredPublicKey);
 
-      if (publicKeyBase64) {
-
-        const publicKeyRaw = Buffer.from(publicKeyBase64, 'base64');
-
-        // It was a guess adding this 03 - have to confirm this was correct.
-        // However am now getting a response
-        const publicKeyHex = '037' + publicKeyRaw.toString('hex');
-        console.log('publicKeyHex', publicKeyHex);
-
-        const proofPayloadResponse: ProofPayloadResponse =
-          await getProofPayloadResponse(twitterHandle, publicKeyHex);
-
-        console.log('proofPayloadResponse', proofPayloadResponse);
-        return proofPayloadResponse;
-      }
-    }
-
-    throw new Error('Cannot retrieve the public key from the wallet and convert it to hex');
+    console.log('proofPayloadResponse', proofPayloadResponse);
+    return proofPayloadResponse;
   }
+
 
 export const nextIdProofService = {
   getNextIdProofPayload

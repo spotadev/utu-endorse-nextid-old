@@ -1,11 +1,11 @@
-import appStyle from '../App.module.css';
+import appStyle from '../../src/App.module.css';
 
 import { useAccount } from "wagmi";
-import ProofPayloadResponse, { nextIdProofService } from '../services/next-id/nextIdProofService';
-import { useGlobalStateContext } from '../App';
-import { nextIdCheckAvatarService } from '../services/next-id/nextIdCheckAvatarService';
+import ProofPayloadResponse, { nextIdProofService } from '../../src/services/next-id/nextIdProofService';
+import { useGlobalStateContext } from '../../src/App';
+import { nextIdCheckAvatarService } from '../../src/services/next-id/nextIdCheckAvatarService';
 import { useEffect } from 'react';
-import { avatarStatusResponseHelper } from '../helpers/avatar-status-response/avatarStatusResponseHelper';
+import { avatarStatusResponseHelper } from '../../src/helpers/avatar-status-response/avatarStatusResponseHelper';
 
 
 export default function GetNextIdProofPayload() {
