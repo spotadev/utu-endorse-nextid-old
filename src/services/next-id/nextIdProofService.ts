@@ -6,7 +6,6 @@ curl -X POST https://proof-service.next.id/v1/proof/payload
 "public_key": "your_public_key"}'
 */
 
-import { ECKeyIdentifier } from "@masknet/base";
 import { axiosHelper } from "../../helpers/axios/axiosHelper";
 import { windowEthereumService } from "../window-ethereum-provider/windowEthereumProviderService";
 import { SigningKey, ethers } from "ethers";
@@ -68,18 +67,18 @@ const getProofPayloadResponse =
     }
   }
 
-const convertPublicKeyToCorrectFormat = (base64PublicKey: string) => {
+// const convertPublicKeyToCorrectFormat = (base64PublicKey: string) => {
 
-  //console.log('base64PublicKey', base64PublicKey);
-  // Decode Base64 string to a raw string
-  //const rawPublicKey = atob(base64PublicKey);
-  //console.log('rawPublicKey', rawPublicKey);
+//console.log('base64PublicKey', base64PublicKey);
+// Decode Base64 string to a raw string
+//const rawPublicKey = atob(base64PublicKey);
+//console.log('rawPublicKey', rawPublicKey);
 
-  // const ecKeyIdentifier = new ECKeyIdentifier('secp256k1', rawPublicKey);
-  const ecKeyIdentifier = new ECKeyIdentifier('secp256k1', base64PublicKey);
-  const publicKeyAsHex = ecKeyIdentifier.publicKeyAsHex;
-  return publicKeyAsHex;
-}
+// const ecKeyIdentifier = new ECKeyIdentifier('secp256k1', rawPublicKey);
+// const ecKeyIdentifier = new ECKeyIdentifier('secp256k1', base64PublicKey);
+// const publicKeyAsHex = ecKeyIdentifier.publicKeyAsHex;
+// return publicKeyAsHex;
+// }
 
 // Look here:
 //
