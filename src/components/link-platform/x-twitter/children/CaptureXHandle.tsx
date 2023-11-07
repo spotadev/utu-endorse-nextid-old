@@ -1,11 +1,11 @@
 import { useGlobalStateContext } from '../../../../App';
 import ProofPayloadResponse, { nextIdProofService } from '../../../../services/next-id/nextIdProofService';
 import appStyle from '../../../../App.module.css';
-import { useSignMessage } from 'wagmi';
+//import { useSignMessage } from 'wagmi';
 
 export default function LinkXTwitter() {
 
-  const { data, isError, isLoading, isSuccess, signMessage } = useSignMessage();
+  // const { data, isError, isLoading, isSuccess, signMessage } = useSignMessage();
 
   const {
     xHandle, setXHandle,
@@ -22,7 +22,7 @@ export default function LinkXTwitter() {
 
 
       const proofPayloadResponse: ProofPayloadResponse =
-        await nextIdProofService.getNextIdProofPayload(xHandle, setPublicKey, signMessage, data);
+        await nextIdProofService.getNextIdProofPayload(xHandle, setPublicKey);
 
       console.log('proofPayloadResponse', proofPayloadResponse);
       setProofPayloadResponse(proofPayloadResponse);

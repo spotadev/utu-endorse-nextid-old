@@ -9,6 +9,7 @@ curl -X POST https://proof-service.next.id/v1/proof/payload
 import { axiosHelper } from "../../helpers/axios/axiosHelper";
 import { windowEthereumService } from "../window-ethereum-provider/windowEthereumProviderService";
 import { SigningKey, ethers } from "ethers";
+import { signMessage } from '@wagmi/core'
 
 export interface PostContent {
   default: string;
@@ -87,16 +88,15 @@ const getNextIdProofPayload =
   async (
     twitterHandle: string,
     setPublicKeyUseStateFunction: any,
-    signMessageFunction: any,
-    data: any
   ): Promise<ProofPayloadResponse> => {
 
     const message = 'next.id rocks';
-    await signMessageFunction({ message: message });
-    const signature = data;
+    const signature = await signMessage({ message: message });
     console.log('signature', signature);
     const messageHash = ethers.hashMessage(message);
+    console.log('messageHash', messageHash);
     const recoveredPublicKey = SigningKey.recoverPublicKey(messageHash, signature);
+    console.log('recoveredPublicKey', recoveredPublicKey);
 
     const proofPayloadResponse: ProofPayloadResponse =
       await getProofPayloadResponse(twitterHandle, recoveredPublicKey);
