@@ -1,3 +1,4 @@
+import React from 'react'
 
 export default function GuiProof(props: any) {
   const proof = props.proof;

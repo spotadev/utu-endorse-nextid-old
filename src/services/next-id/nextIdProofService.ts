@@ -68,39 +68,25 @@ const getProofPayloadResponse =
     }
   }
 
-// const convertPublicKeyToCorrectFormat = (base64PublicKey: string) => {
-
-//console.log('base64PublicKey', base64PublicKey);
-// Decode Base64 string to a raw string
-//const rawPublicKey = atob(base64PublicKey);
-//console.log('rawPublicKey', rawPublicKey);
-
-// const ecKeyIdentifier = new ECKeyIdentifier('secp256k1', rawPublicKey);
-// const ecKeyIdentifier = new ECKeyIdentifier('secp256k1', base64PublicKey);
-// const publicKeyAsHex = ecKeyIdentifier.publicKeyAsHex;
-// return publicKeyAsHex;
-// }
-
 // Look here:
 //
 // https://github.com/NextDotID/Signature-Generating-Sample/blob/main/typescript/src/index.ts
 const getNextIdProofPayload =
   async (
     twitterHandle: string,
-    setPublicKeyUseStateFunction: any,
   ): Promise<ProofPayloadResponse> => {
 
     const message = 'next.id rocks';
     const signature = await signMessage({ message: message });
-    console.log('signature', signature);
     const messageHash = ethers.hashMessage(message);
-    console.log('messageHash', messageHash);
     const recoveredPublicKey = SigningKey.recoverPublicKey(messageHash, signature);
-    console.log('recoveredPublicKey', recoveredPublicKey);
 
     const proofPayloadResponse: ProofPayloadResponse =
       await getProofPayloadResponse(twitterHandle, recoveredPublicKey);
 
+    console.log('signature', signature);
+    console.log('messageHash', messageHash);
+    console.log('recoveredPublicKey', recoveredPublicKey);
     console.log('proofPayloadResponse', proofPayloadResponse);
     return proofPayloadResponse;
   }

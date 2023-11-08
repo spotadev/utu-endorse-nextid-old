@@ -16,3 +16,16 @@
 
 //const publicKeyAsHex = convertPublicKeyToCorrectFormat(publicKeyBase64);
 // console.log('publicKeyAsHex', publicKeyAsHex);
+
+// const convertPublicKeyToCorrectFormat = (base64PublicKey: string) => {
+
+//console.log('base64PublicKey', base64PublicKey);
+// Decode Base64 string to a raw string
+//const rawPublicKey = atob(base64PublicKey);
+//console.log('rawPublicKey', rawPublicKey);
+
+// const ecKeyIdentifier = new ECKeyIdentifier('secp256k1', rawPublicKey);
+// const ecKeyIdentifier = new ECKeyIdentifier('secp256k1', base64PublicKey);
+// const publicKeyAsHex = ecKeyIdentifier.publicKeyAsHex;
+// return publicKeyAsHex;
+// }

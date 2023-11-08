@@ -1,3 +1,4 @@
+import React from 'react'
 import { useAccount, useSignMessage } from "wagmi";
 
 export default function Sign() {

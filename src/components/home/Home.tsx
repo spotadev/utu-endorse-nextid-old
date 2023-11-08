@@ -1,3 +1,4 @@
+import React from 'react'
 import CheckForNextID from "./children/CheckForNextID";
 import Web3ModalButtons from "./children/Web3ModalButtons";
 

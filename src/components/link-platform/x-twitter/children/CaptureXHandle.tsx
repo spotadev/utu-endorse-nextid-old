@@ -1,40 +1,29 @@
+import React from 'react'
 import { useGlobalStateContext } from '../../../../App';
 import ProofPayloadResponse, { nextIdProofService } from '../../../../services/next-id/nextIdProofService';
 import appStyle from '../../../../App.module.css';
-//import { useSignMessage } from 'wagmi';
 
 export default function LinkXTwitter() {
 
-  // const { data, isError, isLoading, isSuccess, signMessage } = useSignMessage();
-
   const {
     xHandle, setXHandle,
-    proofPayloadResponse, setProofPayloadResponse,
-    avatarStatusResponse, setAvatarStatusResponse,
-    setPublicKey,
-    xProofVerified,
-    setXProofVerified
+    xProofPayloadResponse, setXProofPayloadResponse,
   } = useGlobalStateContext();
 
   const next = async () => {
     if (xHandle) {
+      const xProofPayloadResponse: ProofPayloadResponse =
+        await nextIdProofService.getNextIdProofPayload(xHandle);
 
-
-
-      const proofPayloadResponse: ProofPayloadResponse =
-        await nextIdProofService.getNextIdProofPayload(xHandle, setPublicKey);
-
-      console.log('proofPayloadResponse', proofPayloadResponse);
-      setProofPayloadResponse(proofPayloadResponse);
-      // setSignPayload(proofPayloadResponse.sign_payload);
-
+      console.log('xProofPayloadResponse', xProofPayloadResponse);
+      setXProofPayloadResponse(xProofPayloadResponse);
     }
   }
 
-  if (!proofPayloadResponse) {
+  if (!xProofPayloadResponse) {
     return (
       <div>
-        <span style={{ fontWeight: 'bold' }}>Step 1:</span> Submit X Handle - PENDING
+        <span style={{ fontWeight: 'bold' }}>Step 1:</span> Enter your X Handle - PENDING
         &nbsp;&nbsp;
         <input
           className={appStyle.input}
@@ -48,7 +37,7 @@ export default function LinkXTwitter() {
   else {
     return (
       <div>
-        <span style={{ fontWeight: 'bold' }}>Step 1:</span> Submit X Handle - DONE
+        <span style={{ fontWeight: 'bold' }}>Step 1:</span> Enter your X Handle - DONE
       </div>
     );
   }
