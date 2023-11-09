@@ -33,7 +33,41 @@ trust in both the Web 2 and Web 3 space.
 
 (x) You will see:
 
-![App Screen Shot](images/app.png)  
+(a) This is the first screen.  It shows a button to connect to your wallet: 
+
+![App Screen Shot](docimages/step_1.png)  
+
+(b) Click the above Connect button and you get this:
+
+![App Screen Shot](docimages/step_2.png)  
+
+(c) Once connected you will see your next.id DID if you have one already:
+
+![App Screen Shot](docimages/step_3a.png)  
+
+(c alternate) If you do not have a next.id DID you see this:
+
+![App Screen Shot](docimages/step_3b.png)  
+
+(d) Clicking on the above "Link Twitter" button takes you to a new screen:
+
+![App Screen Shot](docimages/step_4.png)  
+
+(e) Filling in your Twitter handle in the above screen and clicking next pops up this screen where you are asked to sign some text.  This is done to enable the dApp to retrieve your public key.
+
+![App Screen Shot](docimages/step_5.png)  
+
+(f) You then sign a payload we about to send to next.id:
+
+![App Screen Shot](docimages/step_6.png)  
+
+(g) Here you are shown some text in a pink box to create a tweet from.  You copy and paste the text into a tweet and send it and then paste the url of the tweet into the box and press verify.
+
+![App Screen Shot](docimages/step_7.png)  
+
+(h) If you are verified successfully you are redirected to step 2 where you will see that your twitter handle has been added to your next.id DID.
+
+NOTE: The code is still experimental so the above flow may change a bit.
 
  ## Resources
 
