@@ -1,0 +1,31 @@
+// const publicKeyBase64 = await windowEthereumHelper.getPublicKey(selectedAddress);
+
+// const publicKeyAsHex = await windowEthereumHelper.getPublicKey(selectedAddress);
+
+// console.log('publicKeyBase64', publicKeyBase64);
+// console.log('publicKeyAsHex', publicKeyAsHex);
+
+// if (publicKeyAsHex) {
+
+// const publicKeyRaw = Buffer.from(publicKeyBase64, 'base64');
+
+// // It was a guess adding this 03 - have to confirm this was correct.
+// // However am now getting a response
+// const publicKeyHex = '037' + publicKeyRaw.toString('hex');
+// console.log('publicKeyHex', publicKeyHex);
+
+//const publicKeyAsHex = convertPublicKeyToCorrectFormat(publicKeyBase64);
+// console.log('publicKeyAsHex', publicKeyAsHex);
+
+// const convertPublicKeyToCorrectFormat = (base64PublicKey: string) => {
+
+//console.log('base64PublicKey', base64PublicKey);
+// Decode Base64 string to a raw string
+//const rawPublicKey = atob(base64PublicKey);
+//console.log('rawPublicKey', rawPublicKey);
+
+// const ecKeyIdentifier = new ECKeyIdentifier('secp256k1', rawPublicKey);
+// const ecKeyIdentifier = new ECKeyIdentifier('secp256k1', base64PublicKey);
+// const publicKeyAsHex = ecKeyIdentifier.publicKeyAsHex;
+// return publicKeyAsHex;
+// }

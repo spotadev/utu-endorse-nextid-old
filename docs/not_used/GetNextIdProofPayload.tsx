@@ -1,11 +1,11 @@
-import appStyle from '../App.module.css';
+import appStyle from '../../src/App.module.css';
 
 import { useAccount } from "wagmi";
-import ProofPayloadResponse, { nextIdProofService } from '../services/next-id/nextIdProofService';
-import { useGlobalStateContext } from '../App';
-import { nextIdCheckAvatarService } from '../services/next-id/nextIdCheckAvatarService';
+import ProofPayloadResponse, { nextIdProofService } from '../../src/services/next-id/nextIdProofService';
+import { useGlobalStateContext } from '../../src/App';
+import { nextIdCheckAvatarService } from '../../src/services/next-id/nextIdCheckAvatarService';
 import { useEffect } from 'react';
-import { avatarStatusResponseHelper } from '../helpers/avatar-status-response/avatarStatusResponseHelper';
+import { avatarStatusResponseHelper } from '../../src/helpers/avatar-status-response/avatarStatusResponseHelper';
 
 
 export default function GetNextIdProofPayload() {
@@ -22,11 +22,12 @@ export default function GetNextIdProofPayload() {
 
   const next = async () => {
     if (xHandle) {
-
-      const avatarStatusResponse = await nextIdCheckAvatarService.getAvatarStatus(xHandle);
-      console.log('avatarStatusResponse', avatarStatusResponse);
-
       const platform = 'twitter';
+
+      const avatarStatusResponse =
+        await nextIdCheckAvatarService.getAvatarStatus(xHandle, platform);
+
+      console.log('avatarStatusResponse', avatarStatusResponse);
 
       const xHandleLinkedToUniversalID =
         avatarStatusResponseHelper.hasHandle(avatarStatusResponse, xHandle, platform);

@@ -1,19 +1,15 @@
+import React from 'react'
 import appStyle from './App.module.css';
-
 import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi/react'
-
 import { WagmiConfig } from 'wagmi'
 import { arbitrum, mainnet } from 'wagmi/chains'
-import Buttons from './components/Web3ModalButtons';
-import GetNextIdProofPayload from './components/GetNextIdProofPayload';
-import Information from './components/Information';
-import PostTweetInstructions from './components/PostTweetInstructions';
-import ShowProofHere from './components/ShowProofHere';
-import ShowProofOnWeb3Bio from './components/ShowProofOnWeb3Bio';
 import { createContext, useContext, useState } from 'react';
 import ProofPayloadResponse from './services/next-id/nextIdProofService';
 import AvatarStatusResponse from './services/next-id/nextIdCheckAvatarService';
-import Web3ModalButtons from './components/Web3ModalButtons';
+import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
+import Home from './components/home/Home';
+import LinkXTwitter from './components/link-platform/x-twitter/LinkXTwitter';
+import LinkGithub from './components/link-platform/github/LinkGithub';
 
 // =================================================================================================
 // Start: Create Global Context
@@ -21,8 +17,8 @@ import Web3ModalButtons from './components/Web3ModalButtons';
 export type GlobalState = {
   xHandle: string | null;
   setXHandle: (c: string) => void;
-  proofPayloadResponse: ProofPayloadResponse | null;
-  setProofPayloadResponse: (c: ProofPayloadResponse) => void;
+  xProofPayloadResponse: ProofPayloadResponse | null;
+  setXProofPayloadResponse: (c: ProofPayloadResponse) => void;
   publicKey: string | null;
   setPublicKey: (c: string) => void;
   avatarStatusResponse: AvatarStatusResponse | null;
@@ -34,8 +30,8 @@ export type GlobalState = {
 export const SharedDataContext = createContext<GlobalState>({
   xHandle: null,
   setXHandle: () => { },
-  proofPayloadResponse: null,
-  setProofPayloadResponse: () => { },
+  xProofPayloadResponse: null,
+  setXProofPayloadResponse: () => { },
   publicKey: null,
   setPublicKey: (c: string) => { },
   avatarStatusResponse: null,
@@ -87,7 +83,7 @@ createWeb3Modal({ wagmiConfig, projectId, chains })
 
 function App() {
   const [xHandle, setXHandle] = useState<string | null>(null);
-  const [proofPayloadResponse, setProofPayloadResponse] = useState<ProofPayloadResponse | null>(null);
+  const [xProofPayloadResponse, setXProofPayloadResponse] = useState<ProofPayloadResponse | null>(null);
   const [publicKey, setPublicKey] = useState<string | null>(null);
   const [avatarStatusResponse, setAvatarStatusResponse] = useState<AvatarStatusResponse | null>(null);
   const [xProofVerified, setXProofVerified] = useState<boolean>(false);
@@ -95,30 +91,31 @@ function App() {
   return (
     <SharedDataContext.Provider value={{
       xHandle, setXHandle,
-      proofPayloadResponse, setProofPayloadResponse,
+      xProofPayloadResponse, setXProofPayloadResponse,
       publicKey, setPublicKey,
       avatarStatusResponse, setAvatarStatusResponse,
       xProofVerified, setXProofVerified
     }}>
       <WagmiConfig config={wagmiConfig}>
         <div className={appStyle.centeredPage}>
-          <span style={{ fontWeight: 'bold' }}>Demo using Next.id, X (Twitter) and UTU Trust</span>
-          <br /><br />
-          <Information />
-          <hr />
-          <Web3ModalButtons />
-          <hr />
-          <GetNextIdProofPayload />
-          <hr />
-          <PostTweetInstructions />
-          <hr />
-          <ShowProofHere />
-          <hr />
-          <ShowProofOnWeb3Bio />
-          <hr />
-          <div style={{ backgroundColor: 'pink' }}>
-            NOTE: This in progress - next.id and UTU Trust not yet integrated but will soon be.
-          </div>
+          <BrowserRouter>
+            <span style={{ fontWeight: 'bold' }}>Create / Update your Next.ID - Decentralized ID (DID))</span>
+            <div style={{ textAlign: 'right' }}>
+              <Link to={'/home'}>
+                Home
+              </Link>
+              &nbsp;&nbsp;
+              <Link to={'/about'}>
+                About
+              </Link>
+            </div>
+            <br /><br />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/link/platform/twitter" element={<LinkXTwitter />} />
+              <Route path="/link/platform/github" element={<LinkGithub />} />
+            </Routes>
+          </BrowserRouter>
         </div>
       </WagmiConfig>
     </SharedDataContext.Provider>

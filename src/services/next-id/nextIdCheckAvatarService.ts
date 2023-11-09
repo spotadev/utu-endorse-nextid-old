@@ -1,5 +1,10 @@
 import { axiosHelper } from "../../helpers/axios/axiosHelper";
 
+export interface Platform {
+  name: string;
+  url: string;
+}
+
 export interface Proof {
   platform: string;
   identity: string;
@@ -11,6 +16,9 @@ export interface Proof {
 
 export interface IdsItem {
   avatar: string;
+  persona: string;
+  activated_at: string;
+  last_arweave_id: String;
   proofs: Proof[];
 }
 
@@ -27,10 +35,11 @@ export default interface AvatarStatusResponse {
 }
 
 const getAvatarStatus = async (
-  xHandle: string
+  handle: string,
+  platform: string,
 ): Promise<AvatarStatusResponse> => {
   const baseUrl = 'https://proof-service.next.id';
-  const url = `/v1/proof?platform=twitter&identity=${xHandle}`;
+  const url = `/v1/proof?platform=${platform}&identity=${handle}`;
   const accessControlAllowOrigin = false;
   const axios = axiosHelper.createUnsecuredAxiosInstance(baseUrl, accessControlAllowOrigin);
 

@@ -7,7 +7,9 @@ curl -X POST https://proof-service.next.id/v1/proof/payload
 */
 
 import { axiosHelper } from "../../helpers/axios/axiosHelper";
-import { windowEthereumHelper } from "../window-ethereum-provider/windowEthereumProviderService";
+import { windowEthereumService } from "../window-ethereum-provider/windowEthereumProviderService";
+import { SigningKey, ethers } from "ethers";
+import { signMessage } from '@wagmi/core'
 
 export interface PostContent {
   default: string;
@@ -66,34 +68,29 @@ const getProofPayloadResponse =
     }
   }
 
+// Look here:
+//
+// https://github.com/NextDotID/Signature-Generating-Sample/blob/main/typescript/src/index.ts
 const getNextIdProofPayload =
   async (
     twitterHandle: string,
-    setPublicKeyUseStateFunction: any
   ): Promise<ProofPayloadResponse> => {
-    const selectedAddress = await windowEthereumHelper.getSelectedAddress();
 
-    if (selectedAddress) {
-      const publicKeyBase64 = await windowEthereumHelper.getPublicKey(selectedAddress);
+    const message = 'next.id rocks';
+    const signature = await signMessage({ message: message });
+    const messageHash = ethers.hashMessage(message);
+    const recoveredPublicKey = SigningKey.recoverPublicKey(messageHash, signature);
 
-      if (publicKeyBase64) {
+    const proofPayloadResponse: ProofPayloadResponse =
+      await getProofPayloadResponse(twitterHandle, recoveredPublicKey);
 
-        const rawPublicKey = Buffer.from(publicKeyBase64, 'base64');
-        const hexPublicKey = rawPublicKey.toString('hex');
-        setPublicKeyUseStateFunction(hexPublicKey);
-
-        if (hexPublicKey) {
-          const proofPayloadResponse: ProofPayloadResponse =
-            await getProofPayloadResponse(twitterHandle, hexPublicKey);
-
-          console.log('proofPayloadResponse', proofPayloadResponse);
-          return proofPayloadResponse;
-        }
-      }
-    }
-
-    throw new Error('Cannot retrieve the public key from the wallet and convert it to hex');
+    console.log('signature', signature);
+    console.log('messageHash', messageHash);
+    console.log('recoveredPublicKey', recoveredPublicKey);
+    console.log('proofPayloadResponse', proofPayloadResponse);
+    return proofPayloadResponse;
   }
+
 
 export const nextIdProofService = {
   getNextIdProofPayload
