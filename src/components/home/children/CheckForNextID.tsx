@@ -38,7 +38,7 @@ export default function CheckForNextID() {
     const getAvatarStatusResponse = async (handle: string, platform: string) => {
 
       // this is a temporary overide for testing
-      handle = '0x0bd793ea8334a77b2bfd604dbaedca11ea094306';
+      // handle = '0x0bd793ea8334a77b2bfd604dbaedca11ea094306';
 
       // This is a network call
       const avatarStatusResponse =
