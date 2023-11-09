@@ -10,6 +10,7 @@ import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import Home from './components/home/Home';
 import LinkXTwitter from './components/link-platform/x-twitter/LinkXTwitter';
 import LinkGithub from './components/link-platform/github/LinkGithub';
+import About from './components/about/About';
 
 // =================================================================================================
 // Start: Create Global Context
@@ -99,21 +100,13 @@ function App() {
       <WagmiConfig config={wagmiConfig}>
         <div className={appStyle.centeredPage}>
           <BrowserRouter>
-            <span style={{ fontWeight: 'bold' }}>Create / Update your Next.ID - Decentralized ID (DID))</span>
-            <div style={{ textAlign: 'right' }}>
-              <Link to={'/home'}>
-                Home
-              </Link>
-              &nbsp;&nbsp;
-              <Link to={'/about'}>
-                About
-              </Link>
-            </div>
+            <span style={{ fontWeight: 'bold' }}>Create / Update your Next.ID - Decentralized ID (DID)</span>
             <br /><br />
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/link/platform/twitter" element={<LinkXTwitter />} />
               <Route path="/link/platform/github" element={<LinkGithub />} />
+              <Route path="/about" element={<About />} />
             </Routes>
           </BrowserRouter>
         </div>
