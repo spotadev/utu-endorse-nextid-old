@@ -17,7 +17,7 @@ export default function CheckForNextID() {
   const { address, isConnected } = useAccount();
 
   const [proofs, setProofs] = useState<Proof[]>([]);
-  const [idItem, setIdItem] = useState<IdsItem | null>(null);
+  const [idsItem, setIdsItem] = useState<IdsItem | null>(null);
   const [platforms, setPlatforms] = useState<Platform[]>([]);
 
   const setPlatformVerifiedStates = (proofs: Proof[]) => {
@@ -57,7 +57,7 @@ export default function CheckForNextID() {
       setPlatformVerifiedStates(response.proofs);
 
       setProofs(response.proofs);
-      setIdItem(response.idsItem);
+      setIdsItem(response.idsItem);
 
       const supportedPlatforms = ['twitter', 'github'];
 
@@ -84,7 +84,7 @@ export default function CheckForNextID() {
             <span style={{ fontWeight: 'bold' }}>Your next.id DID:</span>
           </div>
           <div style={{ paddingTop: '20px', wordWrap: 'break-word' }}>
-            {idItem?.avatar}
+            {idsItem?.avatar}
           </div>
           <div style={{ paddingTop: '20px' }}>
             <span style={{ fontWeight: 'bold' }}>Below are your current connected handles:</span>

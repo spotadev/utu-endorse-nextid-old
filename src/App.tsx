@@ -12,6 +12,7 @@ import LinkXTwitter from './components/link-platform/x-twitter/LinkXTwitter';
 import LinkGithub from './components/link-platform/github/LinkGithub';
 import About from './components/about/About';
 import UtuEndorse from './components/utu-endorse/UTUEndorse';
+import { IdsItem } from "./services/next-id/nextIdCheckAvatarService";
 
 // =================================================================================================
 // Start: Create Global Context
@@ -27,6 +28,8 @@ export type GlobalState = {
   setAvatarStatusResponse: (c: AvatarStatusResponse) => void;
   xProofVerified: boolean;
   setXProofVerified: (c: boolean) => void;
+  idsItemToEndorse: IdsItem | null;
+  setIdsItemToEndorse: (c: IdsItem) => void;
 };
 
 export const SharedDataContext = createContext<GlobalState>({
@@ -39,7 +42,9 @@ export const SharedDataContext = createContext<GlobalState>({
   avatarStatusResponse: null,
   setAvatarStatusResponse: (c: AvatarStatusResponse) => { },
   xProofVerified: false,
-  setXProofVerified: (c: boolean) => { }
+  setXProofVerified: (c: boolean) => { },
+  idsItemToEndorse: null,
+  setIdsItemToEndorse: (c: IdsItem) => { }
 });
 
 export const useGlobalStateContext = () => {
@@ -89,6 +94,7 @@ function App() {
   const [publicKey, setPublicKey] = useState<string | null>(null);
   const [avatarStatusResponse, setAvatarStatusResponse] = useState<AvatarStatusResponse | null>(null);
   const [xProofVerified, setXProofVerified] = useState<boolean>(false);
+  const [idsItemToEndorse, setIdsItemToEndorse] = useState<IdsItem | null>(null);
 
   return (
     <SharedDataContext.Provider value={{
@@ -96,7 +102,8 @@ function App() {
       xProofPayloadResponse, setXProofPayloadResponse,
       publicKey, setPublicKey,
       avatarStatusResponse, setAvatarStatusResponse,
-      xProofVerified, setXProofVerified
+      xProofVerified, setXProofVerified,
+      idsItemToEndorse, setIdsItemToEndorse
     }}>
       <WagmiConfig config={wagmiConfig}>
         <div className={appStyle.centeredPage}>

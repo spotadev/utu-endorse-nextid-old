@@ -2,12 +2,12 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import appStyle from '../../App.module.css';
 import { IdsItem, nextIdCheckAvatarService } from '../../services/next-id/nextIdCheckAvatarService';
+import SelectNextIdDID from './children/SelectNextIdDID';
 
 export default function UtuEndorse() {
 
   const [platform, setPlatform] = useState<string>("");
   const [handle, setHandle] = useState<string>("");
-  const [searchResults, setSearchResults] = useState<string>("No Search Results");
   const [idsItems, setIdsItems] = useState<IdsItem[] | null>(null);
 
   const search = async () => {
@@ -58,6 +58,7 @@ export default function UtuEndorse() {
           <option value="">Select...</option>
           <option value="ethereum">Ethereum Wallet Address</option>
           <option value="github">Github Handle</option>
+          <option value="nextid">Next.id DID</option>
           <option value="twitter">X Handle</option>
         </select>
       </div>
@@ -78,7 +79,7 @@ export default function UtuEndorse() {
       <br />
       <hr />
       <br />
-      {searchResults}
+      <SelectNextIdDID idsItems={idsItems} />
       <br /><br />
       <hr />
     </>
