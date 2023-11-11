@@ -37,9 +37,10 @@ export default interface AvatarStatusResponse {
 const getAvatarStatus = async (
   handle: string,
   platform: string,
+  exact: boolean
 ): Promise<AvatarStatusResponse> => {
   const baseUrl = 'https://proof-service.next.id';
-  const url = `/v1/proof?platform=${platform}&identity=${handle}`;
+  const url = `/v1/proof?platform=${platform}&identity=${handle}&exact=${exact}`;
   const accessControlAllowOrigin = false;
   const axios = axiosHelper.createUnsecuredAxiosInstance(baseUrl, accessControlAllowOrigin);
 

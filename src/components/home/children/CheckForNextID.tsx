@@ -40,9 +40,11 @@ export default function CheckForNextID() {
       // this is a temporary overide for testing
       // handle = '0x0bd793ea8334a77b2bfd604dbaedca11ea094306';
 
+      const exact = true;
+
       // This is a network call
       const avatarStatusResponse =
-        await nextIdCheckAvatarService.getAvatarStatus(handle, platform);
+        await nextIdCheckAvatarService.getAvatarStatus(handle, platform, exact);
 
       console.log('avatarStatusResponse', avatarStatusResponse);
       setAvatarStatusResponse(avatarStatusResponse);
