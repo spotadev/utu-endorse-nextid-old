@@ -110,7 +110,7 @@ export default function PostTweetInstructions() {
         <div style={{ marginTop: '20px', backgroundColor: 'pink', height: '120px', wordWrap: 'break-word' }}>
           {firstLineTweet}
           <br />
-          Sig: {signedMessageTweet}
+          Sig: {signedMessageBase64Tweet}
           <br /><br />
           {lastLineTweet}
         </div >
