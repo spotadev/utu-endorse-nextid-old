@@ -4,7 +4,7 @@ import { useAccount } from "wagmi";
 import { IdsItem, Platform, Proof, nextIdCheckAvatarService } from "../../../services/next-id/nextIdCheckAvatarService";
 import { useGlobalStateContext } from "../../../App";
 import { avatarStatusResponseHelper } from "../../../helpers/avatar-status-response/avatarStatusResponseHelper";
-import GuiProof from "./GuiProof";
+import GuiProof from "../../shared/GuiProof";
 import GuiPlatform from "./GuiPlatform";
 
 export default function CheckForNextID() {

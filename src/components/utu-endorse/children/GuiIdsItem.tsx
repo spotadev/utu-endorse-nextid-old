@@ -1,6 +1,6 @@
 import { useGlobalStateContext } from "../../../App";
 import { IdsItem, Proof } from "../../../services/next-id/nextIdCheckAvatarService";
-import GuiProof from "../../home/children/GuiProof";
+import GuiProof from "../../shared/GuiProof";
 
 export default function GuiIdsItem(props: any) {
 
