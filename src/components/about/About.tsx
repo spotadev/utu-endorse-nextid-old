@@ -48,7 +48,7 @@ export default function About() {
         </p>
         <p>
           The UTU Trust tech allows you to endorse a resource.  In this dApp a user can
-          endorse a user of a DID as to having a certain characteristic.
+          endorse a user of a DID as having a certain characteristic.
         </p>
         <p>
           For example you could endorse someone as being a good chef.
