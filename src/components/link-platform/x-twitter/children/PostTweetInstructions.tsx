@@ -22,7 +22,7 @@ export default function PostTweetInstructions() {
   const [errorMessage, setErrorMessage] = useState<string | null>();
 
   const [firstLineTweet, setFirstLineTweet] = useState<string | null>(null);
-  const [signedMessageTweet, setSignedMessageTweet] = useState<string | null>(null);
+  const [signedMessageBase64Tweet, setSignedMessageBase64Tweet] = useState<string | null>(null);
   const [lastLineTweet, setLastLineTweet] = useState<string | null>(null);
 
   const getNumberAtEndTweetUrl = (tweetUrl: string) => {
@@ -33,7 +33,7 @@ export default function PostTweetInstructions() {
 
   const createTweet = (
     signedMessage: string | undefined, proofPayloadResponse: ProofPayloadResponse
-  ): { firstLine: string, signedMessage: string, lastLine: string } | null => {
+  ): { firstLine: string, signedMessageBase64: string, lastLine: string } | null => {
     if (signedMessage) {
       console.log('signedMessage', signedMessage);
 
@@ -45,7 +45,7 @@ export default function PostTweetInstructions() {
       console.log('signedMessageBase64', signedMessageBase64);
       const firstLine = `🎭 Verifying my Twitter ID @${xHandle} for @NextDotID.`;
       const lastLine = 'Next.ID YOUR DIGITAL IDENTITIES IN ONE PLACE';
-      return { firstLine, signedMessage, lastLine };
+      return { firstLine, signedMessageBase64, lastLine };
     }
     else {
       return null;
@@ -83,14 +83,14 @@ export default function PostTweetInstructions() {
       if (xProofPayloadResponse) {
         const signedData = await signMessage({ message: xProofPayloadResponse.sign_payload });
 
-        const result: { firstLine: string, signedMessage: string, lastLine: string } | null =
+        const result: { firstLine: string, signedMessageBase64: string, lastLine: string } | null =
           createTweet(signedData, xProofPayloadResponse);
 
         if (result) {
-          const { firstLine, signedMessage, lastLine } = result;
+          const { firstLine, signedMessageBase64, lastLine } = result;
 
           setFirstLineTweet(firstLine);
-          setSignedMessageTweet(signedMessage);
+          setSignedMessageBase64Tweet(signedMessageBase64);
           setLastLineTweet(lastLine);
         }
       }
