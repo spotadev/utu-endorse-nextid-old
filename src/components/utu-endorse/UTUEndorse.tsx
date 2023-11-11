@@ -15,6 +15,10 @@ export default function UtuEndorse() {
   return (
     <>
       <div style={{ textAlign: 'right' }}>
+        <Link to={'/about'}>
+          About
+        </Link>
+        &nbsp;&nbsp;
         <Link to={'/'}>
           Back
         </Link>
@@ -30,7 +34,10 @@ export default function UtuEndorse() {
           <li>Select the platform you want to search in from the dropdown</li>
           <li>Type the handle in the box</li>
         </ul>
+        Note if the person does not have a next.id DID you will not find them.
       </div>
+      <br />
+      <hr />
       <div style={{ paddingTop: '20px' }}>
         Select Platform:
         &nbsp;&nbsp;

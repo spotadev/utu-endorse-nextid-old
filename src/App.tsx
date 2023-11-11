@@ -101,7 +101,7 @@ function App() {
       <WagmiConfig config={wagmiConfig}>
         <div className={appStyle.centeredPage}>
           <BrowserRouter>
-            <span style={{ fontWeight: 'bold' }}>Next.id / UTU Trust</span>
+            <span style={{ fontWeight: 'bold' }}>Next.id / UTU Endorse</span>
             <br /><br />
             <Routes>
               <Route path="/" element={<Home />} />
