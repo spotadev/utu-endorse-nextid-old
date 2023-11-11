@@ -7,20 +7,20 @@ export default function About() {
     <>
       <div style={{ textAlign: 'right' }}>
         <Link to={'/'}>
-          Home
+          Back
         </Link>
       </div >
       <div style={{ color: 'green', fontWeight: 'bold' }}>
-        About this dApp
+        About
       </div>
-      <div style={{ paddingTop: '20px' }}>
-        This dApp combines 2 components:
-        <ul>
-          <li>next.id</li>
-          <li>UTU Trust</li>
-        </ul>
+      <ul>
+        <li><a href="#about_next_id">About next.id</a></li>
+        <li><a href="#about_utu_trust">About UTU Trust</a></li>
+        <li><a href="#about_developers_of_this_dapp">About Developers of this dApp</a></li>
+      </ul>
+      <div style={{ paddingTop: '10px' }}>
         <div style={{ color: 'maroon', fontWeight: 'bold', fontStyle: 'italic', paddingTop: '20px' }}>
-          next.id
+          <span id="about_next_id">About next.id</span>
         </div>
         <p>
           next.id provides a Decentralised ID (DID) which aggregates a users different web 2.0
@@ -39,7 +39,7 @@ export default function About() {
           genuine user or a spammer.
         </p>
         <div style={{ color: 'maroon', fontWeight: 'bold', fontStyle: 'italic', paddingTop: '20px' }}>
-          UTU Trust
+          <span id="about_utu_trust">About UTU Trust</span>
         </div>
         <p>
           UTU Trust is about getting feedback from people in your social network as to the
@@ -56,8 +56,8 @@ export default function About() {
         <p>
           This endorse part of this dApp has not yet been coded.  Coming soon!
         </p>
-        <div style={{ color: 'green', fontWeight: 'bold', paddingTop: '20px' }}>
-          About the Developers
+        <div style={{ color: 'maroon', fontWeight: 'bold', paddingTop: '20px' }}>
+          <span id="about_developers_of_this_dapp">About Developers of this dApp</span>
         </div>
         <p>
           The developers of this dApp are open source crypto enthusiasts who want to create value

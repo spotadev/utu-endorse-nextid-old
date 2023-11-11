@@ -9,20 +9,15 @@ export default function LinkXTwitter() {
     <div>
       <div style={{ textAlign: 'right' }}>
         <Link to={'/'}>
-          Home
+          Back
         </Link>
         &nbsp;&nbsp;
         <Link to={'/about'}>
           About
         </Link>
       </div>
-      <div style={{ color: 'green', fontWeight: 'bold' }}>
+      <div style={{ color: 'green', fontWeight: 'bold', paddingTop: '20px' }}>
         Adding Twitter Handle to next.id DID
-      </div>
-      <div style={{ textAlign: 'right' }}>
-        <Link to={'/'}>
-          Back
-        </Link>
       </div>
       <CaptureXHandle />
       <br />

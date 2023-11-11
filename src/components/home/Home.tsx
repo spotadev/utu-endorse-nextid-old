@@ -9,10 +9,16 @@ export default function Home() {
     <>
       <div style={{ textAlign: 'right' }}>
         <Link to={'/about'}>
+          UTU Trust - Endorse Others
+        </Link>
+        &nbsp; &nbsp;
+        <Link to={'/about'}>
           About
         </Link>
       </div>
-      <Web3ModalButtons />
+      <div style={{ paddingTop: '20px' }}>
+        <Web3ModalButtons />
+      </div>
       <br />
       <hr />
       <br />
