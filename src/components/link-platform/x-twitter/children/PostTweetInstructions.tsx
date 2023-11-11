@@ -18,9 +18,12 @@ export default function PostTweetInstructions() {
   } = useGlobalStateContext();
 
   const navigate = useNavigate();
-  const [tweet, setTweet] = useState<string | null>();
   const [tweetUrl, setTweetUrl] = useState<string>();
   const [errorMessage, setErrorMessage] = useState<string | null>();
+
+  const [firstLineTweet, setFirstLineTweet] = useState<string | null>(null);
+  const [signedMessageTweet, setSignedMessageTweet] = useState<string | null>(null);
+  const [lastLineTweet, setLastLineTweet] = useState<string | null>(null);
 
   const getNumberAtEndTweetUrl = (tweetUrl: string) => {
     const pathParts = tweetUrl.split("/");
@@ -28,13 +31,21 @@ export default function PostTweetInstructions() {
     return number;
   }
 
-  const createTweet = (signedMessage: string | undefined, proofPayloadResponse: ProofPayloadResponse) => {
+  const createTweet = (
+    signedMessage: string | undefined, proofPayloadResponse: ProofPayloadResponse
+  ): { firstLine: string, signedMessage: string, lastLine: string } | null => {
     if (signedMessage) {
-      const postContent: PostContent = proofPayloadResponse.post_content;
-      const postContentEnUS = postContent.en_US;
+      console.log('signedMessage', signedMessage);
+
+      const hexStringWithoutPrefix =
+        signedMessage.startsWith('0x') ? signedMessage.slice(2) : signedMessage;
+
+      const buffer = Buffer.from(hexStringWithoutPrefix, 'hex');
+      const signedMessageBase64 = buffer.toString('base64');
+      console.log('signedMessageBase64', signedMessageBase64);
+      const firstLine = `🎭 Verifying my Twitter ID @${xHandle} for @NextDotID.`;
       const lastLine = 'Next.ID YOUR DIGITAL IDENTITIES IN ONE PLACE';
-      const tweet = postContentEnUS + signedMessage + lastLine;
-      return tweet;
+      return { firstLine, signedMessage, lastLine };
     }
     else {
       return null;
@@ -71,8 +82,17 @@ export default function PostTweetInstructions() {
     (async () => {
       if (xProofPayloadResponse) {
         const signedData = await signMessage({ message: xProofPayloadResponse.sign_payload });
-        const _tweet = createTweet(signedData, xProofPayloadResponse);
-        setTweet(_tweet);
+
+        const result: { firstLine: string, signedMessage: string, lastLine: string } | null =
+          createTweet(signedData, xProofPayloadResponse);
+
+        if (result) {
+          const { firstLine, signedMessage, lastLine } = result;
+
+          setFirstLineTweet(firstLine);
+          setSignedMessageTweet(signedMessage);
+          setLastLineTweet(lastLine);
+        }
       }
     })();
   }, [xProofPayloadResponse]);
@@ -88,7 +108,11 @@ export default function PostTweetInstructions() {
           Please copy the text in the pink box below into a tweet and send it:
         </div>
         <div style={{ marginTop: '20px', backgroundColor: 'pink', height: '120px', wordWrap: 'break-word' }}>
-          {tweet}
+          {firstLineTweet}
+          <br />
+          Sig: {signedMessageTweet}
+          <br /><br />
+          {lastLineTweet}
         </div >
         <div style={{ paddingTop: '20px' }}>
           Once you have sent the tweet, paste the web url of the newly created tweet into the box
