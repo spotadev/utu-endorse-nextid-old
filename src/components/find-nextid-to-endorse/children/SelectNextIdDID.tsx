@@ -9,7 +9,7 @@ export default function SelectNextIdDID(props: any) {
     return (
       <>
         {idsItems.map((idsItem, index) => (
-          <GuiIdsItem idsItem={idsItem} />
+          <GuiIdsItem idsItem={idsItem} index={index} />
         ))
         }
       </>

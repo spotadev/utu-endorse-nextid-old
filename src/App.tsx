@@ -6,13 +6,14 @@ import { arbitrum, mainnet } from 'wagmi/chains'
 import { createContext, useContext, useState } from 'react';
 import ProofPayloadResponse from './services/next-id/nextIdProofService';
 import AvatarStatusResponse from './services/next-id/nextIdCheckAvatarService';
-import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './components/home/Home';
 import LinkXTwitter from './components/link-platform/x-twitter/LinkXTwitter';
 import LinkGithub from './components/link-platform/github/LinkGithub';
 import About from './components/about/About';
-import UtuEndorse from './components/utu-endorse/UTUEndorse';
+import UtuEndorse from './components/find-nextid-to-endorse/FindNextIdToEndorse';
 import { IdsItem } from "./services/next-id/nextIdCheckAvatarService";
+import FindNextIdToEndorse from './components/find-nextid-to-endorse/FindNextIdToEndorse';
 
 // =================================================================================================
 // Start: Create Global Context
@@ -115,6 +116,7 @@ function App() {
               <Route path="/link/platform/twitter" element={<LinkXTwitter />} />
               <Route path="/link/platform/github" element={<LinkGithub />} />
               <Route path="/about" element={<About />} />
+              <Route path="/findNextIdToEndorse" element={<FindNextIdToEndorse />} />
               <Route path="/utuEndorse" element={<UtuEndorse />} />
             </Routes>
           </BrowserRouter>
