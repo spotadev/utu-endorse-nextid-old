@@ -1,15 +1,24 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import appStyle from '../../App.module.css';
+import { IdsItem, nextIdCheckAvatarService } from '../../services/next-id/nextIdCheckAvatarService';
 
 export default function UtuEndorse() {
 
   const [platform, setPlatform] = useState<string>("");
   const [handle, setHandle] = useState<string>("");
   const [searchResults, setSearchResults] = useState<string>("No Search Results");
+  const [idsItems, setIdsItems] = useState<IdsItem[] | null>(null);
 
-  const search = () => {
+  const search = async () => {
+    const exact = true;
 
+    // This is a network call
+    const avatarStatusResponse =
+      await nextIdCheckAvatarService.getAvatarStatus(handle, platform, exact);
+
+    const idsItems = avatarStatusResponse.ids;
+    setIdsItems(idsItems);
   }
 
   return (
