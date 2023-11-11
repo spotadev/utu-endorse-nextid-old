@@ -1,7 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
+import appStyle from '../../App.module.css';
 
 export default function UtuEndorse() {
+
+  const [platform, setPlatform] = useState<string>("");
+  const [handle, setHandle] = useState<string>("");
+  const [searchResults, setSearchResults] = useState<string>("No Search Results");
+
+  const search = () => {
+
+  }
 
   return (
     <>
@@ -14,8 +23,48 @@ export default function UtuEndorse() {
         UTU Endorse
       </div>
       <div style={{ paddingTop: '20px' }}>
-
+        To Endorse a next.id DID as having a certain skill you need to first of all find the DID.
+        <br /><br />
+        To find the DID:
+        <ul>
+          <li>Select the platform you want to search in from the dropdown</li>
+          <li>Type the handle in the box</li>
+        </ul>
       </div>
+      <div style={{ paddingTop: '20px' }}>
+        Select Platform:
+        &nbsp;&nbsp;
+        <select id="selectPlatform"
+          value={platform}
+          onChange={(event) => { setPlatform(event.target.value) }}
+          className={appStyle.input}
+        >
+          <option value="">Select...</option>
+          <option value="ethereum">Ethereum Wallet Address</option>
+          <option value="github">Github Handle</option>
+          <option value="twitter">X Handle</option>
+        </select>
+      </div>
+      <div style={{ paddingTop: '20px' }}>
+        Handle:
+        &nbsp;&nbsp;
+        <input
+          type="text"
+          id="yourTextBox"
+          value={handle}
+          onChange={(event) => { setHandle(event.target.value) }}
+          className={appStyle.input}
+          style={{ width: '400px' }}
+        />
+        &nbsp;&nbsp;
+        <button onClick={search}>Search</button>
+      </div>
+      <br />
+      <hr />
+      <br />
+      {searchResults}
+      <br /><br />
+      <hr />
     </>
   );
 }
