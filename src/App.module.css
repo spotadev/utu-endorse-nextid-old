@@ -61,6 +61,22 @@ button:active {
   box-shadow: rgba(20, 70, 32, .2) 0 1px 0 inset;
 }
 
+a {
+  color: green;
+  text-decoration: none;
+  /* Optional: Remove underline if you want */
+}
+
+/* Define a style for visited links */
+a:visited {
+  color: darkgreen;
+}
+
+/* Define a style for hovered links */
+a:hover {
+  color: limegreen;
+}
+
 .input,
 .select,
 .textarea {

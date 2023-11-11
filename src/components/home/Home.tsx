@@ -8,15 +8,18 @@ export default function Home() {
   return (
     <>
       <div style={{ textAlign: 'right' }}>
-        <Link to={'/about'}>
-          UTU Trust - Endorse Others
+        <Link to={'/utuEndorse'}>
+          UTU Endorse
         </Link>
         &nbsp; &nbsp;
         <Link to={'/about'}>
           About
         </Link>
       </div>
-      <div style={{ paddingTop: '20px' }}>
+      <div style={{ color: 'green', fontWeight: 'bold', paddingTop: '20px' }}>
+        Next.id Management
+      </div>
+      <div style={{ paddingTop: '30px' }}>
         <Web3ModalButtons />
       </div>
       <br />

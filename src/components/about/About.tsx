@@ -23,7 +23,7 @@ export default function About() {
           <span id="about_next_id">About next.id</span>
         </div>
         <p>
-          next.id provides a Decentralised ID (DID) which aggregates a users different web 2.0
+          next.id provides a Decentralised ID (DID) which aggregates a user's different web 2.0
           and web 3.0 handles together.
         </p>
         <p>
@@ -37,6 +37,9 @@ export default function About() {
         <p>
           A DID makes it easier to see whether a wallet address is associated with a
           genuine user or a spammer.
+        </p>
+        <p>
+          For more details see: <a href="https://next.id" target="_next_id">https://next.id</a>
         </p>
         <div style={{ color: 'maroon', fontWeight: 'bold', fontStyle: 'italic', paddingTop: '20px' }}>
           <span id="about_utu_trust">About UTU Trust</span>
@@ -55,6 +58,9 @@ export default function About() {
         </p>
         <p>
           This endorse part of this dApp has not yet been coded.  Coming soon!
+        </p>
+        <p>
+          For more details see: <a href="https://utu.io" target="_utu_io">https://utu.io</a>
         </p>
         <div style={{ color: 'maroon', fontWeight: 'bold', paddingTop: '20px' }}>
           <span id="about_developers_of_this_dapp">About Developers of this dApp</span>
@@ -76,7 +82,7 @@ export default function About() {
         <p>
           Unity & One Love
         </p>
-      </div>
+      </div >
     </>
   );
 }
