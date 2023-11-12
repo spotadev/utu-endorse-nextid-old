@@ -1,0 +1,32 @@
+====================
+Questions to ask UTU
+====================
+
+(i) A next.id is a Decentralised ID which links your handles together on chain.
+
+A next.id DID looks like:
+
+  0x0318a1f57d8aadf5f555f79237de6edf5775de6aea8923a540b895cd8b93e3f005
+
+A trait looks like:
+
+  Is real genuine person
+  Is not corrupt
+  I trust them
+
+I want to endorse the next.id as having a trait:
+
+I was thinking of storing the following in the transactionId as json:
+
+{ 
+  next.id : '0x0318a1f57d8aadf5f555f79237de6edf5775de6aea8923a540b895cd8b93e3f005'
+  trait : 'I trust them'
+}
+
+My questions
+
+(i) Is the transactionID large enough to store the above json?
+
+(ii) Is the transactionID stored on chain or off chain?
+
+(iii) Is this the right approach if I want to endorse with a trait?
