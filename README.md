@@ -21,8 +21,7 @@ trust in both the Web 2 and Web 3 space.
 
 (iv) cd utu-endorse-nextid
 
-(v) Copy .env.sample to .env
-    Copy .env.local.sample to .env.local
+(v) Copy .env.local.sample to .env.local
     Copy .env.staging.sample to .env.staging
     Copy .env.production.sample to .env.production
 
@@ -30,19 +29,20 @@ trust in both the Web 2 and Web 3 space.
 
 (vii) npm install
 
-(viii) Now start the app in dev mode:
+(viii) Now start the app in local dev mode:
 
   Note that App.tsx has the following code in it:
 
     const environment = process.env.REACT_APP_ENVIRONMENT;
     console.log('environment', environment);
 
-  Therefore when you run the above "npm run start:env" commands it will print one of the following:
+  When you run the above "npm run start" command it will choose your .env.local file and print:
 
-    npm run start            => Prints in browser console: environment local
-    npm run start:local      => Prints in browser console: environment local
-    npm run start:staging    => Prints in browser console: environment staging
-    npm run start:production => Prints in browser console: environment production
+    environment local
+
+  The other environment files are required for when you run the staging or production builds:
+
+    npm run build:production
 
 (ix) Open app in web browser:  http://localhost:3000/
 
