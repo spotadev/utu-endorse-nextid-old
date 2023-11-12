@@ -25,6 +25,6 @@ yarn-error.log*
 keys.txt
 
 .env
-.local.env
-.staging.env
-.production.env
+.env.local
+.env.staging
+.env.production

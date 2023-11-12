@@ -58,6 +58,9 @@ export const useGlobalStateContext = () => {
 // =================================================================================================
 // Start: Configure web3modal
 
+const environment = process.env.REACT_APP_ENVIRONMENT;
+console.log('environment', environment);
+
 // 1. Get projectId
 const projectId = process.env.REACT_APP_WALLET_CONNECT_PROJECT_ID;
 console.log('projectId', projectId);

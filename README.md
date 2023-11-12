@@ -22,12 +22,27 @@ trust in both the Web 2 and Web 3 space.
 (iv) cd utu-endorse-nextid
 
 (v) Copy .env.sample to .env
+    Copy .env.local.sample to .env.local
+    Copy .env.staging.sample to .env.staging
+    Copy .env.production.sample to .env.production
 
-(vi) Go to https://cloud.walletconnect.com/sign-in and get your projectId.  Put it in .env.
+(vi) Go to https://cloud.walletconnect.com/sign-in and get your projectId.  Put it in the env files you copied above
 
 (vii) npm install
 
-(viii) npm run start
+(viii) Now start the app in dev mode:
+
+  Note that App.tsx has the following code in it:
+
+    const environment = process.env.REACT_APP_ENVIRONMENT;
+    console.log('environment', environment);
+
+  Therefore when you run the above "npm run start:env" commands it will print one of the following:
+
+    npm run start            => Prints in browser console: environment local
+    npm run start:local      => Prints in browser console: environment local
+    npm run start:staging    => Prints in browser console: environment staging
+    npm run start:production => Prints in browser console: environment production
 
 (ix) Open app in web browser:  http://localhost:3000/
 
