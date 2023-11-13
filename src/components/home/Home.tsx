@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <>
       <div style={{ textAlign: 'right' }}>
-        <Link to={'/findNextIdToEndorse'}>
+        <Link to={'/findNextIdToEndorseOrComment'}>
           UTU Endorse / Comment
         </Link>
         &nbsp; &nbsp;&nbsp; &nbsp;

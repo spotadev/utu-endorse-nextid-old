@@ -11,9 +11,9 @@ import Home from './components/home/Home';
 import LinkXTwitter from './components/link-platform/x-twitter/LinkXTwitter';
 import LinkGithub from './components/link-platform/github/LinkGithub';
 import About from './components/about/About';
-import UtuEndorse from './components/find-nextid-to-endorse/FindNextIdToEndorse';
+import UtuEndorse from './components/find-nextid-to-endorse/FindNextIdToEndorseOrComment';
 import { IdsItem } from "./services/next-id/nextIdCheckAvatarService";
-import FindNextIdToEndorse from './components/find-nextid-to-endorse/FindNextIdToEndorse';
+import FindNextIdToEndorseOrComment from './components/find-nextid-to-endorse/FindNextIdToEndorseOrComment';
 import UtuComment from './components/utu-comment/UtuComment';
 
 // =================================================================================================
@@ -126,7 +126,7 @@ function App() {
               <Route path="/link/platform/twitter" element={<LinkXTwitter />} />
               <Route path="/link/platform/github" element={<LinkGithub />} />
               <Route path="/about" element={<About />} />
-              <Route path="/findNextIdToEndorse" element={<FindNextIdToEndorse />} />
+              <Route path="/findNextIdToEndorseOrComment" element={<FindNextIdToEndorseOrComment />} />
               <Route path="/utuEndorse" element={<UtuEndorse />} />
               <Route path="/utuComment" element={<UtuComment />} />
             </Routes>

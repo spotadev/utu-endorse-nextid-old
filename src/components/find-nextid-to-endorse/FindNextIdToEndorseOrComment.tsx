@@ -5,7 +5,7 @@ import { IdsItem, nextIdCheckAvatarService } from '../../services/next-id/nextId
 import SelectNextIdDID from './children/SelectNextIdDID';
 import ShowTestEthereumAddress from '../show-test-ethereum-address/ShowTestEthereumAddress';
 
-export default function FindNextIdToEndorse() {
+export default function FindNextIdToEndorseOrComment() {
 
   const [platform, setPlatform] = useState<string>("");
   let [handle, setHandle] = useState<string>("");

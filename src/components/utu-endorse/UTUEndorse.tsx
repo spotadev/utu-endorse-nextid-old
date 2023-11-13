@@ -47,7 +47,7 @@ export default function UtuEndorse() {
         <Link to={'/'}>
           Home
         </Link>
-        <Link to={'/findNextIdToEndorse'}>
+        <Link to={'/findNextIdToEndorseOrComment'}>
           Back
         </Link>
       </div>
