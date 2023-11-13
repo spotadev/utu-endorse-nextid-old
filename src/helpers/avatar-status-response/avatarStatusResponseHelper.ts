@@ -21,38 +21,30 @@ const hasHandle = (avatarStatusResponse: AvatarStatusResponse, handle: string, p
 }
 
 const getIdsItem = (handle: string, platform: string, idItems: IdsItem[]): IdsItem | null => {
+  let foundIdsItem: IdsItem | null = null;
 
   for (let idsItem of idItems) {
     let proofs: Proof[] = idsItem.proofs;
-
-    for (let proof of proofs) {
-
-      if (proof.platform === platform && proof.identity === handle && proof.is_valid) {
-        return idsItem;
-      }
-    }
-  }
-
-  return null;
-}
-
-const getProofs = (avatarStatusResponse: AvatarStatusResponse, platform: string, handle: string) => {
-  let proofsToRender: Proof[] = [];
-
-  const idsItems: IdsItem[] = avatarStatusResponse.ids;
-  const matchingIdsItem = getIdsItem(handle, platform, idsItems);
-
-  if (matchingIdsItem) {
-    let proofs: Proof[] = matchingIdsItem.proofs;
+    let validProofs = [];
 
     for (let proof of proofs) {
       if (proof.is_valid) {
-        proofsToRender.push(proof);
+        validProofs.push(proof);
+
+        if (proof.platform === platform && proof.identity === handle) {
+          foundIdsItem = idsItem;
+        }
       }
+    }
+
+    // only included valid proofs
+    if (foundIdsItem) {
+      foundIdsItem.proofs = validProofs;
+      break;
     }
   }
 
-  return { idsItem: matchingIdsItem, proofs: proofsToRender };
+  return foundIdsItem;
 }
 
 const getPlatformsNeedToConnectTo = (idsItem: IdsItem | null, supportedPlatforms: string[]): Platform[] => {
@@ -86,6 +78,6 @@ const getPlatformsNeedToConnectTo = (idsItem: IdsItem | null, supportedPlatforms
 
 export const avatarStatusResponseHelper = {
   hasHandle,
-  getProofs,
+  getIdsItem,
   getPlatformsNeedToConnectTo
 }

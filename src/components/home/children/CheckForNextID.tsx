@@ -4,8 +4,9 @@ import { useAccount } from "wagmi";
 import { IdsItem, Platform, Proof, nextIdCheckAvatarService } from "../../../services/next-id/nextIdCheckAvatarService";
 import { useGlobalStateContext } from "../../../App";
 import { avatarStatusResponseHelper } from "../../../helpers/avatar-status-response/avatarStatusResponseHelper";
-import GuiProof from "../../shared/GuiProof";
+import GuiProof from "../../shared/show-next-id/children/GuiProof";
 import GuiPlatform from "./GuiPlatform";
+import ShowNextId from '../../shared/show-next-id/ShowNextId';
 
 export default function CheckForNextID() {
 
@@ -49,25 +50,28 @@ export default function CheckForNextID() {
       console.log('avatarStatusResponse', avatarStatusResponse);
       setAvatarStatusResponse(avatarStatusResponse);
 
-      let response: { idsItem: IdsItem | null, proofs: Proof[] } =
-        avatarStatusResponseHelper.getProofs(avatarStatusResponse, platform, handle);
+      let _idsItem =
+        avatarStatusResponseHelper.getIdsItem(handle, platform, avatarStatusResponse.ids);
 
-      console.log('proofs', response.proofs);
-
-      setPlatformVerifiedStates(response.proofs);
-
-      setProofs(response.proofs);
-      setIdsItem(response.idsItem);
+      if (_idsItem) {
+        setPlatformVerifiedStates(_idsItem.proofs);
+        setProofs(_idsItem.proofs);
+        setIdsItem(_idsItem);
+      }
+      else {
+        setPlatformVerifiedStates([]);
+        setProofs([]);
+        setIdsItem(null);
+      }
 
       const supportedPlatforms = ['twitter', 'github'];
 
       const platformsNeedToConnectTo: Platform[] =
         avatarStatusResponseHelper.getPlatformsNeedToConnectTo(
-          response.idsItem, supportedPlatforms);
+          idsItem, supportedPlatforms);
 
       console.log('platformsNeedToConnectTo', platformsNeedToConnectTo);
       setPlatforms(platformsNeedToConnectTo);
-
     }
 
     if (address) {
@@ -80,23 +84,8 @@ export default function CheckForNextID() {
     if (proofs.length > 0) {
       return (
         <>
-          <div>
-            <span style={{ fontWeight: 'bold' }}>Your next.id DID:</span>
-          </div>
-          <div style={{ paddingTop: '20px', wordWrap: 'break-word' }}>
-            {idsItem?.avatar}
-          </div>
-          <div style={{ paddingTop: '20px' }}>
-            <span style={{ fontWeight: 'bold' }}>Below are your current connected handles:</span>
-          </div>
-          {proofs.map((proof, index) => (
-            <div key={proof.identity} style={{ paddingTop: '20px' }}>
-              <GuiProof proof={proof} />
-            </div>
-          ))}
-          <br />
-          <hr />
-          <br />
+          <ShowNextId title='Your next.id DID' idsItem={idsItem} />
+          <br /><hr /><br />
           <div>
             <span style={{ fontWeight: 'bold' }}>Link Platform:</span>
           </div>

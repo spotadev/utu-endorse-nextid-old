@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import appStyle from '../../App.module.css';
 import { IdsItem, nextIdCheckAvatarService } from '../../services/next-id/nextIdCheckAvatarService';
 import SelectNextIdDID from './children/SelectNextIdDID';
+import ShowTestEthereumAddress from '../show-test-ethereum-address/ShowTestEthereumAddress';
 
 export default function FindNextIdToEndorse() {
 
@@ -12,9 +13,6 @@ export default function FindNextIdToEndorse() {
 
   const search = async () => {
     const exact = true;
-
-    // overide for testing
-    // handle = '0x0bd793ea8334a77b2bfd604dbaedca11ea094306';
 
     // This is a network call
     const avatarStatusResponse =
@@ -36,7 +34,7 @@ export default function FindNextIdToEndorse() {
         </Link>
       </div>
       <div style={{ color: 'green', fontWeight: 'bold', paddingTop: '20px' }}>
-        UTU Endorse - Find Next.id
+        UTU Endorse / Comment - Find Next.id
       </div>
       <div style={{ paddingTop: '20px' }}>
         To Endorse a next.id DID as having a certain skill you need to first of all find the DID.
@@ -48,8 +46,8 @@ export default function FindNextIdToEndorse() {
         </ul>
         Note if the person does not have a next.id DID you will not find them.
       </div>
-      <br />
-      <hr />
+      <ShowTestEthereumAddress />
+      <br /><hr />
       <div style={{ paddingTop: '20px' }}>
         Select Platform:
         &nbsp;&nbsp;
@@ -77,14 +75,11 @@ export default function FindNextIdToEndorse() {
           style={{ width: '400px' }}
         />
         &nbsp;&nbsp;
-        <button onClick={search}>Search</button>
+        <button onClick={search} disabled={!(platform.length > 0 && handle.length > 0)}>Search</button>
       </div>
-      <br />
-      <hr />
-      <br />
+      <br /><hr /><br />
       <SelectNextIdDID idsItems={idsItems} />
-      <br /><br />
-      <hr />
+      <br /><br /><hr />
     </>
   );
 }

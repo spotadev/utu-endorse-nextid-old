@@ -14,6 +14,7 @@ import About from './components/about/About';
 import UtuEndorse from './components/find-nextid-to-endorse/FindNextIdToEndorse';
 import { IdsItem } from "./services/next-id/nextIdCheckAvatarService";
 import FindNextIdToEndorse from './components/find-nextid-to-endorse/FindNextIdToEndorse';
+import UtuComment from './components/utu-comment/UtuComment';
 
 // =================================================================================================
 // Start: Create Global Context
@@ -31,6 +32,8 @@ export type GlobalState = {
   setXProofVerified: (c: boolean) => void;
   idsItemToEndorse: IdsItem | null;
   setIdsItemToEndorse: (c: IdsItem) => void;
+  idsItemToComment: IdsItem | null;
+  setIdsItemToComment: (c: IdsItem) => void;
 };
 
 export const SharedDataContext = createContext<GlobalState>({
@@ -45,7 +48,9 @@ export const SharedDataContext = createContext<GlobalState>({
   xProofVerified: false,
   setXProofVerified: (c: boolean) => { },
   idsItemToEndorse: null,
-  setIdsItemToEndorse: (c: IdsItem) => { }
+  setIdsItemToEndorse: (c: IdsItem) => { },
+  idsItemToComment: null,
+  setIdsItemToComment: (c: IdsItem) => { }
 });
 
 export const useGlobalStateContext = () => {
@@ -99,6 +104,7 @@ function App() {
   const [avatarStatusResponse, setAvatarStatusResponse] = useState<AvatarStatusResponse | null>(null);
   const [xProofVerified, setXProofVerified] = useState<boolean>(false);
   const [idsItemToEndorse, setIdsItemToEndorse] = useState<IdsItem | null>(null);
+  const [idsItemToComment, setIdsItemToComment] = useState<IdsItem | null>(null);
 
   return (
     <SharedDataContext.Provider value={{
@@ -107,7 +113,8 @@ function App() {
       publicKey, setPublicKey,
       avatarStatusResponse, setAvatarStatusResponse,
       xProofVerified, setXProofVerified,
-      idsItemToEndorse, setIdsItemToEndorse
+      idsItemToEndorse, setIdsItemToEndorse,
+      idsItemToComment, setIdsItemToComment
     }}>
       <WagmiConfig config={wagmiConfig}>
         <div className={appStyle.centeredPage}>
@@ -121,6 +128,7 @@ function App() {
               <Route path="/about" element={<About />} />
               <Route path="/findNextIdToEndorse" element={<FindNextIdToEndorse />} />
               <Route path="/utuEndorse" element={<UtuEndorse />} />
+              <Route path="/utuComment" element={<UtuComment />} />
             </Routes>
           </BrowserRouter>
         </div>

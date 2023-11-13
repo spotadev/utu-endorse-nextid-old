@@ -9,9 +9,9 @@ export default function Home() {
     <>
       <div style={{ textAlign: 'right' }}>
         <Link to={'/findNextIdToEndorse'}>
-          UTU Endorse
+          UTU Endorse / Comment
         </Link>
-        &nbsp; &nbsp;
+        &nbsp; &nbsp;&nbsp; &nbsp;
         <Link to={'/about'}>
           About
         </Link>
@@ -22,12 +22,9 @@ export default function Home() {
       <div style={{ paddingTop: '30px' }}>
         <Web3ModalButtons />
       </div>
-      <br />
-      <hr />
-      <br />
+      <br /><hr />
       <CheckForNextID />
-      <br /><br />
-      <hr />
+      <br /><br /><hr />
     </>
   );
 }

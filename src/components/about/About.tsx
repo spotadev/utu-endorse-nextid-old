@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
+import UtuTokenBalance from '../shared/UTUTokenBalance';
 
 export default function About() {
 
@@ -50,17 +51,19 @@ export default function About() {
           than the opinions of strangers.
         </p>
         <p>
-          The UTU Trust tech allows you to endorse a resource.  In this dApp a user can
-          endorse a user of a DID as having a certain characteristic.
+          The UTU Trust tech allows you to comment on or endorse a resource which has a unique ID.
         </p>
         <p>
+          In order to endorse you need UTU tokens.
+        </p>
+        <UtuTokenBalance />
+        <p>
+          In this dApp a user can endorse a user of a DID as having a certain characteristic.
           For example you could endorse someone as being a good chef.
         </p>
         <p>
-          This endorse part of this dApp has not yet been coded.  Coming soon!
-        </p>
-        <p>
-          For more details see: <a href="https://utu.io" target="_utu_io">https://utu.io</a>
+          For more details about UTU Trust see:
+          <a href="https://utu.io" target="_utu_io">https://utu.io</a>
         </p>
         <div style={{ color: 'maroon', fontWeight: 'bold', paddingTop: '20px' }}>
           <span id="about_developers_of_this_dapp">About Developers of this dApp</span>

@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useGlobalStateContext } from "../../../App";
 import { IdsItem, Proof } from "../../../services/next-id/nextIdCheckAvatarService";
-import GuiProof from "../../shared/GuiProof";
+import GuiProof from "../../shared/show-next-id/children/GuiProof";
 
 export default function GuiIdsItem(props: any) {
 
@@ -12,7 +12,8 @@ export default function GuiIdsItem(props: any) {
 
 
   const {
-    setIdsItemToEndorse
+    setIdsItemToEndorse,
+    setIdsItemToComment
   } = useGlobalStateContext();
 
   const endorse = (idsItem: IdsItem) => {
@@ -20,10 +21,15 @@ export default function GuiIdsItem(props: any) {
     navigate('/utuEndorse')
   }
 
+  const comment = (idsItem: IdsItem) => {
+    setIdsItemToComment(idsItem);
+    navigate('/utuComment')
+  }
+
   if (idsItem) {
     return (
       <div style={{ paddingTop: '20px', backgroundColor: index % 2 === 0 ? '#f0f0f0' : '#ffffff' }}>
-        <div style={{}}>
+        <div style={{ fontWeight: 'bold' }}>
           <span>next.id DID:</span>
         </div>
         <div style={{ wordWrap: 'break-word' }}>
@@ -31,10 +37,16 @@ export default function GuiIdsItem(props: any) {
         </div>
         {
           proofs.map((proof, index) => (
-            <GuiProof proof={proof} />
+            <div key={proof.identity} style={{ paddingTop: '20px' }}>
+              <GuiProof proof={proof} />
+            </div>
           ))
         }
-        <button onClick={() => { endorse(idsItem) }}>Endorse</button>
+        <div style={{ paddingTop: '20px' }}>
+          <button onClick={() => { endorse(idsItem) }}>Endorse</button>
+          &nbsp;&nbsp;
+          <button onClick={() => { comment(idsItem) }}>Comment</button>
+        </div>
       </div>
     );
   }
