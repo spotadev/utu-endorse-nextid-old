@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react'
+import appStyle from '../../App.module.css';
 import { Link } from 'react-router-dom';
 import { useGlobalStateContext } from '../../App';
 import ShowNextId from '../shared/show-next-id/ShowNextId';
 import { useAccount } from 'wagmi';
-import UTUTokenBalance from '../shared/UTUTokenBalance';
+import UTUTokenBalance from '../shared/utu-token-balance/UTUTokenBalance';
 import { utuTokenService } from '../../services/utu/utuTokenService';
 
 export default function UtuEndorse() {
 
   const [trait, setTrait] = useState<string | null>(null);
   const [utuTokenBalance, setUtuTokenBalance] = useState<number>(0);
+  const [amountToEndorse, setAmountToEndorse] = useState<string>('');
 
   const { address, isConnected } = useAccount();
 
@@ -60,13 +62,18 @@ export default function UtuEndorse() {
       </div>
       <br /><hr /><br />
       <UTUTokenBalance utuTokenBalance={utuTokenBalance} />
-
-
-      {/*
-      <TraitToEndorse setTraitFunction={setTrait} />
-      */}
-      < div >
-        <button onClick={endorse}>Endorse nextId DID</button>
+      <br /><hr /><br />
+      <div >
+        <input
+          disabled={utuTokenBalance === 0}
+          style={{ width: '80%' }}
+          className={appStyle.input}
+          placeholder="Amount to Endorse"
+          value={amountToEndorse} onChange={(event) => setAmountToEndorse(event.target.value)} />
+      </div>
+      <div style={{ paddingTop: '20px' }}>
+        <button disabled={utuTokenBalance === 0 || !amountToEndorse}
+          onClick={endorse}>Endorse nextId DID</button>
       </div >
     </>
   );
