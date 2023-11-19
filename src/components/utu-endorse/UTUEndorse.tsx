@@ -6,10 +6,11 @@ import ShowNextId from '../shared/show-next-id/ShowNextId';
 import { useAccount } from 'wagmi';
 import UTUTokenBalance from '../shared/utu-token-balance/UTUTokenBalance';
 import { utuTokenService } from '../../services/utu/utuTokenService';
+import { nextIdHelper } from '../../helpers/next.id/nextIdHelper';
 
 export default function UtuEndorse() {
 
-  const [trait, setTrait] = useState<string | null>(null);
+  const [transaction, setTransaction] = useState<any | null>(null);
   const [utuTokenBalance, setUtuTokenBalance] = useState<number>(0);
   const [amountToEndorse, setAmountToEndorse] = useState<string>('');
 
@@ -19,21 +20,19 @@ export default function UtuEndorse() {
     idsItemToEndorse
   } = useGlobalStateContext();
 
-  const getEthereumHash = (nextId: string): string | null => {
-
-    return null;
-  }
-
   const endorse = () => {
     const nextId = idsItemToEndorse?.avatar;
 
-    if (nextId) {
-      const targetType = 'nextid_trait';
-      const transactionId = `{ nextId: ${nextId}, trait: ${trait}}`;
-      const targetUuid = getEthereumHash(nextId);
-      const sourceUuid = address;
-      const targetHumanReadable = JSON.parse(transactionId);
+    if (!nextId) {
+      throw new Error('idsItemToEndorse missing');
     }
+    const targetAddress = nextIdHelper.getEthereumAddress(nextId);
+    const transactionId = `{ nextId: ${nextId} }`;
+
+    const transaction =
+      utuTokenService.endorse(targetAddress, Number(amountToEndorse), transactionId);
+
+    setTransaction(transaction);
   }
 
   useEffect(() => {

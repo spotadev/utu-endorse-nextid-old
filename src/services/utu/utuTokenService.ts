@@ -43,7 +43,7 @@ const getBalance = async () => {
 const endorse = async (
   targetAddress: string,
   amountToEndorse: number,
-  transactionId: number
+  transactionId: string
 ) => {
   const { uttContract, connectedAddress } = await getUttContract();
   const utuBalance = await uttContract.balanceOf(connectedAddress);
