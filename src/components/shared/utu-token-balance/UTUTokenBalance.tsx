@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 export default function UtuTokenBalance(props: any) {
 
-  const utuTokenBalance = props.utuTokenBalance;
+  const utuTokenBalance = Number(props.utuTokenBalance);
 
   const connectUtuSocialMediaPlatformsUrl =
     process.env.REACT_APP_CONNECT_UTU_SOCIAL_MEDIA_PLATFORMS_URL;
@@ -27,7 +27,7 @@ export default function UtuTokenBalance(props: any) {
 
   return (
     <div>
-      Your UTU Token Balance is: {utuTokenBalance} UTU tokens
+      <span style={{ fontWeight: 'bold' }}>Your UTT:</span> {utuTokenBalance}
       {earnTokens()}
     </div>
   );

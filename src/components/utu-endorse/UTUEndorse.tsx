@@ -37,8 +37,13 @@ export default function UtuEndorse() {
   }
 
   useEffect(() => {
-    const _utuTokenBalance = utuTokenService.getBalance();
-    setUtuTokenBalance(_utuTokenBalance);
+    const getUttBalance = async () => {
+      const _utuTokenBalance = await utuTokenService.getBalance();
+      console.log('_utuTokenBalance', _utuTokenBalance);
+      setUtuTokenBalance(_utuTokenBalance);
+    }
+
+    getUttBalance();
   }, []);
 
   return (
@@ -63,10 +68,11 @@ export default function UtuEndorse() {
       <br /><hr /><br />
       <UTUTokenBalance utuTokenBalance={utuTokenBalance} />
       <br /><hr /><br />
-      <div >
+      <div>
+        <span>Add amount of UTT you want to Endorse: </span>
         <input
           disabled={utuTokenBalance === 0}
-          style={{ width: '80%' }}
+          style={{ width: '40%' }}
           className={appStyle.input}
           placeholder="Amount to Endorse"
           value={amountToEndorse} onChange={(event) => setAmountToEndorse(event.target.value)} />
