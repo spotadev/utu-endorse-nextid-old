@@ -11,10 +11,11 @@ import Home from './components/home/Home';
 import LinkXTwitter from './components/link-platform/x-twitter/LinkXTwitter';
 import LinkGithub from './components/link-platform/github/LinkGithub';
 import About from './components/about/About';
-import UtuEndorse from './components/find-nextid-to-endorse/FindNextIdToEndorseOrComment';
+
 import { IdsItem } from "./services/next-id/nextIdCheckAvatarService";
 import FindNextIdToEndorseOrComment from './components/find-nextid-to-endorse/FindNextIdToEndorseOrComment';
 import UtuComment from './components/utu-comment/UtuComment';
+import UtuEndorse from './components/utu-endorse/UtuEndorse';
 
 // =================================================================================================
 // Start: Create Global Context

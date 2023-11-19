@@ -35,6 +35,7 @@ export default function UtuEndorse() {
   useEffect(() => {
     // Get UTU token balance
     // setUtuTokenBalance();
+    console.log('idsItemToEndorse', idsItemToEndorse);
   }, []);
 
   return (
@@ -51,22 +52,20 @@ export default function UtuEndorse() {
           Back
         </Link>
       </div>
-      <div>
-        Note that when you endorse someone you will be doing so with UTU Tokens which you can get
-        for free.  The idea with the UTU trust network is that you earn UTU Tokens by linking
-        the connections of your social media network with UTU.  UTU is about trusting the opinions
-        of those in your network more than the opinions of those not in your network.
-        <br /><br />
-        Currently UTU supports Telegram.  More social connectors coming soon.  UTU pays bounty to
-        the community to develop further connectors.
-        <br /><br />
-        <UTUTokenBalance />
+      <div style={{ marginTop: '20px' }}>
+        The next.id you are endorsing:
+        <ShowNextId idsItem={idsItemToEndorse} />
       </div>
-      <ShowNextId idsItem={idsItemToEndorse} />
+      <br /><hr /><br />
+      <UTUTokenBalance />
+
+
+      {/*
       <TraitToEndorse setTraitFunction={setTrait} />
-      <div>
-        <button onClick={endorse}>Endorse / Comment on nextId DID</button>
-      </div>
+      */}
+      < div >
+        <button onClick={endorse}>Endorse nextId DID</button>
+      </div >
     </>
   );
 }

@@ -17,11 +17,13 @@ export default function GuiIdsItem(props: any) {
   } = useGlobalStateContext();
 
   const endorse = (idsItem: IdsItem) => {
+    console.log('idsItemToEndorse', idsItem);
     setIdsItemToEndorse(idsItem);
-    navigate('/utuEndorse')
+    navigate('/utuEndorse');
   }
 
   const comment = (idsItem: IdsItem) => {
+    console.log('Comment clicked');
     setIdsItemToComment(idsItem);
     navigate('/utuComment')
   }
