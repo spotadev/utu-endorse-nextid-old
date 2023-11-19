@@ -5,9 +5,9 @@ const utuTokenContractAddress =
   process.env.REACT_APP_UTU_TOKEN_CONTRACT_ADDRESS;
 
 const polygonChainId =
-  process.env.REACT_APP_POLYGON_CHAIN_ID
+  process.env.REACT_APP_POLYGON_CHAIN_ID;
 
-const getBalance = async () => {
+const getUttContract = async () => {
   if (!polygonChainId) {
     throw new Error('REACT_APP_POLYGON_CHAIN_ID missing from env file');
   }
@@ -26,15 +26,43 @@ const getBalance = async () => {
 
   const ethersProvider = new ethers.BrowserProvider(provider);
   const signer = await ethersProvider.getSigner();
-  const userAddress = signer.getAddress();
+  const connectedAddress = signer.getAddress();
 
   const uttContract =
     new ethers.Contract(utuTokenContractAddress, uttAbi.abi, ethersProvider);
 
-  const walletUTTBalance = await uttContract.balanceOf(userAddress);
+  return { uttContract, connectedAddress };
+}
+
+const getBalance = async () => {
+  const { uttContract, connectedAddress } = await getUttContract();
+  const walletUTTBalance = await uttContract.balanceOf(connectedAddress);
   return walletUTTBalance;
+}
+
+const endorse = async (
+  targetAddress: string,
+  amountToEndorse: number,
+  transactionId: number
+) => {
+  const { uttContract, connectedAddress } = await getUttContract();
+  const utuBalance = await uttContract.balanceOf(connectedAddress);
+
+  if (Number(utuBalance) < Number(amountToEndorse)) {
+    throw new Error("Insufficient UTU tokens");
+  }
+
+  const transaction = await uttContract.endorse(
+    targetAddress,
+    String(amountToEndorse),
+    transactionId
+  );
+
+  await transaction.wait();
+  return transaction;
 }
 
 export const utuTokenService = {
   getBalance,
+  endorse
 };
