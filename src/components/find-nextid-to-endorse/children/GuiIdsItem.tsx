@@ -16,13 +16,13 @@ export default function GuiIdsItem(props: any) {
     setIdsItemToComment
   } = useGlobalStateContext();
 
-  const endorse = (idsItem: IdsItem) => {
+  const utuEndorse = (idsItem: IdsItem) => {
     console.log('idsItemToEndorse', idsItem);
     setIdsItemToEndorse(idsItem);
     navigate('/utuEndorse');
   }
 
-  const comment = (idsItem: IdsItem) => {
+  const utuComment = (idsItem: IdsItem) => {
     console.log('Comment clicked');
     setIdsItemToComment(idsItem);
     navigate('/utuComment')
@@ -45,9 +45,9 @@ export default function GuiIdsItem(props: any) {
           ))
         }
         <div style={{ paddingTop: '20px' }}>
-          <button onClick={() => { endorse(idsItem) }}>Endorse</button>
+          <button onClick={() => { utuEndorse(idsItem) }}>UTU Endorse</button>
           &nbsp;&nbsp;
-          <button onClick={() => { comment(idsItem) }}>Comment</button>
+          <button onClick={() => { utuComment(idsItem) }}>UTU Comment</button>
         </div>
       </div>
     );

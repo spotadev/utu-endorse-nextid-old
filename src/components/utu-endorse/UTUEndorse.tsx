@@ -2,13 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { useGlobalStateContext } from '../../App';
 import ShowNextId from '../shared/show-next-id/ShowNextId';
-import TraitToEndorse from './children/TraitToEndorse';
 import { useAccount } from 'wagmi';
 import UTUTokenBalance from '../shared/UTUTokenBalance';
+import { utuTokenService } from '../../services/utu/utuTokenService';
 
 export default function UtuEndorse() {
 
   const [trait, setTrait] = useState<string | null>(null);
+  const [utuTokenBalance, setUtuTokenBalance] = useState<number>(0);
+
   const { address, isConnected } = useAccount();
 
   const {
@@ -33,9 +35,8 @@ export default function UtuEndorse() {
   }
 
   useEffect(() => {
-    // Get UTU token balance
-    // setUtuTokenBalance();
-    console.log('idsItemToEndorse', idsItemToEndorse);
+    const _utuTokenBalance = utuTokenService.getBalance();
+    setUtuTokenBalance(_utuTokenBalance);
   }, []);
 
   return (
@@ -48,16 +49,17 @@ export default function UtuEndorse() {
         <Link to={'/'}>
           Home
         </Link>
+        &nbsp;&nbsp;
         <Link to={'/findNextIdToEndorseOrComment'}>
           Back
         </Link>
       </div>
       <div style={{ marginTop: '20px' }}>
-        The next.id you are endorsing:
+        This is the next.id you are endorsing:
         <ShowNextId idsItem={idsItemToEndorse} />
       </div>
       <br /><hr /><br />
-      <UTUTokenBalance />
+      <UTUTokenBalance utuTokenBalance={utuTokenBalance} />
 
 
       {/*

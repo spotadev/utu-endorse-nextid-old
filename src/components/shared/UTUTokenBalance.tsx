@@ -1,18 +1,13 @@
 import { useEffect, useState } from "react";
 
-export default function UtuTokenBalance() {
+export default function UtuTokenBalance(props: any) {
+
+  const utuTokenBalance = props.utuTokenBalance;
 
   const connectSocialMediaPlatformsUrl = '';
-  const [utuTokenBalance, setUtuTokenBalance] = useState<number>(0);
-
-  const getUtuTokenBalance = () => {
-    return 0;
-  }
 
   useEffect(() => {
-    setUtuTokenBalance(getUtuTokenBalance());
-    // Get UTU token balance
-    // setUtuTokenBalance();
+
   }, []);
 
   return (
