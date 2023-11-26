@@ -4,19 +4,28 @@ import appStyle from '../../App.module.css';
 import { IdsItem, nextIdCheckAvatarService } from '../../services/next-id/nextIdCheckAvatarService';
 import SelectNextIdDID from './children/SelectNextIdDID';
 import ShowTestEthereumAddress from '../show-test-ethereum-address/ShowTestEthereumAddress';
+import { useGlobalStateContext } from '../../App';
 
 export default function FindNextIdToEndorseOrComment() {
 
-  const [platform, setPlatform] = useState<string>("");
-  let [handle, setHandle] = useState<string>("");
+  const {
+    findPlatform, setFindPlatform, findHandle, setFindHandle
+  } = useGlobalStateContext();
+
   const [idsItems, setIdsItems] = useState<IdsItem[] | null>(null);
+
+
+  const reset = () => {
+    setFindPlatform('');
+    setFindHandle('');
+  }
 
   const search = async () => {
     const exact = true;
 
     // This is a network call
     const avatarStatusResponse =
-      await nextIdCheckAvatarService.getAvatarStatus(handle, platform, exact);
+      await nextIdCheckAvatarService.getAvatarStatus(findHandle, findPlatform, exact);
 
     const idsItems = avatarStatusResponse.ids;
     setIdsItems(idsItems);
@@ -52,8 +61,8 @@ export default function FindNextIdToEndorseOrComment() {
         Select Platform:
         &nbsp;&nbsp;
         <select id="selectPlatform"
-          value={platform}
-          onChange={(event) => { setPlatform(event.target.value) }}
+          value={findPlatform}
+          onChange={(event) => { setFindPlatform(event.target.value) }}
           className={appStyle.input}
         >
           <option value="">Select...</option>
@@ -69,14 +78,18 @@ export default function FindNextIdToEndorseOrComment() {
         <input
           type="text"
           id="yourTextBox"
-          value={handle}
-          onChange={(event) => { setHandle(event.target.value) }}
+          value={findHandle}
+          onChange={(event) => { setFindHandle(event.target.value) }}
           className={appStyle.input}
           style={{ width: '400px' }}
         />
         &nbsp;&nbsp;
-        <button onClick={search} disabled={!(platform.length > 0 && handle.length > 0)}>Search</button>
-      </div>
+        <button onClick={search}
+          disabled={!(findPlatform.length > 0 && findHandle.length > 0)}>Search</button>
+        &nbsp;&nbsp;
+        <button onClick={reset}
+          disabled={!(findPlatform.length > 0 || findHandle.length > 0)}>Reset</button>
+      </div >
       <br /><hr /><br />
       <SelectNextIdDID idsItems={idsItems} />
       <br /><br /><hr />

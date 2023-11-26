@@ -35,6 +35,10 @@ export type GlobalState = {
   setIdsItemToEndorse: (c: IdsItem) => void;
   idsItemToComment: IdsItem | null;
   setIdsItemToComment: (c: IdsItem) => void;
+  findPlatform: string;
+  setFindPlatform: (c: string) => void;
+  findHandle: string;
+  setFindHandle: (c: string) => void;
 };
 
 export const SharedDataContext = createContext<GlobalState>({
@@ -51,7 +55,11 @@ export const SharedDataContext = createContext<GlobalState>({
   idsItemToEndorse: null,
   setIdsItemToEndorse: (c: IdsItem) => { },
   idsItemToComment: null,
-  setIdsItemToComment: (c: IdsItem) => { }
+  setIdsItemToComment: (c: IdsItem) => { },
+  findPlatform: '',
+  setFindPlatform: (c: string) => { },
+  findHandle: '',
+  setFindHandle: (c: string) => { },
 });
 
 export const useGlobalStateContext = () => {
@@ -106,6 +114,8 @@ function App() {
   const [xProofVerified, setXProofVerified] = useState<boolean>(false);
   const [idsItemToEndorse, setIdsItemToEndorse] = useState<IdsItem | null>(null);
   const [idsItemToComment, setIdsItemToComment] = useState<IdsItem | null>(null);
+  const [findPlatform, setFindPlatform] = useState<string>("");
+  const [findHandle, setFindHandle] = useState<string>("");
 
   return (
     <SharedDataContext.Provider value={{
@@ -115,7 +125,9 @@ function App() {
       avatarStatusResponse, setAvatarStatusResponse,
       xProofVerified, setXProofVerified,
       idsItemToEndorse, setIdsItemToEndorse,
-      idsItemToComment, setIdsItemToComment
+      idsItemToComment, setIdsItemToComment,
+      findPlatform, setFindPlatform,
+      findHandle, setFindHandle
     }}>
       <WagmiConfig config={wagmiConfig}>
         <div className={appStyle.centeredPage}>
