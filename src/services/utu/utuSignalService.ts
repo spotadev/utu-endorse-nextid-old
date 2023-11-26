@@ -54,6 +54,28 @@ const getAxiosRequestConfig = (utuBearerToken: string) => {
   }
 }
 
+const initEntity = (
+  targetAddress: string,
+  targetType: string,
+  accessToken: string
+) => {
+
+  const apiEntityAddress = 'core-api-v2/entity';
+  const fullUrl = `${utuBaseApiUrl}/${apiEntityAddress}`;
+
+  return axios.post(
+    `${fullUrl}`,
+    {
+      name: targetAddress,
+      type: targetType,
+      ids: {
+        uuid: targetAddress.toLowerCase()
+      }
+    },
+    getAxiosRequestConfig(accessToken)
+  );
+}
+
 const giveSignal = (
   utuBearerToken: string,
   targetAddress: string,
@@ -129,6 +151,7 @@ const getRanking = (
 export const utuSignalService = {
   loginToUtu,
   getRanking,
+  initEntity,
   giveSignal,
   getSignal,
 };

@@ -9,11 +9,13 @@ export default function UtuEndorse(props: any) {
   let title = props.title;
   const idsItem: IdsItem = props.idsItem;
 
-  let proofs: Proof[] = idsItem.proofs;
+  let proofs: Proof[] = idsItem?.proofs;
 
-  for (let proof of proofs) {
-    if (proof.is_valid) {
-      proofsToRender.push(proof);
+  if (proofs) {
+    for (let proof of proofs) {
+      if (proof.is_valid) {
+        proofsToRender.push(proof);
+      }
     }
   }
 

@@ -3,7 +3,6 @@ import appStyle from '../../App.module.css';
 import { Link } from 'react-router-dom';
 import { useGlobalStateContext } from '../../App';
 import ShowNextId from '../shared/show-next-id/ShowNextId';
-import { useAccount } from 'wagmi';
 import UTUTokenBalance from '../shared/utu-token-balance/UTUTokenBalance';
 import { utuTokenService } from '../../services/utu/utuTokenService';
 import { nextIdHelper } from '../../helpers/next.id/nextIdHelper';
@@ -13,14 +12,14 @@ export default function UtuEndorse() {
   const [transaction, setTransaction] = useState<any | null>(null);
   const [utuTokenBalance, setUtuTokenBalance] = useState<number>(0);
   const [amountToEndorse, setAmountToEndorse] = useState<string>('');
-
-  const { address, isConnected } = useAccount();
+  const [endorseClicked, setEndorseClicked] = useState<boolean>(false);
 
   const {
     idsItemToEndorse
   } = useGlobalStateContext();
 
-  const endorse = () => {
+  const endorse = async () => {
+    setEndorseClicked(true);
     const nextId = idsItemToEndorse?.avatar;
 
     if (!nextId) {
@@ -30,7 +29,7 @@ export default function UtuEndorse() {
     const transactionId = `{ nextId: ${nextId} }`;
 
     const transaction =
-      utuTokenService.endorse(targetAddress, Number(amountToEndorse), transactionId);
+      await utuTokenService.endorse(targetAddress, Number(amountToEndorse), transactionId);
 
     setTransaction(transaction);
   }
@@ -44,6 +43,32 @@ export default function UtuEndorse() {
 
     getUttBalance();
   }, []);
+
+  const getTransactionJSX = () => {
+    if (transaction) {
+      return (
+        <div style={{ paddingTop: '20px' }}>
+          <div>
+            Endorse Successful
+          </div>
+          <div style={{ paddingTop: '20px' }}>
+            Transaction Details:
+          </div>
+          <div style={{ paddingTop: '20px' }}>
+            {transaction}
+          </div>
+          <div style={{ paddingTop: '20px' }}>
+            <Link to={'/findNextIdToEndorseOrComment'}>
+              Back
+            </Link>
+          </div>
+        </div>
+      );
+    }
+    else {
+      return '';
+    }
+  }
 
   return (
     <>
@@ -59,6 +84,9 @@ export default function UtuEndorse() {
         <Link to={'/findNextIdToEndorseOrComment'}>
           Back
         </Link>
+      </div>
+      <div style={{ color: 'green', fontWeight: 'bold', paddingTop: '20px' }}>
+        Endorse User
       </div>
       <div style={{ marginTop: '20px' }}>
         This is the next.id you are endorsing:
@@ -77,9 +105,10 @@ export default function UtuEndorse() {
           value={amountToEndorse} onChange={(event) => setAmountToEndorse(event.target.value)} />
       </div>
       <div style={{ paddingTop: '20px' }}>
-        <button disabled={utuTokenBalance === 0 || !amountToEndorse}
+        <button disabled={utuTokenBalance === 0 || !amountToEndorse || endorseClicked}
           onClick={endorse}>Endorse nextId DID</button>
-      </div >
+      </div>
+      {getTransactionJSX()}
     </>
   );
 }
