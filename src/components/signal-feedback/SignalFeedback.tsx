@@ -19,7 +19,51 @@ export default function SignalFeedback(props: any) {
     setUtuBearerToken
   } = useGlobalStateContext()
 
+  const loginToUtu = async () => {
+    const authData: UtuAuthData = await utuSignalService.loginToUtu();
+    const accessToken = authData.access_token
+    return accessToken;
+  }
+
+  const getUttBalance = async () => {
+    const _utuTokenBalance = await utuTokenService.getBalance();
+    setUtuTokenBalance(_utuTokenBalance);
+  }
+
+  const getSignal = async () => {
+    if (!connectedAddress) {
+      throw new Error('Not connected to wallet');
+    }
+
+    let accessToken = utuBearerToken;
+    console.log('accessToken', accessToken);
+
+    if (accessToken) {
+      const nextId = idsItem?.avatar;
+
+      if (!nextId) {
+        throw new Error('idsItem missing');
+      }
+
+      const targetAddress: string = nextIdHelper.getEthereumAddress(nextId);
+
+      const signalResponse =
+        await utuSignalService.getSignal(accessToken, targetAddress, connectedAddress);
+
+      setSignalResponse(signalResponse);
+    }
+  }
+
+  const loginAndGetSignal = async () => {
+    await loginToUtu();
+    await getSignal();
+  }
+
   const getSignalJSX = () => {
+    if (!utuBearerToken) {
+      return '';
+    }
+
     if (signalResponse) {
       return (
         <div style={{ marginTop: '20px', color: 'maroon' }}>
@@ -39,42 +83,25 @@ export default function SignalFeedback(props: any) {
     }
   }
 
-  const loginToUtu = async () => {
-    const authData: UtuAuthData = await utuSignalService.loginToUtu();
-    const accessToken = authData.access_token
-    return accessToken;
-  }
-
-  const getUttBalance = async () => {
-    const _utuTokenBalance = await utuTokenService.getBalance();
-    setUtuTokenBalance(_utuTokenBalance);
-  }
-
-  const getSignal = async () => {
-    if (!connectedAddress) {
-      throw new Error('Not connected to wallet');
+  const getLoginToUtuJSX = () => {
+    if (!utuBearerToken) {
+      return (
+        <>
+          <div>
+            In order to get UTU Signal Feedback you need to login to UTU using your Wallet.
+          </div>
+          <div style={{ marginTop: '20px' }}>
+            Click the button to login.  It will ask your wallet to sign some text.
+          </div>
+          <div style={{ marginTop: '20px' }}>
+            <button onClick={loginAndGetSignal}>Login to UTU</button>
+          </div>
+        </>
+      );
     }
-
-    let accessToken = utuBearerToken;
-
-    // // First Network Call
-    if (!accessToken) {
-      accessToken = await loginToUtu();
-      setUtuBearerToken(accessToken);
+    else {
+      return '';
     }
-
-    const nextId = idsItem?.avatar;
-
-    if (!nextId) {
-      throw new Error('idsItem missing');
-    }
-
-    const targetAddress: string = nextIdHelper.getEthereumAddress(nextId);
-
-    const signalResponse =
-      await utuSignalService.getSignal(accessToken, targetAddress, connectedAddress);
-
-    setSignalResponse(signalResponse);
   }
 
   useEffect(() => {
@@ -98,7 +125,7 @@ export default function SignalFeedback(props: any) {
         </Link>
       </div>
       <div style={{ color: 'green', fontWeight: 'bold', paddingTop: '20px' }}>
-        See Signal Feedback
+        See UTU Signal Feedback
       </div>
       <div style={{ marginTop: '20px' }}>
         This is the next.id you are seeing signal on:
@@ -107,6 +134,7 @@ export default function SignalFeedback(props: any) {
       <br /><hr /><br />
       <UTUTokenBalance utuTokenBalance={utuTokenBalance} />
       <br /><hr />
+      {getLoginToUtuJSX()}
       {getSignalJSX()}
     </>
   );

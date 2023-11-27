@@ -31,7 +31,7 @@ const loginToUtu = async (): Promise<UtuAuthData> => {
   const signer = await ethersProvider.getSigner();
   const address = await signer.getAddress();
   const signature = await signer.signMessage("Sign in at UTU");
-  const apiVerifyAddress = 'core-api-v2/identity-api/verify-address';
+  const apiVerifyAddress = 'identity-api/verify-address';
   const fullUrl = `${utuBaseApiUrl}/${apiVerifyAddress}`
 
   return axios.post(
