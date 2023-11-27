@@ -9,15 +9,21 @@ import { useGlobalStateContext } from '../../App';
 export default function FindNextIdToEndorseOrComment() {
 
   const {
-    findPlatform, setFindPlatform, findHandle, setFindHandle
+    findPlatform,
+    setFindPlatform,
+    findHandle,
+    setFindHandle,
+    idsItem,
+    setIdsItem,
+    idsItems,
+    setIdsItems
   } = useGlobalStateContext();
-
-  const [idsItems, setIdsItems] = useState<IdsItem[] | null>(null);
-
 
   const reset = () => {
     setFindPlatform('');
     setFindHandle('');
+    setIdsItems([]);
+    setIdsItem(null);
   }
 
   const search = async () => {

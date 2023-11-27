@@ -33,7 +33,9 @@ export type GlobalState = {
   xProofVerified: boolean;
   setXProofVerified: (c: boolean) => void;
   idsItem: IdsItem | null;
-  setIdsItem: (c: IdsItem) => void;
+  setIdsItem: (c: IdsItem | null) => void;
+  idsItems: IdsItem[];
+  setIdsItems: (c: IdsItem[]) => void;
   findPlatform: string;
   setFindPlatform: (c: string) => void;
   findHandle: string;
@@ -54,7 +56,9 @@ export const SharedDataContext = createContext<GlobalState>({
   xProofVerified: false,
   setXProofVerified: (c: boolean) => { },
   idsItem: null,
-  setIdsItem: (c: IdsItem) => { },
+  setIdsItem: (c: IdsItem | null) => { },
+  idsItems: [],
+  setIdsItems: () => { },
   findPlatform: '',
   setFindPlatform: (c: string) => { },
   findHandle: '',
@@ -114,6 +118,7 @@ function App() {
   const [avatarStatusResponse, setAvatarStatusResponse] = useState<AvatarStatusResponse | null>(null);
   const [xProofVerified, setXProofVerified] = useState<boolean>(false);
   const [idsItem, setIdsItem] = useState<IdsItem | null>(null);
+  const [idsItems, setIdsItems] = useState<IdsItem[]>([]);
   const [findPlatform, setFindPlatform] = useState<string>("");
   const [findHandle, setFindHandle] = useState<string>("");
   const [utuBearerToken, setUtuBearerToken] = useState<string | null>("");
@@ -126,6 +131,7 @@ function App() {
       avatarStatusResponse, setAvatarStatusResponse,
       xProofVerified, setXProofVerified,
       idsItem, setIdsItem,
+      idsItems, setIdsItems,
       findPlatform, setFindPlatform,
       findHandle, setFindHandle,
       utuBearerToken, setUtuBearerToken

@@ -8,13 +8,8 @@ import { UtuAuthData, utuSignalService } from "../../services/utu/utuSignalServi
 import { useAccount } from "wagmi";
 import { nextIdHelper } from "../../helpers/next.id/nextIdHelper";
 
-
-
-
 export default function SignalFeedback(props: any) {
-
   const { address: connectedAddress, isConnected } = useAccount();
-
   const [utuTokenBalance, setUtuTokenBalance] = useState<number>(0);
   const [signalResponse, setSignalResponse] = useState<any>(null);
 
