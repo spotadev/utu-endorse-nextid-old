@@ -21,7 +21,7 @@ export default function UtuComment() {
   const [saveCommentClicked, setSaveCommentClicked] = useState<boolean>(false);
 
   const {
-    idsItemToComment
+    idsItem
   } = useGlobalStateContext()
 
   const loginToUtu = () => {
@@ -56,7 +56,7 @@ export default function UtuComment() {
 
   const saveComment = async () => {
     setSaveCommentClicked(true);
-    const nextId = idsItemToComment?.avatar;
+    const nextId = idsItem?.avatar;
 
     if (!nextId) {
       throw new Error('idsItemToEndorse missing');
@@ -141,7 +141,7 @@ export default function UtuComment() {
       </div>
       <div style={{ marginTop: '20px' }}>
         This is the next.id you are commenting on:
-        <ShowNextId idsItem={idsItemToComment} />
+        <ShowNextId idsItem={idsItem} />
       </div>
       <br /><hr /><br />
       <UTUTokenBalance utuTokenBalance={utuTokenBalance} />

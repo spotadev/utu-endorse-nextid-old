@@ -16,6 +16,7 @@ import { IdsItem } from "./services/next-id/nextIdCheckAvatarService";
 import FindNextIdToEndorseOrComment from './components/find-nextid-to-endorse/FindNextIdToEndorseOrComment';
 import UtuComment from './components/utu-comment/UtuComment';
 import UtuEndorse from './components/utu-endorse/UtuEndorse';
+import SignalFeedback from './components/signal-feedback/SignalFeedback';
 
 // =================================================================================================
 // Start: Create Global Context
@@ -31,10 +32,8 @@ export type GlobalState = {
   setAvatarStatusResponse: (c: AvatarStatusResponse) => void;
   xProofVerified: boolean;
   setXProofVerified: (c: boolean) => void;
-  idsItemToEndorse: IdsItem | null;
-  setIdsItemToEndorse: (c: IdsItem) => void;
-  idsItemToComment: IdsItem | null;
-  setIdsItemToComment: (c: IdsItem) => void;
+  idsItem: IdsItem | null;
+  setIdsItem: (c: IdsItem) => void;
   findPlatform: string;
   setFindPlatform: (c: string) => void;
   findHandle: string;
@@ -52,10 +51,8 @@ export const SharedDataContext = createContext<GlobalState>({
   setAvatarStatusResponse: (c: AvatarStatusResponse) => { },
   xProofVerified: false,
   setXProofVerified: (c: boolean) => { },
-  idsItemToEndorse: null,
-  setIdsItemToEndorse: (c: IdsItem) => { },
-  idsItemToComment: null,
-  setIdsItemToComment: (c: IdsItem) => { },
+  idsItem: null,
+  setIdsItem: (c: IdsItem) => { },
   findPlatform: '',
   setFindPlatform: (c: string) => { },
   findHandle: '',
@@ -112,8 +109,7 @@ function App() {
   const [publicKey, setPublicKey] = useState<string | null>(null);
   const [avatarStatusResponse, setAvatarStatusResponse] = useState<AvatarStatusResponse | null>(null);
   const [xProofVerified, setXProofVerified] = useState<boolean>(false);
-  const [idsItemToEndorse, setIdsItemToEndorse] = useState<IdsItem | null>(null);
-  const [idsItemToComment, setIdsItemToComment] = useState<IdsItem | null>(null);
+  const [idsItem, setIdsItem] = useState<IdsItem | null>(null);
   const [findPlatform, setFindPlatform] = useState<string>("");
   const [findHandle, setFindHandle] = useState<string>("");
 
@@ -124,8 +120,7 @@ function App() {
       publicKey, setPublicKey,
       avatarStatusResponse, setAvatarStatusResponse,
       xProofVerified, setXProofVerified,
-      idsItemToEndorse, setIdsItemToEndorse,
-      idsItemToComment, setIdsItemToComment,
+      idsItem, setIdsItem,
       findPlatform, setFindPlatform,
       findHandle, setFindHandle
     }}>
@@ -142,6 +137,7 @@ function App() {
               <Route path="/findNextIdToEndorseOrComment" element={<FindNextIdToEndorseOrComment />} />
               <Route path="/utuEndorse" element={<UtuEndorse />} />
               <Route path="/utuComment" element={<UtuComment />} />
+              <Route path="/signalFeedback" element={<SignalFeedback />} />
             </Routes>
           </BrowserRouter>
         </div>

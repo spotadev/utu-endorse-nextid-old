@@ -12,20 +12,23 @@ export default function GuiIdsItem(props: any) {
 
 
   const {
-    setIdsItemToEndorse,
-    setIdsItemToComment
+    setIdsItem,
   } = useGlobalStateContext();
 
   const utuEndorse = (idsItem: IdsItem) => {
-    console.log('idsItemToEndorse', idsItem);
-    setIdsItemToEndorse(idsItem);
+
+    setIdsItem(idsItem);
     navigate('/utuEndorse');
   }
 
   const utuComment = (idsItem: IdsItem) => {
-    console.log('Comment clicked');
-    setIdsItemToComment(idsItem);
+    setIdsItem(idsItem);
     navigate('/utuComment')
+  }
+
+  const seeSignalFeedback = (idsItem: IdsItem) => {
+    setIdsItem(idsItem);
+    navigate('/signalFeedback')
   }
 
   if (idsItem) {
@@ -48,6 +51,8 @@ export default function GuiIdsItem(props: any) {
           <button onClick={() => { utuEndorse(idsItem) }}>UTU Endorse</button>
           &nbsp;&nbsp;
           <button onClick={() => { utuComment(idsItem) }}>UTU Comment</button>
+          &nbsp;&nbsp;
+          <button onClick={() => { seeSignalFeedback(idsItem) }}>See Signal Feedback</button>
         </div>
       </div>
     );

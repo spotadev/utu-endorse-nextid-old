@@ -15,12 +15,12 @@ export default function UtuEndorse() {
   const [endorseClicked, setEndorseClicked] = useState<boolean>(false);
 
   const {
-    idsItemToEndorse
+    idsItem
   } = useGlobalStateContext();
 
   const endorse = async () => {
     setEndorseClicked(true);
-    const nextId = idsItemToEndorse?.avatar;
+    const nextId = idsItem?.avatar;
 
     if (!nextId) {
       throw new Error('idsItemToEndorse missing');
@@ -90,7 +90,7 @@ export default function UtuEndorse() {
       </div>
       <div style={{ marginTop: '20px' }}>
         This is the next.id you are endorsing:
-        <ShowNextId idsItem={idsItemToEndorse} />
+        <ShowNextId idsItem={idsItem} />
       </div>
       <br /><hr /><br />
       <UTUTokenBalance utuTokenBalance={utuTokenBalance} />
