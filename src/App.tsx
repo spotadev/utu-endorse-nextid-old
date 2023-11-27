@@ -38,6 +38,8 @@ export type GlobalState = {
   setFindPlatform: (c: string) => void;
   findHandle: string;
   setFindHandle: (c: string) => void;
+  utuBearerToken: string | null;
+  setUtuBearerToken: (c: string) => void;
 };
 
 export const SharedDataContext = createContext<GlobalState>({
@@ -57,6 +59,8 @@ export const SharedDataContext = createContext<GlobalState>({
   setFindPlatform: (c: string) => { },
   findHandle: '',
   setFindHandle: (c: string) => { },
+  utuBearerToken: null,
+  setUtuBearerToken: (c: string) => { }
 });
 
 export const useGlobalStateContext = () => {
@@ -112,6 +116,7 @@ function App() {
   const [idsItem, setIdsItem] = useState<IdsItem | null>(null);
   const [findPlatform, setFindPlatform] = useState<string>("");
   const [findHandle, setFindHandle] = useState<string>("");
+  const [utuBearerToken, setUtuBearerToken] = useState<string | null>("");
 
   return (
     <SharedDataContext.Provider value={{
@@ -122,7 +127,8 @@ function App() {
       xProofVerified, setXProofVerified,
       idsItem, setIdsItem,
       findPlatform, setFindPlatform,
-      findHandle, setFindHandle
+      findHandle, setFindHandle,
+      utuBearerToken, setUtuBearerToken
     }}>
       <WagmiConfig config={wagmiConfig}>
         <div className={appStyle.centeredPage}>

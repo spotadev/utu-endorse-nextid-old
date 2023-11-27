@@ -5,7 +5,7 @@ import ShowNextId from '../shared/show-next-id/ShowNextId';
 import { useGlobalStateContext } from '../../App';
 import UTUTokenBalance from '../shared/utu-token-balance/UTUTokenBalance';
 import { utuTokenService } from '../../services/utu/utuTokenService';
-import { utuSignalService } from '../../services/utu/utuSignalService';
+import { UtuAuthData, utuSignalService } from '../../services/utu/utuSignalService';
 import { nextIdHelper } from '../../helpers/next.id/nextIdHelper';
 import { useAccount } from 'wagmi';
 import { access } from 'fs';
@@ -21,11 +21,15 @@ export default function UtuComment() {
   const [saveCommentClicked, setSaveCommentClicked] = useState<boolean>(false);
 
   const {
-    idsItem
+    idsItem,
+    utuBearerToken,
+    setUtuBearerToken
   } = useGlobalStateContext()
 
-  const loginToUtu = () => {
-    return '';
+  const loginToUtu = async () => {
+    const authData: UtuAuthData = await utuSignalService.loginToUtu();
+    const accessToken = authData.access_token
+    return accessToken;
   }
 
   const initEntity = async (
@@ -59,15 +63,20 @@ export default function UtuComment() {
     const nextId = idsItem?.avatar;
 
     if (!nextId) {
-      throw new Error('idsItemToEndorse missing');
+      throw new Error('idsItem missing');
     }
 
     if (!address) {
       throw new Error('Not connected to wallet');
     }
 
+    let accessToken = utuBearerToken;
+
     // First Network Call
-    const accessToken = await loginToUtu();
+    if (!accessToken) {
+      accessToken = await loginToUtu();
+      setUtuBearerToken(accessToken);
+    }
 
     const targetAddress: string = nextIdHelper.getEthereumAddress(nextId);
     const targetType: string = 'next-did';

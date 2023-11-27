@@ -4,28 +4,50 @@ import { utuTokenService } from "../../services/utu/utuTokenService";
 import { Link } from "react-router-dom";
 import ShowNextId from "../shared/show-next-id/ShowNextId";
 import UTUTokenBalance from "../shared/utu-token-balance/UTUTokenBalance";
-import { utuSignalService } from "../../services/utu/utuSignalService";
+import { UtuAuthData, utuSignalService } from "../../services/utu/utuSignalService";
+import { useAccount } from "wagmi";
+import { nextIdHelper } from "../../helpers/next.id/nextIdHelper";
 
 
 
 
 export default function SignalFeedback(props: any) {
 
+  const { address: connectedAddress, isConnected } = useAccount();
+
   const [utuTokenBalance, setUtuTokenBalance] = useState<number>(0);
+  const [signalResponse, setSignalResponse] = useState<any>(null);
 
   const {
-    idsItem
+    idsItem,
+    utuBearerToken,
+    setUtuBearerToken
   } = useGlobalStateContext()
 
   const getSignalJSX = () => {
-    return (
-      <div style={{ marginTop: '20px', color: 'maroon' }}>
-        No Signal
-        <Link to={'/findNextIdToEndorseOrComment'}> -
-          Try Searching for another next DID
-        </Link>
-      </div>
-    );
+    if (signalResponse) {
+      return (
+        <div style={{ marginTop: '20px', color: 'maroon' }}>
+          Signal Respone: {signalResponse}
+        </div>
+      );
+    }
+    else {
+      return (
+        <div style={{ marginTop: '20px', color: 'maroon' }}>
+          No Signal
+          <Link to={'/findNextIdToEndorseOrComment'}> -
+            Try Searching for another next DID
+          </Link>
+        </div>
+      );
+    }
+  }
+
+  const loginToUtu = async () => {
+    const authData: UtuAuthData = await utuSignalService.loginToUtu();
+    const accessToken = authData.access_token
+    return accessToken;
   }
 
   const getUttBalance = async () => {
@@ -34,10 +56,30 @@ export default function SignalFeedback(props: any) {
   }
 
   const getSignal = async () => {
-    const utuBearerToken = '';
-    const targetAddress = '';
-    const connectedAddress = '';
-    // const response = await utuSignalService.getSignal(utuBearerToken, targetAddress, connectedAddress);
+    if (!connectedAddress) {
+      throw new Error('Not connected to wallet');
+    }
+
+    let accessToken = utuBearerToken;
+
+    // // First Network Call
+    if (!accessToken) {
+      accessToken = await loginToUtu();
+      setUtuBearerToken(accessToken);
+    }
+
+    const nextId = idsItem?.avatar;
+
+    if (!nextId) {
+      throw new Error('idsItem missing');
+    }
+
+    const targetAddress: string = nextIdHelper.getEthereumAddress(nextId);
+
+    const signalResponse =
+      await utuSignalService.getSignal(accessToken, targetAddress, connectedAddress);
+
+    setSignalResponse(signalResponse);
   }
 
   useEffect(() => {
