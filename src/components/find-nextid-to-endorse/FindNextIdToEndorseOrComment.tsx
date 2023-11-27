@@ -43,10 +43,11 @@ export default function FindNextIdToEndorseOrComment() {
         </Link>
       </div>
       <div style={{ color: 'green', fontWeight: 'bold', paddingTop: '20px' }}>
-        UTU Endorse / Comment - Find Next.id
+        "UTU Endorse / Comment / See Signal"
       </div>
       <div style={{ paddingTop: '20px' }}>
-        To Endorse a next.id DID as having a certain skill you need to first of all find the DID.
+        To Endorse, add a comment or see signal for a  next.id DID you need to first of all find
+        the DID.
         <br /><br />
         To find the DID:
         <ul>

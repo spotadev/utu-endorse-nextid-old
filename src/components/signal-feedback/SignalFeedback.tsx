@@ -4,6 +4,7 @@ import { utuTokenService } from "../../services/utu/utuTokenService";
 import { Link } from "react-router-dom";
 import ShowNextId from "../shared/show-next-id/ShowNextId";
 import UTUTokenBalance from "../shared/utu-token-balance/UTUTokenBalance";
+import { utuSignalService } from "../../services/utu/utuSignalService";
 
 
 
@@ -16,13 +17,32 @@ export default function SignalFeedback(props: any) {
     idsItem
   } = useGlobalStateContext()
 
-  useEffect(() => {
-    const getUttBalance = async () => {
-      const _utuTokenBalance = await utuTokenService.getBalance();
-      setUtuTokenBalance(_utuTokenBalance);
-    }
+  const getSignalJSX = () => {
+    return (
+      <div style={{ marginTop: '20px', color: 'maroon' }}>
+        No Signal
+        <Link to={'/findNextIdToEndorseOrComment'}> -
+          Try Searching for another next DID
+        </Link>
+      </div>
+    );
+  }
 
+  const getUttBalance = async () => {
+    const _utuTokenBalance = await utuTokenService.getBalance();
+    setUtuTokenBalance(_utuTokenBalance);
+  }
+
+  const getSignal = async () => {
+    const utuBearerToken = '';
+    const targetAddress = '';
+    const connectedAddress = '';
+    // const response = await utuSignalService.getSignal(utuBearerToken, targetAddress, connectedAddress);
+  }
+
+  useEffect(() => {
     getUttBalance();
+    getSignal();
   }, []);
 
   return (
@@ -41,7 +61,7 @@ export default function SignalFeedback(props: any) {
         </Link>
       </div>
       <div style={{ color: 'green', fontWeight: 'bold', paddingTop: '20px' }}>
-        See Signal
+        See Signal Feedback
       </div>
       <div style={{ marginTop: '20px' }}>
         This is the next.id you are seeing signal on:
@@ -49,10 +69,8 @@ export default function SignalFeedback(props: any) {
       </div>
       <br /><hr /><br />
       <UTUTokenBalance utuTokenBalance={utuTokenBalance} />
-      <br /><hr /><br />
-      <div style={{ marginTop: '20px' }}>
-
-      </div>
+      <br /><hr />
+      {getSignalJSX()}
     </>
   );
 }
