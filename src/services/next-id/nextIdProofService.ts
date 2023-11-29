@@ -36,7 +36,13 @@ export default interface ProofPayloadResponse {
 const getProofPayloadResponse =
   async (twitterHandle: string, publicKey: string): Promise<ProofPayloadResponse> => {
 
-    const baseUrl = 'https://proof-service.next.id';
+    // const baseUrl = 'https://proof-service.next.id';
+    const baseUrl = process.env.REACT_APP_PROOF_SERVICE_BASE_URL;
+
+    if (!baseUrl) {
+      throw new Error('Could not read env properties');
+    }
+
     const url = '/v1/proof/payload';
     const accessControlAllowOrigin = false;
     const axios = axiosHelper.createUnsecuredAxiosInstance(baseUrl, accessControlAllowOrigin);
@@ -74,12 +80,14 @@ const getProofPayloadResponse =
 const getNextIdProofPayload =
   async (
     twitterHandle: string,
+    setPublicKeyFunction: any
   ): Promise<ProofPayloadResponse> => {
 
     const message = 'next.id rocks';
     const signature = await signMessage({ message: message });
     const messageHash = ethers.hashMessage(message);
     const recoveredPublicKey = SigningKey.recoverPublicKey(messageHash, signature);
+    setPublicKeyFunction(recoveredPublicKey);
 
     const proofPayloadResponse: ProofPayloadResponse =
       await getProofPayloadResponse(twitterHandle, recoveredPublicKey);
@@ -88,7 +96,7 @@ const getNextIdProofPayload =
     console.log('messageHash', messageHash);
     console.log('recoveredPublicKey', recoveredPublicKey);
     console.log('proofPayloadResponse', proofPayloadResponse);
-    return proofPayloadResponse;
+    return proofPayloadResponse ;
   }
 
 

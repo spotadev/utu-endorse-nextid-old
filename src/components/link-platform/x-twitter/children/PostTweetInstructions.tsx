@@ -55,7 +55,7 @@ export default function PostTweetInstructions() {
   const verify = async () => {
     if (!xProofPayloadResponse || !xHandle || !publicKey) {
       const errrorMessage =
-        'Expecting all of thse to be populated: ' +
+        'Expecting all of these to be populated: ' +
         `proofPayloadResponse: ${xProofPayloadResponse}, ` +
         `xHandle: ${xHandle}, publicKey: ${publicKey}`;
 
