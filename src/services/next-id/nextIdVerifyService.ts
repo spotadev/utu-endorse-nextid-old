@@ -17,7 +17,7 @@ const verifyProof = async (
     }
   };
 
-  const createdAt: number = new Date().getTime();
+  const createdAt: string = new Date().getTime() + '';
 
   const request =
   {

@@ -96,7 +96,7 @@ const getNextIdProofPayload =
     console.log('messageHash', messageHash);
     console.log('recoveredPublicKey', recoveredPublicKey);
     console.log('proofPayloadResponse', proofPayloadResponse);
-    return proofPayloadResponse ;
+    return proofPayloadResponse;
   }
 
 
