@@ -25,9 +25,13 @@ export default function PostTweetInstructions() {
   const [signedMessageBase64Tweet, setSignedMessageBase64Tweet] = useState<string | null>(null);
   const [lastLineTweet, setLastLineTweet] = useState<string | null>(null);
 
+  // https://x.com/JohnDic94329223/status/1731172325096087575?s=20
   const getNumberAtEndTweetUrl = (tweetUrl: string) => {
     const pathParts = tweetUrl.split("/");
     const number = pathParts[pathParts.length - 1];
+
+
+
     return number;
   }
 
@@ -97,7 +101,7 @@ export default function PostTweetInstructions() {
     })();
   }, [xProofPayloadResponse]);
 
-  if (xProofPayloadResponse && !xProofVerified) {
+  const getSendTweetJSX = () => {
     return (
       <>
         <div>
@@ -115,7 +119,7 @@ export default function PostTweetInstructions() {
           {lastLineTweet}
         </div >
         <div style={{ paddingTop: '20px' }}>
-          Once you have sent the tweet, paste the web url of the newly created tweet into the box
+          Once you have sent the tweet. Click the share tweet, paste the web url of the newly created tweet into the box
           below and press the Verify Button.
         </div>
         <div style={{ paddingTop: '20px' }}>
@@ -132,11 +136,17 @@ export default function PostTweetInstructions() {
       </>
     );
   }
+
+  const testShowJSX = false;
+
+  if (testShowJSX || xProofPayloadResponse && !xProofVerified) {
+    return getSendTweetJSX();
+  }
   else if (xProofVerified) {
     return (
       <>
         <span style={{ fontWeight: 'bold' }}>Step 2: </span>
-        Send Tweet and Paste URL - Handle added successfullt to next.id DID
+        Send Tweet and Paste URL - Handle added successfully to next.id DID
       </>
     );
   }
