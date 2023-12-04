@@ -1,0 +1,57 @@
+========================================================================================================================
+
+https://proof-service.nextnext.id/v1/proof/payload
+
+Request:
+
+{
+  "action": "create",
+  "platform": "twitter",
+  "identity": "@JohnDic94329223",
+  "public_key": "0x046ca64e70760e7635e10161095693abb08e9548ff84bed952fc08ce3ccc196736383d1673f699625e78080b9072d433bbac69e8f81d3430d9746615b69d9e9924"
+}
+
+Response:
+
+{
+    "post_content": {
+        "default": "🎭 Verify @@JohnDic94329223 with @NextDotID.\nSig: %SIG_BASE64%\nMisc: 7608c173-8c67-4036-912d-8e88047d004d|1701673106|",
+        "en_US": "🎭 Verify @@JohnDic94329223 with @NextDotID.\nSig: %SIG_BASE64%\nMisc: 7608c173-8c67-4036-912d-8e88047d004d|1701673106|",
+        "zh_CN": "🎭 由 @NextDotID 验证 @@JohnDic94329223 。\nSig: %SIG_BASE64%\n其它信息: 7608c173-8c67-4036-912d-8e88047d004d|1701673106|"
+    },
+    "sign_payload": "{\"action\":\"create\",\"created_at\":\"1701673106\",\"identity\":\"@johndic94329223\",\"platform\":\"twitter\",\"prev\":null,\"uuid\":\"7608c173-8c67-4036-912d-8e88047d004d\"}",
+    "uuid": "7608c173-8c67-4036-912d-8e88047d004d",
+    "created_at": "1701673106"
+}
+
+========================================================================================================================
+
+Twitter Link:
+
+https://twitter.com/JohnDic94329223/status/1731568812988739847?s=20
+
+========================================================================================================================
+
+https://proof-service.next.id/v1/proof
+
+Request:
+
+{
+  "action": "create",
+  "platform": "twitter",
+  "identity": "@JohnDic94329223",
+  "public_key": "0x046ca64e70760e7635e10161095693abb08e9548ff84bed952fc08ce3ccc196736383d1673f699625e78080b9072d433bbac69e8f81d3430d9746615b69d9e9924",
+  "proof_location": "1731568812988739847",
+  "extra": {},
+  "uuid": "7608c173-8c67-4036-912d-8e88047d004d",
+  "created_at": "1701673704495"
+}
+
+Response:
+
+{
+    "message": "tweet is not sent by this account.: tweet is not sent by this account."
+}
+
+========================================================================================================================
+
