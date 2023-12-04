@@ -6,9 +6,15 @@ const verifyProof = async (
   numberAtEndTweetUrl: string,
   uuid: string
 ): Promise<void> => {
-  const baseUrl = 'https://proof-service.next.id';
+  // const baseUrl = 'https://proof-service.next.id';
+  const baseUrl = process.env.REACT_APP_PROOF_SERVICE_BASE_URL;
   const url = '/v1/proof';
   const accessControlAllowOrigin = false;
+
+  if (! baseUrl){
+    throw new Error('Could not read env properties');
+  }
+
   const axios = axiosHelper.createUnsecuredAxiosInstance(baseUrl, accessControlAllowOrigin);
 
   let config = {
