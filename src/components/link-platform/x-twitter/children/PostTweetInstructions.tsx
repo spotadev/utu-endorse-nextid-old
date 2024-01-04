@@ -42,18 +42,31 @@ export default function PostTweetInstructions() {
     return number;
   }
 
+  const isBase64 = (str: string) => {
+    try {
+      return btoa(atob(str)) == str;
+    } catch (err) {
+      return false;
+    }
+  }
+
   const createTweet = (
     signedMessage: string | undefined, proofPayloadResponse: ProofPayloadResponse
   ): { firstLine: string, signedMessageBase64: string, lastLine: string } | null => {
     if (signedMessage) {
       console.log('signedMessage', signedMessage);
 
-      const hexStringWithoutPrefix =
-        signedMessage.startsWith('0x') ? signedMessage.slice(2) : signedMessage;
+      const isBase64Boolean = isBase64(signedMessage);
+      console.log('isBase64Boolean', isBase64Boolean);
 
-      const buffer = Buffer.from(hexStringWithoutPrefix, 'hex');
-      const signedMessageBase64 = buffer.toString('base64');
-      console.log('signedMessageBase64', signedMessageBase64);
+      // const hexStringWithoutPrefix =
+      //   signedMessage.startsWith('0x') ? signedMessage.slice(2) : signedMessage;
+
+      // const buffer = Buffer.from(hexStringWithoutPrefix, 'hex');
+      // const signedMessageBase64 = buffer.toString('base64');
+      // const signedMessageBase64 = Buffer.from(signedMessage, 'hex').toString('base64');
+      const signedMessageBase64 = signedMessage;
+      console.log('signedMessageBase64[', signedMessageBase64);
       const firstLine = `🎭 Verifying my Twitter ID @${xHandle} for @NextDotID.`;
       const lastLine = 'Next.ID YOUR DIGITAL IDENTITIES IN ONE PLACE';
       return { firstLine, signedMessageBase64, lastLine };
@@ -109,10 +122,31 @@ export default function PostTweetInstructions() {
   useEffect(() => {
     (async () => {
       if (xProofPayloadResponse) {
-        const signedData = await signMessage({ message: xProofPayloadResponse.sign_payload });
+        // const signedData = await signMessage({ message: xProofPayloadResponse.sign_payload });
+
+        const _window: any = window;
+        const provider = _window.ethereum;
+
+        var selectedAddress = provider.selectedAddress;
+        console.log('selectedAddress', selectedAddress);
+
+        const signedData = await provider
+          .request({
+            method: 'personal_sign',
+            params: [xProofPayloadResponse.sign_payload, selectedAddress],
+          })
+
+        console.log('xProofPayloadResponse.sign_payload', xProofPayloadResponse.sign_payload);
+
+        console.log('signedData', signedData);
+
+        const signatureWithoutPrefix = signedData.slice(2);
+        const buffer = Buffer.from(signatureWithoutPrefix, 'hex');
+        const base64String = buffer.toString('base64');
+        console.log('base64String', base64String);
 
         const result: { firstLine: string, signedMessageBase64: string, lastLine: string } | null =
-          createTweet(signedData, xProofPayloadResponse);
+          createTweet(base64String, xProofPayloadResponse);
 
         if (result) {
           const { firstLine, signedMessageBase64, lastLine } = result;

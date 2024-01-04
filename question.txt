@@ -1,0 +1,134 @@
+Hi Nyk,
+
+I have been blocked on trying to verify a tweet.
+
+I am creating a front end web app which has no backend so cannot store private keys in it.  Instead
+I want to use metamask.
+
+This is my code to retrieve the public key from metamask:
+  
+    Imports:
+      import { SigningKey, ethers } from "ethers";
+      import { signMessage } from '@wagmi/core'
+
+    Code:
+
+      const message = 'next.id rocks';
+      const signature = await signMessage({ message: message });
+      const messageHash = ethers.hashMessage(message);
+      const recoveredPublicKey = SigningKey.recoverPublicKey(messageHash, signature);
+
+It pops up metamask to sign the message.
+
+Having got the public key (recoveredPublicKey) I can then make a POST call to:
+
+     https://proof-service.nextnext.id/v1/proof/payload
+
+with payload:
+
+  {
+    "action": "create",
+    "platform": "twitter",
+    "identity": "JohnDic94329223",
+    "public_key": "0x046ca64e70760e7635e10161095693abb08e9548ff84bed952fc08ce3ccc196736383d1673f699625e78080b9072d433bbac69e8f81d3430d9746615b69d9e9924"
+  } 
+
+I get back:
+
+   {
+    "post_content": {
+        "default": "🎭 Verify @JohnDic94329223 with @NextDotID.\nSig: %SIG_BASE64%\nMisc: 0bbbfbdd-b661-4ebe-9bf7-c43d4361a38a|1704273182|",
+        "en_US": "🎭 Verify @JohnDic94329223 with @NextDotID.\nSig: %SIG_BASE64%\nMisc: 0bbbfbdd-b661-4ebe-9bf7-c43d4361a38a|1704273182|",
+        "zh_CN": "🎭 由 @NextDotID 验证 @JohnDic94329223 。\nSig: %SIG_BASE64%\n其它信息: 0bbbfbdd-b661-4ebe-9bf7-c43d4361a38a|1704273182|"
+    },
+    "sign_payload": "{\"action\":\"create\",\"created_at\":\"1704273182\",\"identity\":\"johndic94329223\",\"platform\":\"twitter\",\"prev\":null,\"uuid\":\"0bbbfbdd-b661-4ebe-9bf7-c43d4361a38a\"}",
+    "uuid": "0bbbfbdd-b661-4ebe-9bf7-c43d4361a38a",
+    "created_at": "1704273182"
+  }
+
+I then take the sign_payload from above and do this:
+
+   const signedData = await provider
+      .request({
+        method: 'personal_sign',
+        params: [sign_payload, selectedAddress],
+      })
+
+    const signatureWithoutPrefix = signedData.slice(2);
+    const buffer = Buffer.from(signatureWithoutPrefix, 'hex');
+    const base64String = buffer.toString('base64');
+
+The above sign pops up:
+
+  Signature request
+  Only sign this message if you fully understand the content and trust the requesting site.
+  You are signing:
+  Message:
+  {"action":"create","created_at":"1704278694","identity":"johndic94329223","platform":"twitter","prev":null,"uuid":"00b5710d-31cb-496e-8248-3714e312a0a3"}
+
+The resulting base64String looks like:
+
+  91Q8dTqX1bMJSZgsmn/N8lidPJ92oSKRALNWhzel8aEyy+Yttvk1gfO5VpR6PdlerCEB86Wt5eCJbhAoueBOexw=
+
+
+I then generate a tweet which looks like:
+
+  🎭 Verifying my Twitter ID @JohnDic94329223 for @NextDotID.
+  Sig: 91Q8dTqX1bMJSZgsmn/N8lidPJ92oSKRALNWhzel8aEyy+Yttvk1gfO5VpR6PdlerCEB86Wt5eCJbhAoueBOexw=
+
+  Next.ID YOUR DIGITAL IDENTITIES IN ONE PLACE
+
+I post that tweet.
+
+The tweet has a link like:
+
+  https://x.com/JohnDic94329223/status/1742498232406573486?s=20
+
+I take the tweet id from it:  1742498232406573486
+
+I then make a POST call to:  
+
+  https://proof-service.nextnext.id/v1/proof
+
+with payload:
+
+  {
+    "action": "create",
+    "platform": "twitter",
+    "identity": "JohnDic94329223",
+    "public_key": "0x046ca64e70760e7635e10161095693abb08e9548ff84bed952fc08ce3ccc196736383d1673f699625e78080b9072d433bbac69e8f81d3430d9746615b69d9e9924",
+    "proof_location": "1742498232406573486",
+    "extra": {},
+    "uuid": "00b5710d-31cb-496e-8248-3714e312a0a3",
+    "created_at": "1704278945468"
+  }
+
+Then I get the error:
+
+  {"message":"bad signature: bad signature"}
+
+Once I have my example working at:
+
+   https://github.com/spotadev/utu-endorse-nextid
+
+others will be able to see how to use the next.id verification with next.id, twitter and metamask.  
+
+I really wish there was already an example already on how to do this.  I think it is a common use 
+case that people will want metamask to manage the keys - especially in dapps which are web only and 
+have no backend. 
+
+However once my app has the twitter bit working, then others can look at the code there to see how
+to get it working with metamask.  Then if my code is good enough quality you can reference the code 
+with a link from your docs:
+
+   https://docs.next.id/getting-started/twitter-wallet-binding
+
+Thank you for your time.
+
+Kind Regards
+
+JD
+( John Dickerson )
+
+john.charles.dickerson@gmail.com
+Telegram:  @JohnDickerson
