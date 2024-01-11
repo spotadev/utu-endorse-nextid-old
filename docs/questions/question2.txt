@@ -1,0 +1,38 @@
+=============================================================
+
+Type:
+
+    hashMessage(message: string | Uint8Array): string
+
+Run:
+
+    const messageHash = ethers.hashMessage(message);
+
+=============================================================
+
+https://viem.sh/docs/utilities/recoverPublicKey.html#recoverpublickey
+
+Type:
+
+    const address = await recoverPublicKey( RecoverPublicKeyParameters );
+
+    type RecoverPublicKeyParameters = {
+        hash: Hex | ByteArray;
+        signature: Hex | ByteArray;
+    }
+
+Run:
+
+    const address = await recoverPublicKey({
+      hash: messageHash,
+      signature: signature
+    })
+
+=============================================================
+
+signature code in:
+
+    nextIdProofService.getProofPayloadResponse
+
+=============================================================
+
