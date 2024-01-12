@@ -12,6 +12,8 @@ Run:
 
 https://viem.sh/docs/utilities/recoverPublicKey.html#recoverpublickey
 
+https://viem.sh/docs/utilities/hashMessage
+
 Type:
 
     const address = await recoverPublicKey( RecoverPublicKeyParameters );
