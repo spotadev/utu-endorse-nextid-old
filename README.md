@@ -1,4 +1,15 @@
-# utu-endorse-nextid
+# README
+
+**NOTE:** Update 18th January 2024:
+
+This project is not operational at the very moment. Some code is being ported into this project from here:
+
+https://github.com/spotadev/next-id-wallet
+
+Check back here later and you will see a new status when the task has been completed.
+
+
+## utu-endorse-nextid
 
 This is a react project which implements next.id to allow users to link their different social 
 media accounts to a Universal Decentralised ID.
@@ -11,7 +22,7 @@ This inniative makes it harder for Bots and Fake Accounts to push false narrativ
 trust in both the Web 2 and Web 3 space.
 
 
-## Install and run example
+### Install and run example
 
 (i) mkdir ~/workspace
 
@@ -84,7 +95,7 @@ trust in both the Web 2 and Web 3 space.
 
 NOTE: The code is still experimental so the above flow may change a bit.
 
- ## Resources
+ ### Resources
 
   [https://next.id/](https://next.id/)
 
@@ -97,7 +108,7 @@ NOTE: The code is still experimental so the above flow may change a bit.
   [https://github.com/NextDotID/Signature-Generating-Sample/blob/main/typescript/src/index.ts](https://github.com/NextDotID/Signature-Generating-Sample/blob/main/typescript/src/index.ts)
 
 
-## Background
+### Background
 
 next.id allows you to link your web 3 wallet addresses with your web 2 social media handles.
 
@@ -125,7 +136,7 @@ For example tags could be:
 * Vegan Chef
 
 
-## Relationshop of this dApp with Symbiont
+### Relationshop of this dApp with Symbiont
 
 In Symbiont we show a Universal ID Icon for any user who has one that comments or creates a 
 Comment Thread.
@@ -137,7 +148,7 @@ A Universal ID shows the Web 2 handles and Web 3 wallet addresses that the user 
 next.id.
 
 
-## Project Visibility
+### Project Visibility
 
 This is an open source project and is visible to the public.  
 

@@ -80,41 +80,26 @@ export default function PostTweetInstructions() {
     if (tweetUrl) {
       const numberAtEndTweetUrl = getNumberAtEndTweetUrl(tweetUrl);
 
-      if (testShowJSX) {
-        const uuid = '9a1ebd23-365e-4954-bc73-7ef0b16ff639';
-        const publicKey = '0x046ca64e70760e7635e10161095693abb08e9548ff84bed952fc08ce3ccc196736383d1673f699625e78080b9072d433bbac69e8f81d3430d9746615b69d9e9924';
-        const xHandle = 'xxxxx';
-        try {
-          nextIdVerifyService.verifyProof(xHandle, publicKey, numberAtEndTweetUrl, uuid);
-          setXProofVerified(true);
-          navigate('/');
-        }
-        catch (error) {
-          setErrorMessage(
-            'Tweet did not pass validation. The twitter handle was not added to your next.id DID');
-        }
+      if (!xProofPayloadResponse || !xHandle || !publicKey) {
+        const errrorMessage =
+          'Expecting all of these to be populated: ' +
+          `proofPayloadResponse: ${xProofPayloadResponse}, ` +
+          `xHandle: ${xHandle}, publicKey: ${publicKey}`;
+
+        throw new Error(errrorMessage);
       }
-      else {
-        if (!xProofPayloadResponse || !xHandle || !publicKey) {
-          const errrorMessage =
-            'Expecting all of these to be populated: ' +
-            `proofPayloadResponse: ${xProofPayloadResponse}, ` +
-            `xHandle: ${xHandle}, publicKey: ${publicKey}`;
 
-          throw new Error(errrorMessage);
-        }
+      const uuid = xProofPayloadResponse?.uuid;
+      const createdAt = xProofPayloadResponse.created_at;
 
-        const uuid = xProofPayloadResponse?.uuid;
-
-        try {
-          nextIdVerifyService.verifyProof(xHandle, publicKey, numberAtEndTweetUrl, uuid);
-          setXProofVerified(true);
-          navigate('/');
-        }
-        catch (error) {
-          setErrorMessage(
-            'Tweet did not pass validation. The twitter handle was not added to your next.id DID');
-        }
+      try {
+        nextIdVerifyService.verifyProof(xHandle, publicKey, numberAtEndTweetUrl, uuid, createdAt);
+        setXProofVerified(true);
+        navigate('/');
+      }
+      catch (error) {
+        setErrorMessage(
+          'Tweet did not pass validation. The twitter handle was not added to your next.id DID');
       }
     }
   }

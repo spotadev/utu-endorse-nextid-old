@@ -4,14 +4,15 @@ const verifyProof = async (
   xHandle: string,
   publicKey: string,
   numberAtEndTweetUrl: string,
-  uuid: string
+  uuid: string,
+  createdAt: string
 ): Promise<void> => {
   // const baseUrl = 'https://proof-service.next.id';
   const baseUrl = process.env.REACT_APP_PROOF_SERVICE_BASE_URL;
   const url = '/v1/proof';
   const accessControlAllowOrigin = false;
 
-  if (! baseUrl){
+  if (!baseUrl) {
     throw new Error('Could not read env properties');
   }
 
@@ -22,8 +23,6 @@ const verifyProof = async (
       'Content-Type': 'application/json'
     }
   };
-
-  const createdAt: string = new Date().getTime() + '';
 
   const request =
   {
