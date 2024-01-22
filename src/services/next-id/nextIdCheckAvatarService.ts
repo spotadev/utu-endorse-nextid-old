@@ -39,7 +39,12 @@ const getAvatarStatus = async (
   platform: string,
   exact: boolean
 ): Promise<AvatarStatusResponse> => {
-  const baseUrl = 'https://proof-service.next.id';
+  const baseUrl = process.env.REACT_APP_PROOF_SERVICE_BASE_URL;
+
+  if (!baseUrl) {
+    throw new Error('Need REACT_APP_PROOF_SERVICE_BASE_URL set in env file');
+  }
+
   const url = `/v1/proof?platform=${platform}&identity=${handle}&exact=${exact}`;
   const accessControlAllowOrigin = false;
   const axios = axiosHelper.createUnsecuredAxiosInstance(baseUrl, accessControlAllowOrigin);

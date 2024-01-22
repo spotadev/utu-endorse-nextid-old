@@ -34,34 +34,50 @@ export default function CheckForNextID() {
   }
 
   useEffect(() => {
-    const platform = 'ethereum';
-
-    const getAvatarStatusResponse = async (handle: string, platform: string) => {
-
-      // this is a temporary overide for testing
-      // handle = '0x0bd793ea8334a77b2bfd604dbaedca11ea094306';
-
+    const getAvatarStatusResponse = async (address: string) => {
+      const platform = 'ethereum';
       const exact = true;
 
       // This is a network call
       const avatarStatusResponse =
-        await nextIdCheckAvatarService.getAvatarStatus(handle, platform, exact);
+        await nextIdCheckAvatarService.getAvatarStatus(address, platform, exact);
 
       console.log('avatarStatusResponse', avatarStatusResponse);
       setAvatarStatusResponse(avatarStatusResponse);
 
-      let _idsItem =
-        avatarStatusResponseHelper.getIdsItem(handle, platform, avatarStatusResponse.ids);
+      // as we have "exact = true" it means we just need to check if the ethereum proof for the
+      // connected wallet address is valid.  Also as we create the DID using the wallet we expect
+      // the signature of the avatar and the signature of the wallet address to be the same and 
+      // that there will only be one avatar (idsItem) returned.
 
-      if (_idsItem) {
-        setPlatformVerifiedStates(_idsItem.proofs);
-        setProofs(_idsItem.proofs);
-        setIdsItem(_idsItem);
+      const idsItems: IdsItem[] = avatarStatusResponse.ids;
+
+      if (idsItems.length > 1) {
+        // We need to later loop through each IdsItem and retrieve the idsItem where 
+        // the signatures of the avatar and ethereum address are the same.
+        throw new Error('Not expecting multiple avatars for the same ethereum wallet address');
       }
-      else {
+
+      if (idsItems.length == 0) {
         setPlatformVerifiedStates([]);
         setProofs([]);
         setIdsItem(null);
+        return;
+      }
+
+      const foundIdsItem = idsItems[0];
+      const validProofs = avatarStatusResponseHelper.getValidProofs(foundIdsItem);
+
+      const _hasValidEthereumProof =
+        avatarStatusResponseHelper.hasValidEthereumProof(validProofs, address);
+
+      if (_hasValidEthereumProof) {
+        setPlatformVerifiedStates(foundIdsItem.proofs);
+        setProofs(validProofs);
+        setIdsItem(foundIdsItem);
+      }
+      else {
+        return;
       }
 
       const supportedPlatforms = ['twitter', 'github'];
@@ -75,7 +91,7 @@ export default function CheckForNextID() {
     }
 
     if (address) {
-      getAvatarStatusResponse(address, platform);
+      getAvatarStatusResponse(address);
     }
 
   }, [address]);
@@ -102,6 +118,10 @@ export default function CheckForNextID() {
         <>
           <div>
             You do not yet have a next.ID associated with your wallet address.
+            Click the button below to do so.
+            <p>
+              <button>Create next.ID avatar and add your wallet address to it</button>
+            </p>
           </div>
           <br />
           <hr />

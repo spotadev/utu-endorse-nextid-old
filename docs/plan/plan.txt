@@ -1,0 +1,23 @@
+
+For Commenting on avatar
+========================
+
+(i) From logged in wallet get connected Address
+
+(ii) Search for avatar by platform and handle
+
+(iii) For found avatar id hash it into ethereuem id
+
+(iv) Give feedback on ethereuem id
+
+
+Checking for signal 
+===================
+
+(i) Comment has a User which has an address
+
+(ii) Search for avatar by address
+
+(iii) Get found avatar id and hash it into ethereum id
+
+(iv) Make call for signal

@@ -2,7 +2,7 @@ import React from 'react'
 import appStyle from './App.module.css';
 import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi/react'
 import { WagmiConfig } from 'wagmi'
-import { arbitrum, mainnet } from 'wagmi/chains'
+import { polygonMumbai, arbitrum, mainnet } from 'wagmi/chains'
 import { createContext, useContext, useState } from 'react';
 import ProofPayloadResponse from './services/next-id/nextIdProofService';
 import AvatarStatusResponse from './services/next-id/nextIdCheckAvatarService';
@@ -89,7 +89,7 @@ if (!projectId) {
 }
 
 // 2. Create wagmiConfig
-const chains = [mainnet, arbitrum]
+const chains = [polygonMumbai, mainnet, arbitrum]
 
 const metadata = {
   name: 'Web3Modal',

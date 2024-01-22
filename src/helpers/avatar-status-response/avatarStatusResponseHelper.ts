@@ -20,64 +20,78 @@ const hasHandle = (avatarStatusResponse: AvatarStatusResponse, handle: string, p
   return false;
 }
 
-const getIdsItem = (handle: string, platform: string, idItems: IdsItem[]): IdsItem | null => {
-  let foundIdsItem: IdsItem | null = null;
+// returns all proofs in this IdsItem which are valid
+const getValidProofs = (foundIdsItem: IdsItem) => {
+  return [];
+}
 
-  for (let idsItem of idItems) {
-    let proofs: Proof[] = idsItem.proofs;
-    let validProofs = [];
+const hasValidEthereumProof = (validProofs: Proof[], address: string) => {
+  return true;
+}
 
-    for (let proof of proofs) {
-      if (proof.is_valid) {
-        validProofs.push(proof);
 
-        if (proof.platform === platform && proof.identity === handle) {
-          foundIdsItem = idsItem;
+
+// Not needed with exact=true
+// const getIdsItem = (handle: string, platform: string, idItems: IdsItem[]): IdsItem | null => {
+//   let foundIdsItem: IdsItem | null = null;
+
+//   for (let idsItem of idItems) {
+//     let proofs: Proof[] = idsItem.proofs;
+//     let validProofs = [];
+
+//     for (let proof of proofs) {
+//       if (proof.is_valid) {
+//         validProofs.push(proof);
+
+//         if (proof.platform === platform && proof.identity === handle) {
+//           foundIdsItem = idsItem;
+//         }
+//       }
+//     }
+
+//     // only included valid proofs
+//     if (foundIdsItem) {
+//       foundIdsItem.proofs = validProofs;
+//       break;
+//     }
+//   }
+
+//   return foundIdsItem;
+// }
+
+const getPlatformsNeedToConnectTo =
+  (idsItem: IdsItem | null, supportedPlatforms: string[]): Platform[] => {
+    let proofs: Proof[] = []
+
+    if (idsItem) {
+      proofs = idsItem?.proofs;
+    }
+
+    const platforms: Platform[] = [];
+
+    for (let supportedPlatform of supportedPlatforms) {
+
+      let found = false;
+
+      for (let proof of proofs) {
+        if (supportedPlatform === proof.platform) {
+          found = true;
         }
       }
-    }
 
-    // only included valid proofs
-    if (foundIdsItem) {
-      foundIdsItem.proofs = validProofs;
-      break;
-    }
-  }
-
-  return foundIdsItem;
-}
-
-const getPlatformsNeedToConnectTo = (idsItem: IdsItem | null, supportedPlatforms: string[]): Platform[] => {
-  let proofs: Proof[] = []
-
-  if (idsItem) {
-    proofs = idsItem?.proofs;
-  }
-
-  const platforms: Platform[] = [];
-
-  for (let supportedPlatform of supportedPlatforms) {
-
-    let found = false;
-
-    for (let proof of proofs) {
-      if (supportedPlatform === proof.platform) {
-        found = true;
+      if (!found) {
+        platforms.push({
+          name: supportedPlatform, url: `/link/platform/${supportedPlatform}`
+        });
       }
     }
 
-    if (!found) {
-      platforms.push({
-        name: supportedPlatform, url: `/link/platform/${supportedPlatform}`
-      });
-    }
+    return platforms;
   }
-
-  return platforms;
-}
 
 export const avatarStatusResponseHelper = {
   hasHandle,
-  getIdsItem,
+  getValidProofs,
+  hasValidEthereumProof,
   getPlatformsNeedToConnectTo
 }
