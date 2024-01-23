@@ -93,7 +93,7 @@ export default function PostTweetInstructions() {
       const createdAt = xProofPayloadResponse.created_at;
 
       try {
-        nextIdVerifyService.verifyProof(xHandle, publicKey, numberAtEndTweetUrl, uuid, createdAt);
+        nextIdVerifyService.verifyTwitterProof(xHandle, publicKey, numberAtEndTweetUrl, uuid, createdAt);
         setXProofVerified(true);
         navigate('/');
       }

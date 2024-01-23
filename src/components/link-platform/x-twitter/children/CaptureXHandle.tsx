@@ -14,7 +14,7 @@ export default function LinkXTwitter() {
   const next = async () => {
     if (xHandle) {
       const xProofPayloadResponse: ProofPayloadResponse =
-        await nextIdProofService.getNextIdProofPayload(xHandle, setPublicKey);
+        await nextIdProofService.getNextIdProofPayload('twitter', xHandle, setPublicKey);
 
       console.log('xProofPayloadResponse', xProofPayloadResponse);
       setXProofPayloadResponse(xProofPayloadResponse);

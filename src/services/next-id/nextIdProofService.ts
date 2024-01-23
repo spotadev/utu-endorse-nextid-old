@@ -11,6 +11,8 @@ import { windowEthereumService } from "../window-ethereum-provider/windowEthereu
 import { SigningKey, ethers } from "ethers";
 import { signMessage } from '@wagmi/core'
 import { RecoverPublicKeyParameters, hashMessage, recoverPublicKey } from 'viem'
+import { platform } from "os";
+import axios from "axios";
 
 export interface PostContent {
   default: string;
@@ -35,7 +37,7 @@ export default interface ProofPayloadResponse {
 }
 
 const getProofPayloadResponse =
-  async (twitterHandle: string, publicKey: string): Promise<ProofPayloadResponse> => {
+  async (platform: string, handle: string, publicKey: string): Promise<ProofPayloadResponse> => {
 
     // const baseUrl = 'https://proof-service.next.id';
     const baseUrl = process.env.REACT_APP_PROOF_SERVICE_BASE_URL;
@@ -44,9 +46,7 @@ const getProofPayloadResponse =
       throw new Error('Could not read env properties');
     }
 
-    const url = '/v1/proof/payload';
-    const accessControlAllowOrigin = false;
-    const axios = axiosHelper.createUnsecuredAxiosInstance(baseUrl, accessControlAllowOrigin);
+    const url = baseUrl + '/v1/proof/payload';
 
     let config = {
       headers: {
@@ -57,8 +57,8 @@ const getProofPayloadResponse =
     const request =
     {
       "action": "create",
-      "platform": "twitter",
-      "identity": twitterHandle,
+      "platform": platform,
+      "identity": handle,
       "public_key": publicKey
     };
 
@@ -77,9 +77,9 @@ const getProofPayloadResponse =
 
 const getNextIdProofPayload =
   async (
-    twitterHandle: string,
-    setPublicKeyFunction: any
-  ): Promise<ProofPayloadResponse> => {
+    platform: string,
+    handle: string,
+  ): Promise<{ proofPayloadResponse: ProofPayloadResponse, publicKey: string }> => {
     const message = 'next.id rocks';
     const signature = await signMessage({ message: message });
     const messageHash = hashMessage(message);
@@ -87,19 +87,21 @@ const getNextIdProofPayload =
     console.log('signature', signature);
     console.log('messageHash', messageHash);
 
-    const recoveredPublicKey = await recoverPublicKey({
+    const publicKey = await recoverPublicKey({
       hash: messageHash,
       signature: signature
     })
 
-    setPublicKeyFunction(recoveredPublicKey);
-
     const proofPayloadResponse: ProofPayloadResponse =
-      await getProofPayloadResponse(twitterHandle, recoveredPublicKey);
+      await getProofPayloadResponse(platform, handle, publicKey);
 
-    console.log('recoveredPublicKey', recoveredPublicKey);
-    console.log('proofPayloadResponse', proofPayloadResponse);
-    return proofPayloadResponse;
+    console.log('publicKey', publicKey);
+    console.log('proofPayloadResponse', proofPayloadResponse)
+
+    return {
+      proofPayloadResponse: proofPayloadResponse,
+      publicKey: publicKey
+    }
   }
 
 

@@ -7,6 +7,10 @@ import { avatarStatusResponseHelper } from "../../../helpers/avatar-status-respo
 import GuiProof from "../../shared/show-next-id/children/GuiProof";
 import GuiPlatform from "./GuiPlatform";
 import ShowNextId from '../../shared/show-next-id/ShowNextId';
+import ProofPayloadResponse, { nextIdProofService } from '../../../services/next-id/nextIdProofService';
+import { signMessage } from '@wagmi/core'
+import { RecoverPublicKeyParameters, hashMessage, recoverPublicKey } from 'viem'
+import { nextIdVerifyService } from '../../../services/next-id/nextIdVerifyService';
 
 export default function CheckForNextID() {
 
@@ -20,6 +24,7 @@ export default function CheckForNextID() {
   const [proofs, setProofs] = useState<Proof[]>([]);
   const [idsItem, setIdsItem] = useState<IdsItem | null>(null);
   const [platforms, setPlatforms] = useState<Platform[]>([]);
+  const [walletEthereumVerified, setWalletEthereumVerified] = useState<boolean>(false);
 
   const setPlatformVerifiedStates = (proofs: Proof[]) => {
     for (let proof of proofs) {
@@ -31,6 +36,26 @@ export default function CheckForNextID() {
           break;
       }
     }
+  }
+
+  const createAvatarWithEthereumAddress = async () => {
+    const platform = 'ethereum';
+    const handle = address;
+
+    if (!handle) {
+      return new Error('Wallet is not connected');
+    }
+
+    const response: { proofPayloadResponse: ProofPayloadResponse, publicKey: string } =
+      await nextIdProofService.getNextIdProofPayload(platform, handle);
+
+    const proofPayloadResponse = response.proofPayloadResponse;
+    const publicKey = response.publicKey;
+
+    const verifiedProof =
+      await nextIdVerifyService.verifyEthereumProof(proofPayloadResponse, publicKey, address);
+
+    setWalletEthereumVerified(verifiedProof);
   }
 
   useEffect(() => {
@@ -45,16 +70,20 @@ export default function CheckForNextID() {
       console.log('avatarStatusResponse', avatarStatusResponse);
       setAvatarStatusResponse(avatarStatusResponse);
 
-      // as we have "exact = true" it means we just need to check if the ethereum proof for the
-      // connected wallet address is valid.  Also as we create the DID using the wallet we expect
-      // the signature of the avatar and the signature of the wallet address to be the same and 
-      // that there will only be one avatar (idsItem) returned.
-
       const idsItems: IdsItem[] = avatarStatusResponse.ids;
 
       if (idsItems.length > 1) {
-        // We need to later loop through each IdsItem and retrieve the idsItem where 
-        // the signatures of the avatar and ethereum address are the same.
+        // We need to later loop through each IdsItem and retrieve the idsItem where the 
+        // avatar signature is the same as the ethereum address signature.  I think we need to
+        // call the proofchain service to get this info.  We may have more than one itsItem 
+        // if this sotware was not used to create the avatar. Currently this software allows
+        // only adding one etheruem address to the DID and that address is the address of
+        // the wallet.  To add another wallet address which is not the connected wallet address
+        // one would need to have the private key of that other address. Or you would need to
+        // add both addresses to your wallet and do some signing with one of the addresses
+        // and store the signature and payload in storage.  Then you would need to connect to the 
+        // other wallet address and do some signing with that on the same payload. Then you would 
+        // need to send both signatures in the extra field of the proof service.
         throw new Error('Not expecting multiple avatars for the same ethereum wallet address');
       }
 
@@ -75,8 +104,10 @@ export default function CheckForNextID() {
         setPlatformVerifiedStates(foundIdsItem.proofs);
         setProofs(validProofs);
         setIdsItem(foundIdsItem);
+        setWalletEthereumVerified(true);
       }
       else {
+        setWalletEthereumVerified(false);
         return;
       }
 
@@ -93,52 +124,64 @@ export default function CheckForNextID() {
     if (address) {
       getAvatarStatusResponse(address);
     }
+  }, [address, walletEthereumVerified]);
 
-  }, [address]);
 
-  if (isConnected) {
-    if (proofs.length > 0) {
-      return (
-        <>
-          <ShowNextId title='Your next.id DID' idsItem={idsItem} />
-          <br /><hr /><br />
-          <div>
-            <span style={{ fontWeight: 'bold' }}>Link Platform:</span>
+  const getIsConnectedAndWalletEthereumVerifiedJSX = () => {
+    return (
+      <>
+        <ShowNextId title='Your next.id DID' idsItem={idsItem} />
+        <br /><hr /><br />
+        <div>
+          <span style={{ fontWeight: 'bold' }}>Link Platform:</span>
+        </div>
+        {platforms.map((platform, index) => (
+          <div key={platform.name} style={{ paddingTop: '20px' }}>
+            <GuiPlatform platform={platform} />
           </div>
-          {platforms.map((platform, index) => (
-            <div key={platform.name} style={{ paddingTop: '20px' }}>
-              <GuiPlatform platform={platform} />
-            </div>
-          ))}
-        </>
-      );
+        ))}
+      </>
+    );
+  }
+
+  const getIsConnectedAndNotWalletEthereumVerifiedJSX = () => {
+    return (
+      <>
+        <div>
+          You do not yet have a next.ID associated with your wallet address.
+          Click the button below to do so.
+          <p>
+            <button onClick={createAvatarWithEthereumAddress}>
+              Create next.ID avatar and add your wallet address to it
+            </button>
+          </p>
+        </div>
+      </>
+    );
+  }
+
+  const getIsNotConnectedJSX = () => {
+    if (!isConnected) {
+      return 'You need to connect your wallet before you can see your next.ID';
     }
-    else {
-      return (
-        <>
-          <div>
-            You do not yet have a next.ID associated with your wallet address.
-            Click the button below to do so.
-            <p>
-              <button>Create next.ID avatar and add your wallet address to it</button>
-            </p>
-          </div>
-          <br />
-          <hr />
-          <br />
-          <div>
-            <span style={{ fontWeight: 'bold' }}>Create Next.id and Link Platform:</span>
-          </div>
-          {platforms.map((platform, index) => (
-            <div key={platform.name} style={{ paddingTop: '20px' }}>
-              <GuiPlatform platform={platform} />
-            </div>
-          ))}
-        </>
-      );
+    return '';
+  }
+
+  const getJSX = () => {
+    if (isConnected && walletEthereumVerified) {
+      return getIsConnectedAndWalletEthereumVerifiedJSX();
+    }
+    else if (isConnected && !walletEthereumVerified) {
+      return getIsConnectedAndNotWalletEthereumVerifiedJSX();
+    }
+    else if (!isConnected) {
+      return getIsNotConnectedJSX();
     }
   }
-  else {
-    return 'You need to connect your wallet before you can see your next.ID';
-  }
+
+  return (
+    <>
+      {getJSX()}
+    </>
+  );
 }
