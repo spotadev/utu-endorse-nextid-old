@@ -13,11 +13,15 @@ export default function LinkXTwitter() {
 
   const next = async () => {
     if (xHandle) {
-      const xProofPayloadResponse: ProofPayloadResponse =
-        await nextIdProofService.getNextIdProofPayload('twitter', xHandle, setPublicKey);
+      const platform = 'twitter';
+      const handle = xHandle;
 
-      console.log('xProofPayloadResponse', xProofPayloadResponse);
-      setXProofPayloadResponse(xProofPayloadResponse);
+      const response: { proofPayloadResponse: ProofPayloadResponse, publicKey: string } =
+        await nextIdProofService.getNextIdProofPayload(platform, handle);
+
+      setPublicKey(response.publicKey);
+      setXProofPayloadResponse(response.proofPayloadResponse);
+      console.log('response.proofPayloadResponse', response.proofPayloadResponse);
     }
   }
 
