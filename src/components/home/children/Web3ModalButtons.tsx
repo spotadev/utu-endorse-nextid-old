@@ -16,7 +16,7 @@ export default function Web3ModalButtons() {
           <span style={{ fontWeight: 'bold' }}>Wallet Address:</span>
         </div>
         <div style={{ paddingTop: '20px' }}>
-          ${address}
+          {address}
         </div>
         <div style={{ paddingTop: '20px' }}>
           <button onClick={() => open()}>Disconnect Wallet</button>
