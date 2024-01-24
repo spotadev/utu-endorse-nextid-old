@@ -53,6 +53,11 @@ export default function About() {
           than unknown people.
         </p>
         <p>
+          Your immediate network has people associated with your handles of your various social
+          media accounts.  Your extended network includes all the people in your connections's
+          individual networks.
+        </p>
+        <p>
           Apart from UTU Signal there are also UTU Endorsements.  UTU endorsement is where you spend
           some UTU tokens endorsing a resource.  You earn you initial tokens by connecting some
           of your social media accounts to UTU.  This is how UTU is able to know if signal came
