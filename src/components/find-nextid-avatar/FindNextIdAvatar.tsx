@@ -5,8 +5,11 @@ import { IdsItem, nextIdCheckAvatarService } from '../../services/next-id/nextId
 import SelectNextIdDID from './children/SelectNextIdDID';
 import ShowTestEthereumAddress from '../show-test-ethereum-address/ShowTestEthereumAddress';
 import { useGlobalStateContext } from '../../App';
+import { useAccount } from 'wagmi';
 
 export default function FindNextIdAvatar() {
+
+  const { address, isConnected } = useAccount();
 
   const {
     findPlatform,
@@ -62,7 +65,12 @@ export default function FindNextIdAvatar() {
         </ul>
         Note if the person does not have a next.id avatar DID you will not find them.
       </div>
-      <ShowTestEthereumAddress />
+      <div style={{ paddingTop: '20px' }}>
+        You can search for signal for your own ethereum wallet address if you want:
+        <p>
+          {address}
+        </p>
+      </div>
       <br /><hr />
       <div style={{ paddingTop: '20px' }}>
         Select Platform:
