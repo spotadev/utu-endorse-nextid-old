@@ -128,6 +128,12 @@ const getSignal = (
 
   const apiFeedbackSummary = 'core-api-v2/feedbackSummary';
   const fullUrl = `${utuBaseApiUrl}/${apiFeedbackSummary}?${queryParams}`;
+
+  console.log('zzzz sourceCriteria', sourceCriteria);
+  console.log('zzzz targetCriteria', targetCriteria);
+  console.log('zzzz fullUrl', fullUrl);
+  console.log('zzzz utuBearerToken', utuBearerToken);
+
   return axios.get<any>(fullUrl, getAxiosRequestConfig(utuBearerToken))
 }
 

@@ -50,10 +50,14 @@ export default function SignalFeedback(props: any) {
 
       const targetAddress: string = nextIdHelper.getEthereumAddress(nextId);
 
-      const signalResponse =
-        await utuSignalService.getSignal(accessToken, targetAddress, connectedAddress);
-
-      setSignalResponse(signalResponse);
+      try {
+        const signalResponse =
+          await utuSignalService.getSignal(accessToken, targetAddress, connectedAddress);
+        setSignalResponse(signalResponse);
+      }
+      catch (error) {
+        console.error('signalResponse error:', error);
+      }
     }
   }
 
@@ -82,7 +86,7 @@ export default function SignalFeedback(props: any) {
       return (
         <div style={{ marginTop: '20px', color: 'maroon' }}>
           No Signal
-          <Link to={'/findNextIdToEndorseOrComment'}> -
+          <Link to={'/find-next-id-avatar'}> -
             Try Searching for another next DID
           </Link>
         </div>
@@ -126,7 +130,7 @@ export default function SignalFeedback(props: any) {
           Home
         </Link>
         &nbsp;&nbsp;
-        <Link to={'/findNextIdToEndorseOrComment'}>
+        <Link to={'/find-next-id-avatar'}>
           Back
         </Link>
       </div>
