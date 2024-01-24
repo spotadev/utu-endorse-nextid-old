@@ -28,7 +28,7 @@ export default function UtuComment() {
 
   const loginToUtu = async () => {
     const authData: UtuAuthData = await utuSignalService.loginToUtu();
-    const accessToken = authData.access_token
+    const accessToken = authData.data.access_token
     return accessToken;
   }
 
@@ -70,20 +70,18 @@ export default function UtuComment() {
       throw new Error('Not connected to wallet');
     }
 
-    let accessToken = utuBearerToken;
-
-    // First Network Call
-    if (!accessToken) {
-      accessToken = await loginToUtu();
-      setUtuBearerToken(accessToken);
+    if (!utuBearerToken) {
+      throw new Error('Not connected to UTU');
     }
+
+    let accessToken = utuBearerToken;
 
     const targetAddress: string = nextIdHelper.getEthereumAddress(nextId);
     const targetType: string = 'next-did';
     const transactionId = `{ nextId: ${nextId} }`;
 
     // Second Network Call
-    await initEntity(targetAddress, targetType, accessToken);
+    await initEntity(targetAddress, targetType, utuBearerToken);
 
     const connectedAddress = address;
     const stars = parseInt(rating, 10);

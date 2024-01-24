@@ -149,7 +149,7 @@ function App() {
               <Route path="/find-next-id-avatar" element={<FindNextIdAvatar />} />
               <Route path="/utu-endorse" element={<UtuEndorse />} />
               <Route path="/give-signal" element={<GiveSignal />} />
-              <Route path="/get-signbal" element={<GetSignal />} />
+              <Route path="/get-signal" element={<GetSignal />} />
             </Routes>
           </BrowserRouter>
         </div>

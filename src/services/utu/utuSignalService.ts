@@ -3,13 +3,15 @@ import axios, { AxiosRequestConfig } from "axios";
 import qs from "qs";
 
 export type UtuAuthData = {
-  access_token: string;
-  expires_in: number;
-  refresh_expires_in: number;
-  refresh_token: string;
-  token_type: string;
-  session_state: string;
-  scope: string;
+  data: {
+    access_token: string;
+    expires_in: number;
+    refresh_expires_in: number;
+    refresh_token: string;
+    token_type: string;
+    session_state: string;
+    scope: string;
+  }
 };
 
 export interface IFeedbackData {
@@ -124,7 +126,7 @@ const getSignal = (
     sourceCriteria, targetCriteria
   });
 
-  const apiFeedbackSummary = 'core-api-v2/identity-api/feedbackSummary';
+  const apiFeedbackSummary = 'core-api-v2/feedbackSummary';
   const fullUrl = `${utuBaseApiUrl}/${apiFeedbackSummary}?${queryParams}`;
   return axios.get<any>(fullUrl, getAxiosRequestConfig(utuBearerToken))
 }

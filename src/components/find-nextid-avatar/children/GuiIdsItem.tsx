@@ -27,6 +27,8 @@ export default function GuiIdsItem(props: any) {
   }
 
   const getSignal = (idsItem: IdsItem) => {
+    console.log('AAAA idsItem', idsItem);
+
     setIdsItem(idsItem);
     navigate('/get-signal')
   }

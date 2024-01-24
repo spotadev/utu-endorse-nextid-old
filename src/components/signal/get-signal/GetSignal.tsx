@@ -21,8 +21,10 @@ export default function SignalFeedback(props: any) {
   } = useGlobalStateContext()
 
   const loginToUtu = async () => {
-    const authData: UtuAuthData = await utuSignalService.loginToUtu();
-    const accessToken = authData.access_token
+    const authData: UtuAuthData = await utuSignalService.loginToUtu()
+    console.log('authData', authData);
+    const accessToken = authData.data.access_token;
+    console.log('accessToken', accessToken);
     return accessToken;
   }
 
@@ -32,11 +34,12 @@ export default function SignalFeedback(props: any) {
   }
 
   const getSignal = async (accessToken: string) => {
+
+    console.log('getSignal idsItem', idsItem);
+
     if (!connectedAddress) {
       throw new Error('Not connected to wallet');
     }
-
-    console.log('accessToken', accessToken);
 
     if (accessToken) {
       const nextId = idsItem?.avatar;
@@ -56,11 +59,14 @@ export default function SignalFeedback(props: any) {
 
   const loginAndGetSignal = async () => {
     const accessToken = await loginToUtu();
+    console.log('zzzz accessToken', accessToken);
     setUtuBearerToken(accessToken);
     await getSignal(accessToken);
   }
 
   const getSignalJSX = () => {
+
+    console.log('yyyy idsItem', idsItem);
     if (!utuBearerToken) {
       return '';
     }
