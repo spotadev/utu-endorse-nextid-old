@@ -58,6 +58,17 @@ export default function CheckForNextID() {
     setWalletEthereumVerified(verifiedProof);
   }
 
+  const getIdsItemWithSameEthereumAddressAsWallet = (idsItems: IdsItem[], address: string) => {
+    for (let idsItem of idsItems) {
+      for (let proof of idsItem.proofs) {
+        if (proof.platform === 'ethereum' && proof.identity === address) {
+          return idsItem;
+        }
+      }
+    }
+    return null;
+  }
+
   useEffect(() => {
     const getAvatarStatusResponse = async (address: string) => {
       const platform = 'ethereum';
@@ -72,21 +83,6 @@ export default function CheckForNextID() {
 
       const idsItems: IdsItem[] = avatarStatusResponse.ids;
 
-      if (idsItems.length > 1) {
-        // We need to later loop through each IdsItem and retrieve the idsItem where the 
-        // avatar signature is the same as the ethereum address signature.  I think we need to
-        // call the proofchain service to get this info.  We may have more than one itsItem 
-        // if this sotware was not used to create the avatar. Currently this software allows
-        // only adding one etheruem address to the DID and that address is the address of
-        // the wallet.  To add another wallet address which is not the connected wallet address
-        // one would need to have the private key of that other address. Or you would need to
-        // add both addresses to your wallet and do some signing with one of the addresses
-        // and store the signature and payload in storage.  Then you would need to connect to the 
-        // other wallet address and do some signing with that on the same payload. Then you would 
-        // need to send both signatures in the extra field of the proof service.
-        throw new Error('Not expecting multiple avatars for the same ethereum wallet address');
-      }
-
       if (idsItems.length == 0) {
         setPlatformVerifiedStates([]);
         setProofs([]);
@@ -94,16 +90,22 @@ export default function CheckForNextID() {
         return;
       }
 
-      const foundIdsItem = idsItems[0];
-      const validProofs = avatarStatusResponseHelper.getValidProofs(foundIdsItem);
+      const idsItem = getIdsItemWithSameEthereumAddressAsWallet(idsItems, address);
+
+      if (idsItem == null) {
+        throw new Error('Unexpected Error: could not find IdsItem with wallet address proof:' +
+          address);
+      }
+
+      const validProofs = avatarStatusResponseHelper.getValidProofs(idsItem);
 
       const _hasValidEthereumProof =
         avatarStatusResponseHelper.hasValidEthereumProof(validProofs, address);
 
       if (_hasValidEthereumProof) {
-        setPlatformVerifiedStates(foundIdsItem.proofs);
+        setPlatformVerifiedStates(idsItem.proofs);
         setProofs(validProofs);
-        setIdsItem(foundIdsItem);
+        setIdsItem(idsItem);
         setWalletEthereumVerified(true);
       }
       else {
