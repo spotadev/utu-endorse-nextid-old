@@ -59,9 +59,12 @@ export default function CheckForNextID() {
   }
 
   const getIdsItemWithSameEthereumAddressAsWallet = (idsItems: IdsItem[], address: string) => {
+    const lowerCaseAddress = address.toLowerCase();
+
     for (let idsItem of idsItems) {
       for (let proof of idsItem.proofs) {
-        if (proof.platform === 'ethereum' && proof.identity === address) {
+        console.log('proof', proof);
+        if (proof.platform === 'ethereum' && proof.identity === lowerCaseAddress) {
           return idsItem;
         }
       }
