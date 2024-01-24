@@ -12,14 +12,17 @@ Check back here later and you will see a new status when the task has been compl
 ## utu-endorse-nextid
 
 This is a react project which implements next.id to allow users to link their different social 
-media accounts to a Universal Decentralised ID.
+media accounts to a next.id avatar Universal Decentralised ID (DID).
 
-This app also integrates the UTU Trust network to allow users to endorse Universal IDs with tags.
+This app also integrates the UTU Trust network to allow users to: 
 
-For example you could endorse someone as being a full stack JavaScript Developer or a Vegan Chef.
+- endorse next.id avatar DIDs
+- provide signal on next.id avatar DIDs
 
 This inniative makes it harder for Bots and Fake Accounts to push false narratives.  It improves 
-trust in both the Web 2 and Web 3 space.
+trust.
+
+For more information see About.tsx or run the app and click on About.
 
 
 ### Install and run example
@@ -73,27 +76,8 @@ trust in both the Web 2 and Web 3 space.
 
 (c alternate) If you do not have a next.id DID you see this:
 
-![App Screen Shot](docimages/step_3b.png)  
+@todo - more screen shots coming
 
-(d) Clicking on the above "Link Twitter" button takes you to a new screen:
-
-![App Screen Shot](docimages/step_4.png)  
-
-(e) Filling in your Twitter handle in the above screen and clicking next pops up this screen where you are asked to sign some text.  This is done to enable the dApp to retrieve your public key.
-
-![App Screen Shot](docimages/step_5.png)  
-
-(f) You then sign a payload we about to send to next.id:
-
-![App Screen Shot](docimages/step_6.png)  
-
-(g) Here you are shown some text in a pink box to create a tweet from.  You copy and paste the text into a tweet and send it and then paste the url of the tweet into the box and press verify.
-
-![App Screen Shot](docimages/step_7.png)  
-
-(h) If you are verified successfully you are redirected to step 2 where you will see that your twitter handle has been added to your next.id DID.
-
-NOTE: The code is still experimental so the above flow may change a bit.
 
  ### Resources
 
@@ -121,20 +105,6 @@ For example mask is more about sending encrypted tweets.
 The idea is that we create a GUI that assists end users in linking their web 2 and web 3 accounts 
 to a Universal ID.  We then provide the users the ability to endorse those who have a Universal 
 ID using the UTU Trust SDK.
-
-Endorsements occur with tags.
-
-For example you could endorse:
-
-    Universal-ID/tag
-
-Tags show a specialisation of the person you are endorsing.
-
-For example tags could be:
-
-* Full Stack JavaScript Developer
-* Vegan Chef
-
 
 ### Relationshop of this dApp with Symbiont
 
