@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import appStyle from '../../App.module.css';
+import appStyle from '../../../App.module.css';
 import { Link } from 'react-router-dom';
-import { useGlobalStateContext } from '../../App';
-import ShowNextId from '../shared/show-next-id/ShowNextId';
-import UTUTokenBalance from '../shared/utu-token-balance/UTUTokenBalance';
-import { utuTokenService } from '../../services/utu/utuTokenService';
-import { nextIdHelper } from '../../helpers/next.id/nextIdHelper';
+import { useGlobalStateContext } from '../../../App';
+import ShowNextId from '../../shared/show-next-id/ShowNextId';
+import UTUTokenBalance from '../../shared/utu-token-balance/UTUTokenBalance';
+import { utuTokenService } from '../../../services/utu/utuTokenService';
+import { nextIdHelper } from '../../../helpers/next.id/nextIdHelper';
 
 export default function UtuEndorse() {
 

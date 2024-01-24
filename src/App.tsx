@@ -14,9 +14,9 @@ import About from './components/about/About';
 
 import { IdsItem } from "./services/next-id/nextIdCheckAvatarService";
 import FindNextIdToEndorseOrComment from './components/find-nextid-to-endorse/FindNextIdToEndorseOrComment';
-import UtuComment from './components/utu-comment/UtuComment';
-import UtuEndorse from './components/utu-endorse/UtuEndorse';
-import SignalFeedback from './components/signal-feedback/SignalFeedback';
+import GiveSignal from './components/signal/give-signal/GiveSignal';
+import UtuEndorse from './components/signal/utu-endorse/UtuEndorse';
+import GetSignal from './components/signal/get-signal/GetSignal';
 
 // =================================================================================================
 // Start: Create Global Context
@@ -148,8 +148,8 @@ function App() {
               <Route path="/about" element={<About />} />
               <Route path="/findNextIdToEndorseOrComment" element={<FindNextIdToEndorseOrComment />} />
               <Route path="/utuEndorse" element={<UtuEndorse />} />
-              <Route path="/utuComment" element={<UtuComment />} />
-              <Route path="/signalFeedback" element={<SignalFeedback />} />
+              <Route path="/giveSignal" element={<GiveSignal />} />
+              <Route path="/getSignbal" element={<GetSignal />} />
             </Routes>
           </BrowserRouter>
         </div>

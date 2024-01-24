@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import { useGlobalStateContext } from "../../App";
-import { utuTokenService } from "../../services/utu/utuTokenService";
+import { useGlobalStateContext } from "../../../App";
+import { utuTokenService } from "../../../services/utu/utuTokenService";
 import { Link } from "react-router-dom";
-import ShowNextId from "../shared/show-next-id/ShowNextId";
-import UTUTokenBalance from "../shared/utu-token-balance/UTUTokenBalance";
-import { UtuAuthData, utuSignalService } from "../../services/utu/utuSignalService";
+import ShowNextId from "../../shared/show-next-id/ShowNextId";
+import UTUTokenBalance from "../../shared/utu-token-balance/UTUTokenBalance";
+import { UtuAuthData, utuSignalService } from "../../../services/utu/utuSignalService";
 import { useAccount } from "wagmi";
-import { nextIdHelper } from "../../helpers/next.id/nextIdHelper";
+import { nextIdHelper } from "../../../helpers/next.id/nextIdHelper";
+import { access } from "fs";
 
 export default function SignalFeedback(props: any) {
   const { address: connectedAddress, isConnected } = useAccount();
@@ -30,12 +31,11 @@ export default function SignalFeedback(props: any) {
     setUtuTokenBalance(_utuTokenBalance);
   }
 
-  const getSignal = async () => {
+  const getSignal = async (accessToken: string) => {
     if (!connectedAddress) {
       throw new Error('Not connected to wallet');
     }
 
-    let accessToken = utuBearerToken;
     console.log('accessToken', accessToken);
 
     if (accessToken) {
@@ -55,8 +55,9 @@ export default function SignalFeedback(props: any) {
   }
 
   const loginAndGetSignal = async () => {
-    await loginToUtu();
-    await getSignal();
+    const accessToken = await loginToUtu();
+    setUtuBearerToken(accessToken);
+    await getSignal(accessToken);
   }
 
   const getSignalJSX = () => {
@@ -106,7 +107,6 @@ export default function SignalFeedback(props: any) {
 
   useEffect(() => {
     getUttBalance();
-    getSignal();
   }, []);
 
   return (
@@ -128,7 +128,7 @@ export default function SignalFeedback(props: any) {
         See UTU Signal Feedback
       </div>
       <div style={{ marginTop: '20px' }}>
-        This is the next.id you are seeing signal on:
+        This is the next.id / avatar you are seeing signal on:
         <ShowNextId idsItem={idsItem} />
       </div>
       <br /><hr /><br />
