@@ -9,8 +9,8 @@ export default function Home() {
   return (
     <>
       <div style={{ textAlign: 'right' }}>
-        <Link to={'/findNextIdToEndorseOrComment'}>
-          "UTU Endorse / Comment / See Signal"
+        <Link to={'/find-next-id-avatar'}>
+          "UTU Endorse / Give UTU Signal / Get UTU Signal"
         </Link>
         &nbsp; &nbsp;&nbsp; &nbsp;
         <Link to={'/about'}>
@@ -18,16 +18,13 @@ export default function Home() {
         </Link>
       </div>
       <div style={{ color: 'green', fontWeight: 'bold', paddingTop: '20px' }}>
-        Next.id Management
+        Next.id avatar DID Management
       </div>
       <div style={{ paddingTop: '30px' }}>
         <Web3ModalButtons />
       </div>
       <br /><hr />
       <CheckForNextID />
-      {/*
-      <GetAvatarID />
-      */}
       <br /><br /><hr />
     </>
   );

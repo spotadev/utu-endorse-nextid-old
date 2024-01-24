@@ -13,7 +13,7 @@ import LinkGithub from './components/link-platform/github/LinkGithub';
 import About from './components/about/About';
 
 import { IdsItem } from "./services/next-id/nextIdCheckAvatarService";
-import FindNextIdToEndorseOrComment from './components/find-nextid-to-endorse/FindNextIdToEndorseOrComment';
+import FindNextIdAvatar from './components/find-nextid-avatar/FindNextIdAvatar';
 import GiveSignal from './components/signal/give-signal/GiveSignal';
 import UtuEndorse from './components/signal/utu-endorse/UtuEndorse';
 import GetSignal from './components/signal/get-signal/GetSignal';
@@ -146,10 +146,10 @@ function App() {
               <Route path="/link/platform/twitter" element={<LinkXTwitter />} />
               <Route path="/link/platform/github" element={<LinkGithub />} />
               <Route path="/about" element={<About />} />
-              <Route path="/findNextIdToEndorseOrComment" element={<FindNextIdToEndorseOrComment />} />
-              <Route path="/utuEndorse" element={<UtuEndorse />} />
-              <Route path="/giveSignal" element={<GiveSignal />} />
-              <Route path="/getSignbal" element={<GetSignal />} />
+              <Route path="/find-next-id-avatar" element={<FindNextIdAvatar />} />
+              <Route path="/utu-endorse" element={<UtuEndorse />} />
+              <Route path="/give-signal" element={<GiveSignal />} />
+              <Route path="/get-signbal" element={<GetSignal />} />
             </Routes>
           </BrowserRouter>
         </div>

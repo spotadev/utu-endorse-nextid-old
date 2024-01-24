@@ -18,17 +18,17 @@ export default function GuiIdsItem(props: any) {
   const utuEndorse = (idsItem: IdsItem) => {
 
     setIdsItem(idsItem);
-    navigate('/utuEndorse');
+    navigate('/utu-endorse');
   }
 
-  const utuComment = (idsItem: IdsItem) => {
+  const giveSignal = (idsItem: IdsItem) => {
     setIdsItem(idsItem);
-    navigate('/utuComment')
+    navigate('/give-signal')
   }
 
-  const seeSignalFeedback = (idsItem: IdsItem) => {
+  const getSignal = (idsItem: IdsItem) => {
     setIdsItem(idsItem);
-    navigate('/signalFeedback')
+    navigate('/get-signal')
   }
 
   if (idsItem) {
@@ -50,9 +50,9 @@ export default function GuiIdsItem(props: any) {
         <div style={{ paddingTop: '20px' }}>
           <button onClick={() => { utuEndorse(idsItem) }}>UTU Endorse</button>
           &nbsp;&nbsp;
-          <button onClick={() => { utuComment(idsItem) }}>UTU Comment</button>
+          <button onClick={() => { giveSignal(idsItem) }}>Give UTU Signal</button>
           &nbsp;&nbsp;
-          <button onClick={() => { seeSignalFeedback(idsItem) }}>See Signal Feedback</button>
+          <button onClick={() => { getSignal(idsItem) }}>Get UTU Signal</button>
         </div>
       </div>
     );

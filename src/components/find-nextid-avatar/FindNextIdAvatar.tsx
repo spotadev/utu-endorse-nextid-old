@@ -6,7 +6,7 @@ import SelectNextIdDID from './children/SelectNextIdDID';
 import ShowTestEthereumAddress from '../show-test-ethereum-address/ShowTestEthereumAddress';
 import { useGlobalStateContext } from '../../App';
 
-export default function FindNextIdToEndorseOrComment() {
+export default function FindNextIdAvatar() {
 
   const {
     findPlatform,
@@ -49,18 +49,18 @@ export default function FindNextIdToEndorseOrComment() {
         </Link>
       </div>
       <div style={{ color: 'green', fontWeight: 'bold', paddingTop: '20px' }}>
-        "UTU Endorse / Comment / See Signal"
+        Find next.id / avatar
       </div>
       <div style={{ paddingTop: '20px' }}>
-        To Endorse, add a comment or see signal for a  next.id DID you need to first of all find
-        the DID.
+        To Endorse, Give Signal, or Get Signal for a next.id avatar DID you need to first of all
+        find the DID.
         <br /><br />
         To find the DID:
         <ul>
           <li>Select the platform you want to search in from the dropdown</li>
           <li>Type the handle in the box</li>
         </ul>
-        Note if the person does not have a next.id DID you will not find them.
+        Note if the person does not have a next.id avatar DID you will not find them.
       </div>
       <ShowTestEthereumAddress />
       <br /><hr />
