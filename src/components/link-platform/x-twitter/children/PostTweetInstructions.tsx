@@ -154,7 +154,7 @@ export default function PostTweetInstructions() {
         <div style={{ paddingTop: '20px' }}>
           Please copy the text in the pink box below into a tweet and send it:
         </div>
-        <div style={{ marginTop: '20px', backgroundColor: 'pink', height: '120px', wordWrap: 'break-word' }}>
+        <div style={{ marginTop: '20px', padding: '10px', backgroundColor: 'lightgreen', height: '120px', wordWrap: 'break-word' }}>
           {firstLineTweet}
           <br />
           Sig: {signedMessageBase64Tweet}
