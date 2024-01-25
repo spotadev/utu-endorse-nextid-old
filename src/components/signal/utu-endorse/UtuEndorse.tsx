@@ -32,6 +32,7 @@ export default function UtuEndorse() {
       await utuTokenService.endorse(targetAddress, Number(amountToEndorse), transactionId);
 
     setTransaction(transaction);
+    setEndorseClicked(false);
   }
 
   useEffect(() => {
@@ -58,7 +59,7 @@ export default function UtuEndorse() {
             {transaction}
           </div>
           <div style={{ paddingTop: '20px' }}>
-            <Link to={'/findNextIdToEndorseOrComment'}>
+            <Link to={'/find-next-id-avatar'}>
               Back
             </Link>
           </div>
@@ -81,7 +82,7 @@ export default function UtuEndorse() {
           Home
         </Link>
         &nbsp;&nbsp;
-        <Link to={'/findNextIdToEndorseOrComment'}>
+        <Link to={'/find-next-id-avatar'}>
           Back
         </Link>
       </div>

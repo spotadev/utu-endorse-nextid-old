@@ -44,7 +44,7 @@ export default function UtuComment() {
     console.log('initEntityResponse', initEntityResponse);
   }
 
-  const giveSignal = async (
+  const createSignal = async (
     accessToken: string,
     targetAddress: string,
     connectedAddress: string,
@@ -76,22 +76,36 @@ export default function UtuComment() {
 
     let accessToken = utuBearerToken;
 
+    if (!accessToken) {
+      accessToken = await loginToUtu();
+      console.log('yyyy accessToken', accessToken);
+      setUtuBearerToken(accessToken);
+    }
+
     const targetAddress: string = nextIdHelper.getEthereumAddress(nextId);
-    const targetType: string = 'next-did';
+    const targetType: string = 'Address';
     const transactionId = `{ nextId: ${nextId} }`;
 
     // Second Network Call
     await initEntity(targetAddress, targetType, utuBearerToken);
-
     const connectedAddress = address;
     const stars = parseInt(rating, 10);
 
     // Third Network Call
-    await giveSignal(accessToken, targetAddress, connectedAddress, transactionId, stars);
+    const _signalResponse =
+      await createSignal(accessToken, targetAddress, connectedAddress, transactionId, stars);
+
+    console.log('_signalResponse', _signalResponse);
+    setSignalResponse(_signalResponse);
+    setSaveCommentClicked(false);
+  }
+
+  const getUttBalance = async () => {
+    const _utuTokenBalance = await utuTokenService.getBalance();
+    setUtuTokenBalance(_utuTokenBalance);
   }
 
   const getSignalResponseJSX = () => {
-
     if (signalResponse) {
 
       return (
@@ -106,7 +120,7 @@ export default function UtuComment() {
             {signalResponse}
           </div>
           <div style={{ paddingTop: '20px' }}>
-            <Link to={'/findNextIdToEndorseOrComment'}>
+            <Link to={'/find-next-id-avatar'}>
               Back
             </Link>
           </div>
@@ -119,12 +133,6 @@ export default function UtuComment() {
   }
 
   useEffect(() => {
-    const getUttBalance = async () => {
-      const _utuTokenBalance = await utuTokenService.getBalance();
-      console.log('_utuTokenBalance', _utuTokenBalance);
-      setUtuTokenBalance(_utuTokenBalance);
-    }
-
     getUttBalance();
   }, []);
 
@@ -139,7 +147,7 @@ export default function UtuComment() {
           Home
         </Link>
         &nbsp;&nbsp;
-        <Link to={'/findNextIdToEndorseOrComment'}>
+        <Link to={'/find-next-id-avatar'}>
           Back
         </Link>
       </div>
@@ -186,7 +194,7 @@ export default function UtuComment() {
       <div style={{ paddingTop: '20px' }}>(1 = Rated, 5 = Extremely Rated)</div>
       <br /><hr /><br />
       <div style={{ paddingTop: '20px' }}>
-        <button disabled={comment.length === 0 || rating !== '' || saveCommentClicked}
+        <button disabled={comment.length === 0 || rating == '' || saveCommentClicked}
           onClick={saveComment}>Save Comment</button>
       </div >
       {getSignalResponseJSX()}

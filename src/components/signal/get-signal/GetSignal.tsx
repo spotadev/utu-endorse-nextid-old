@@ -53,6 +53,7 @@ export default function SignalFeedback(props: any) {
       try {
         const signalResponse =
           await utuSignalService.getSignal(accessToken, targetAddress, connectedAddress);
+
         setSignalResponse(signalResponse);
       }
       catch (error) {
@@ -62,9 +63,14 @@ export default function SignalFeedback(props: any) {
   }
 
   const loginAndGetSignal = async () => {
-    const accessToken = await loginToUtu();
-    console.log('zzzz accessToken', accessToken);
-    setUtuBearerToken(accessToken);
+    let accessToken = utuBearerToken;
+
+    if (!accessToken) {
+      accessToken = await loginToUtu();
+      console.log('zzzz accessToken', accessToken);
+      setUtuBearerToken(accessToken);
+    }
+
     await getSignal(accessToken);
   }
 
