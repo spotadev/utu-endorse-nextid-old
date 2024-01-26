@@ -64,6 +64,7 @@ const initEntity = (
 
   const apiEntityAddress = 'core-api-v2/entity';
   const fullUrl = `${utuBaseApiUrl}/${apiEntityAddress}`;
+  const lowerCaseTargetAddress = targetAddress.toLowerCase;
 
   return axios.post(
     `${fullUrl}`,
@@ -71,7 +72,8 @@ const initEntity = (
       name: targetAddress,
       type: targetType,
       ids: {
-        uuid: targetAddress.toLowerCase()
+        uuid: lowerCaseTargetAddress,
+        addrewss: lowerCaseTargetAddress
       }
     },
     getAxiosRequestConfig(accessToken)
@@ -98,12 +100,12 @@ const giveSignal = (
     {
       "sourceCriteria": {
         "ids": {
-          "uuid": connectedAddress
+          "uuid": connectedAddress.toLowerCase
         }
       },
       "targetCriteria": {
         "ids": {
-          "uuid": targetAddress
+          "uuid": targetAddress.toLowerCase
         }
       },
       "transactionId": transactionId,
@@ -125,8 +127,8 @@ const getSignal = (
   targetAddress: string,
   connectedAddress: string
 ): Promise<any> => {
-  const sourceCriteria = createEntityCriteria(connectedAddress);
-  const targetCriteria = createEntityCriteria(targetAddress);
+  const sourceCriteria = createEntityCriteria(connectedAddress.toLowerCase());
+  const targetCriteria = createEntityCriteria(targetAddress.toLowerCase());
 
   const queryParams = qs.stringify({
     sourceCriteria, targetCriteria
@@ -150,9 +152,9 @@ const getRanking = (
   targetUuids?: string[],
 ) => {
   const queryParams = qs.stringify({
-    sourceCriteria: JSON.stringify(createEntityCriteria(connectedAddress)),
+    sourceCriteria: JSON.stringify(createEntityCriteria(connectedAddress.toLowerCase())),
     targetType,
-    targetCriterias: targetUuids?.map(uuid => JSON.stringify(createEntityCriteria(uuid)))
+    targetCriterias: targetUuids?.map(uuid => JSON.stringify(createEntityCriteria(uuid.toLowerCase())))
   });
 
   const apiRanking = 'core-api-v2/identity-api/ranking';
