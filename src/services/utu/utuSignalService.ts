@@ -90,21 +90,27 @@ const giveSignal = (
     throw new Error('REACT_APP_UTU_API_BASE_URL missing from env file');
   }
 
-  const apiFeedbackAddress = 'core-api-v2/identity-api/feedback';
+  const apiFeedbackAddress = 'core-api-v2/feedback';
   const fullUrl = `${utuBaseApiUrl}/${apiFeedbackAddress}`
-
-  const feedbackData: IFeedbackData = {
-    review: comment,
-    stars: stars
-  };
 
   return axios.post(
     `${fullUrl}`,
     {
-      connectedAddress,
-      targetAddress,
-      transactionId,
-      items: feedbackData
+      "sourceCriteria": {
+        "ids": {
+          "uuid": connectedAddress
+        }
+      },
+      "targetCriteria": {
+        "ids": {
+          "uuid": targetAddress
+        }
+      },
+      "transactionId": transactionId,
+      "items": {
+        "review": comment,
+        "stars": stars
+      }
     },
     getAxiosRequestConfig(utuBearerToken)
   );

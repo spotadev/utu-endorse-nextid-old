@@ -105,6 +105,16 @@ export default function UtuComment() {
     setUtuTokenBalance(_utuTokenBalance);
   }
 
+  const loginToUTU = async () => {
+    let accessToken = utuBearerToken;
+
+    if (!accessToken) {
+      accessToken = await loginToUtu();
+      console.log('accessToken', accessToken);
+      setUtuBearerToken(accessToken);
+    }
+  }
+
   const getSignalResponseJSX = () => {
     if (signalResponse) {
 
@@ -125,6 +135,76 @@ export default function UtuComment() {
             </Link>
           </div>
         </div>
+      );
+    }
+    else {
+      return '';
+    }
+  }
+
+  const getLoginToUtuJSX = () => {
+    if (!utuBearerToken) {
+      return (
+        <>
+          <div>
+            In order to get UTU Signal Feedback you need to login to UTU using your Wallet.
+          </div>
+          <div style={{ marginTop: '20px' }}>
+            Click the button to login.  It will ask your wallet to sign some text.
+          </div>
+          <div style={{ marginTop: '20px' }}>
+            <button onClick={loginToUTU}>Login to UTU</button>
+          </div>
+        </>
+      );
+    }
+    else {
+      return '';
+    }
+  }
+
+  const getCreateSignalJSX = () => {
+    if (utuBearerToken) {
+      return (
+        <>
+          <div>
+            Add your comment for the above DID.  Note that only people in your networks will be able
+            to see your comment.
+          </div>
+          <div style={{ paddingTop: '20px' }}>
+            <textarea
+              id="comment"
+              name="comment"
+              value={comment}
+              onChange={(event) => { setComment(event.target.value) }}
+              rows={4}
+              cols={50}
+            />
+          </div>
+          <div style={{ paddingTop: '20px' }}>
+            <span>Select Rating:</span>
+            &nbsp;&nbsp;
+            <select id="rating"
+              value={rating}
+              onChange={(event) => { setRating(event.target.value) }}
+              className={appStyle.input}
+            >
+              <option value="">Select...</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </div>
+          <div style={{ paddingTop: '20px' }}>(1 = Rated, 5 = Extremely Rated)</div>
+          <br /><hr /><br />
+          <div style={{ paddingTop: '20px' }}>
+            <button disabled={comment.length === 0 || rating == '' || saveCommentClicked}
+              onClick={saveComment}>Save Comment</button>
+          </div >
+          {getSignalResponseJSX()}
+        </>
       );
     }
     else {
@@ -161,43 +241,10 @@ export default function UtuComment() {
       <br /><hr /><br />
       <UTUTokenBalance utuTokenBalance={utuTokenBalance} />
       <br /><hr /><br />
-      <div>
-        Add your comment for the above DID.  Note that only people in your networks will be able
-        to see your comment.
-      </div>
-      <div style={{ paddingTop: '20px' }}>
-        <textarea
-          id="comment"
-          name="comment"
-          value={comment}
-          onChange={(event) => { setComment(event.target.value) }}
-          rows={4}
-          cols={50}
-        />
-      </div>
-      <div style={{ paddingTop: '20px' }}>
-        <span>Select Rating:</span>
-        &nbsp;&nbsp;
-        <select id="rating"
-          value={rating}
-          onChange={(event) => { setRating(event.target.value) }}
-          className={appStyle.input}
-        >
-          <option value="">Select...</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-        </select>
-      </div>
-      <div style={{ paddingTop: '20px' }}>(1 = Rated, 5 = Extremely Rated)</div>
-      <br /><hr /><br />
-      <div style={{ paddingTop: '20px' }}>
-        <button disabled={comment.length === 0 || rating == '' || saveCommentClicked}
-          onClick={saveComment}>Save Comment</button>
-      </div >
-      {getSignalResponseJSX()}
+      {getLoginToUtuJSX()}
+      {getCreateSignalJSX()}
+
+
     </>
   );
 }

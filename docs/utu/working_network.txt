@@ -1,0 +1,109 @@
+==================================
+
+All these network calls worked from:
+
+https://stage-app.utu.io/
+
+I was logged in as Bling:        0x3678227816d3d80a3c1d85812ad5d24019fb458f
+
+And was giving signal on Bang:   0x32799fdca8811abb03f1a02f69d183446d1c47e1
+
+==================================
+
+POST   https://stage-api.ututrust.com/identity-api/verify-address
+
+{
+    "address": "0x3678227816d3d80A3c1D85812ad5D24019Fb458F",
+    "signature": "0xbffae0eb81bbef7abb99c0ad2bf87e16ab7415c8dda41a67e2e1e3598b17d14c6148c6df3c2ee1c4be940013bf8f9355739f88237197fd72a562d8954c6fc1d91b"
+}
+
+{
+    "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJkTkQ3Y3Zab3Q4YUlzd3dMb2dwRjNyRm1tLTRiekIwNWpFQ201bnNSZ0djIn0.eyJleHAiOjE3MDYzNjA4MDIsImlhdCI6MTcwNjI3NDQwMiwianRpIjoiZDUwNmFjZTQtYjBlNy00NDc1LTgxMGUtMjIxYTdiYWE5ODNlIiwiaXNzIjoiaHR0cDovL2tleWNsb2FrLXNlcnZpY2UvYXV0aC9yZWFsbXMvMW9tNXhkM2IyNWVhYXk5ZzJnczh5YiIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiIxY2UxNjgzYi1hNGI0LTQwYTQtYmRjZS04OGVkNTNjMjI3MDQiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJhcGkiLCJzZXNzaW9uX3N0YXRlIjoiYzIzNTc4OWEtNTY2Mi00Y2JkLTk0NzctNjI1N2M4MjIyYzk2IiwiYWNyIjoiMSIsInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiIweDM2NzgyMjc4MTZkM2Q4MGEzYzFkODU4MTJhZDVkMjQwMTlmYjQ1OGYifQ.UmFtSNKvuUSussBxm5-po0XnohAAp5loll9WofThFuU1MKml2JaURAomgqtPFcKtsr5rMn2hdl3-4W84Lh9J8ppqhZTZ65Su_UFvVqqO4t249sgCc4VAc0oSGj_a7rJZe7FDzqUB727ehLDvBD6hkvkrOcrvP2Y-5QdFi5y0n39ohsOU4DgjRTLJiraQOctwWdtDrfavzHHyY5QNe0JurTb9FPZjbyW4vQbs-zDapfhUamG2EC8EubsYSORHqaDJWRRhH6jfZt1VIEU05JeUVrzXETVIZyU02AJa63HCs6CrxvVbq0ht6Y_Mtr6-Lj9ZPLpcy1TSkwbYEOe5GULCzA",
+    "expires_in": 86400,
+    "refresh_expires_in": 1800,
+    "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI5YmY5NzczYy0zZTIwLTQxOWEtYmMzMC0yYzMyNzU4NTA0YmQifQ.eyJleHAiOjE3MDYyNzYyMDIsImlhdCI6MTcwNjI3NDQwMiwianRpIjoiZTU0NzA0NTMtMjFiNi00NjNiLWJjMTQtMTZjYjgwOTA5YjhkIiwiaXNzIjoiaHR0cDovL2tleWNsb2FrLXNlcnZpY2UvYXV0aC9yZWFsbXMvMW9tNXhkM2IyNWVhYXk5ZzJnczh5YiIsImF1ZCI6Imh0dHA6Ly9rZXljbG9hay1zZXJ2aWNlL2F1dGgvcmVhbG1zLzFvbTV4ZDNiMjVlYWF5OWcyZ3M4eWIiLCJzdWIiOiIxY2UxNjgzYi1hNGI0LTQwYTQtYmRjZS04OGVkNTNjMjI3MDQiLCJ0eXAiOiJSZWZyZXNoIiwiYXpwIjoiYXBpIiwic2Vzc2lvbl9zdGF0ZSI6ImMyMzU3ODlhLTU2NjItNGNiZC05NDc3LTYyNTdjODIyMmM5NiIsInNjb3BlIjoiZW1haWwgcHJvZmlsZSJ9.-l-Tt5MoxCkYMZ1Rqr9M1vI8N-qCpjMms3LPro_c4NU",
+    "token_type": "Bearer",
+    "not-before-policy": 0,
+    "session_state": "c235789a-5662-4cbd-9477-6257c8222c96",
+    "scope": "email profile"
+}
+
+==================================
+
+POST https://stage-api.ututrust.com/core-api-v2/entity
+
+{
+    "name": "0x32799fdca8811abb03f1a02f69d183446d1c47e1",
+    "type": "Address",
+    "ids": {
+        "uuid": "0x32799fdca8811abb03f1a02f69d183446d1c47e1",
+        "address": "0x32799fdca8811abb03f1a02f69d183446d1c47e1"
+    }
+}
+
+{"status":"success","result":"updated"}
+
+==================================
+
+POST https://stage-api.ututrust.com/core-api-v2/feedback
+
+{
+    "sourceCriteria": {
+        "ids": {
+            "uuid": "0x3678227816d3d80a3c1d85812ad5d24019fb458f"
+        }
+    },
+    "targetCriteria": {
+        "ids": {
+            "uuid": "0x32799fdca8811abb03f1a02f69d183446d1c47e1"
+        }
+    },
+    "transactionId": "tx2",
+    "items": {
+        "review": "Great address"
+    }
+}
+
+{"status":"success","result":"created"}
+
+==================================
+
+GET 
+https://stage-api.ututrust.com/core-api-v2/feedbackSummary?sourceCriteria%5Bids%5D%5Buuid%5D=0x3678227816d3d80a3c1d85812ad5d24019fb458f&targetCriteria%5Bids%5D%5Buuid%5D=0x32799fdca8811abb03f1a02f69d183446d1c47e1
+
+
+{
+    "status": "success",
+    "result": {
+        "target": {
+            "name": "0x32799fdca8811abb03f1a02f69d183446d1c47e1",
+            "type": "Address",
+            "properties": {},
+            "ids": {
+                "address": "0x32799fdca8811abb03f1a02f69d183446d1c47e1"
+            },
+            "uuid": "0x32799fdca8811abb03f1a02f69d183446d1c47e1"
+        },
+        "items": {
+            "videos": {
+                "summaryText": "No one in your network left a video review.",
+                "videos": []
+            },
+            "reviews": [
+                {
+                    "summaryText": "You had this to say:",
+                    "content": "Great address",
+                    "date": 1706274432
+                }
+            ],
+            "badges": {
+                "summaryText": "No one in your network left a badge.",
+                "assignments": {}
+            },
+            "endorsements": []
+        }
+    }
+}
+
+==================================
+
