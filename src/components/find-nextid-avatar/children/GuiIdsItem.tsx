@@ -45,7 +45,7 @@ export default function GuiIdsItem(props: any) {
         {
           proofs.map((proof, index) => (
             <div key={proof.identity} style={{ paddingTop: '20px' }}>
-              <GuiProof proof={proof} />
+              <GuiProof proof={proof} index={index} />
             </div>
           ))
         }

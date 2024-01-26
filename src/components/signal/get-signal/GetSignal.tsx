@@ -12,7 +12,8 @@ import { access } from "fs";
 export default function SignalFeedback(props: any) {
   const { address: connectedAddress, isConnected } = useAccount();
   const [utuTokenBalance, setUtuTokenBalance] = useState<number>(0);
-  const [signalResponse, setSignalResponse] = useState<any>(null);
+  const [reviews, setReviews] = useState<any>(null);
+  const [endorsements, setEndorsements] = useState<any>(null);
 
   const {
     idsItem,
@@ -34,8 +35,7 @@ export default function SignalFeedback(props: any) {
   }
 
   const getSignal = async (accessToken: string) => {
-
-    console.log('getSignal idsItem', idsItem);
+    // console.log('getSignal idsItem', idsItem);
 
     if (!connectedAddress) {
       throw new Error('Not connected to wallet');
@@ -54,7 +54,21 @@ export default function SignalFeedback(props: any) {
         const signalResponse =
           await utuSignalService.getSignal(accessToken, targetAddress, connectedAddress);
 
-        setSignalResponse(signalResponse);
+        const data = signalResponse.data;
+        console.log('data', data);
+        const status = data.status;
+        console.log('status', status);
+        const result = data.result;
+        console.log('result', result);
+        const items = result.items;
+        console.log('items', items);
+        const reviews = items.reviews;
+        console.log('reviews', reviews);
+        const endorsements = items.endorsements;
+        console.log('endorsements', endorsements);
+
+        setReviews(reviews);
+        setEndorsements(endorsements);
       }
       catch (error) {
         console.error('signalResponse error:', error);
@@ -67,7 +81,7 @@ export default function SignalFeedback(props: any) {
 
     if (!accessToken) {
       accessToken = await loginToUtu();
-      console.log('zzzz accessToken', accessToken);
+      // console.log('zzzz accessToken', accessToken);
       setUtuBearerToken(accessToken);
     }
 
@@ -76,15 +90,17 @@ export default function SignalFeedback(props: any) {
 
   const getSignalJSX = () => {
 
-    console.log('yyyy idsItem', idsItem);
+    //console.log('yyyy idsItem', idsItem);
+
     if (!utuBearerToken) {
       return '';
     }
 
-    if (signalResponse) {
+    if (reviews?.length > 0 || endorsements?.length > 0) {
       return (
         <div style={{ marginTop: '20px', color: 'maroon' }}>
-          Signal Respone: {signalResponse}
+          <div>reviews: {reviews}</div>
+          <div>endorsements: {endorsements}</div>
         </div>
       );
     }
