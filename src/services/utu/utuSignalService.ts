@@ -14,10 +14,97 @@ export type UtuAuthData = {
   }
 };
 
-export interface IFeedbackData {
-  review: string;
-  stars: number;
+// =================================================================================================
+
+
+
+// -----------------------------------
+
+export interface IBadge {
+  profile: [];
+  imageBig: string;
+  image: string;
+  label: string;
 }
+
+export interface IBadgeCount {
+  badge: IBadge;
+  count: number;
+}
+
+export interface IFb {
+  [qualifier: string]: IBadgeCount;
+}
+
+export interface IBadgesFb {
+  [id: string]: IFb;
+}
+
+// -----------------------------------
+
+export interface IReview {
+  content: string;
+  date: number;
+  image: string;
+  summary: string;
+}
+
+// -----------------------------------
+
+export interface IStars {
+  avg: number;
+  count: number;
+  sum: number;
+  name: [];
+  summaryText: string;
+}
+
+// -----------------------------------
+
+export interface IVideos {
+  summaryText: string;
+  videos: IVideos[];
+}
+
+export interface IVideo {
+  date: number;
+  image: string;
+  url: string;
+}
+
+// -----------------------------------
+
+export interface IEntity {
+  name: string;
+  uuid: string;
+  image: string;
+  type: string;
+  properties: Record<string, unknown>;
+}
+
+export interface IEndorsement {
+  value: number;
+  blockNumber: number;
+}
+
+export interface IEndorsements {
+  source: IEntity;
+  endorsement: IEndorsement;
+}
+
+// -----------------------------------
+
+export interface IFeedback {
+  summaryText: string;
+  // contacts?: IContacts;
+  badges: IBadgesFb;
+  reviews: IReview[];
+  stars: IStars;
+  videos: IVideos;
+  endorsements?: IEndorsements[];
+}
+
+// =================================================================================================
 
 const utuBaseApiUrl =
   process.env.REACT_APP_UTU_API_BASE_URL;
@@ -122,11 +209,11 @@ const createEntityCriteria = (uuid: string) => {
   return { ids: { uuid } };
 }
 
-const getSignal = (
+const getSignal = async (
   utuBearerToken: string,
   targetAddress: string,
   connectedAddress: string
-): Promise<any> => {
+): Promise<IFeedback> => {
   const sourceCriteria = createEntityCriteria(connectedAddress.toLowerCase());
   const targetCriteria = createEntityCriteria(targetAddress.toLowerCase());
 
@@ -142,7 +229,12 @@ const getSignal = (
   console.log('zzzz fullUrl', fullUrl);
   console.log('zzzz utuBearerToken', utuBearerToken);
 
-  return axios.get<any>(fullUrl, getAxiosRequestConfig(utuBearerToken))
+  const response = await axios.get<any>(fullUrl, getAxiosRequestConfig(utuBearerToken))
+  const data = response.data;
+  const status = data.status;
+  const result = data.result;
+  const items: IFeedback = result.items;
+  return items;
 }
 
 const getRanking = (

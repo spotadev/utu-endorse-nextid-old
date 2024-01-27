@@ -4,7 +4,7 @@ import { utuTokenService } from "../../../services/utu/utuTokenService";
 import { Link } from "react-router-dom";
 import ShowNextId from "../../shared/show-next-id/ShowNextId";
 import UTUTokenBalance from "../../shared/utu-token-balance/UTUTokenBalance";
-import { UtuAuthData, utuSignalService } from "../../../services/utu/utuSignalService";
+import { IEndorsements, IFeedback, IReview, UtuAuthData, utuSignalService } from "../../../services/utu/utuSignalService";
 import { useAccount } from "wagmi";
 import { nextIdHelper } from "../../../helpers/next.id/nextIdHelper";
 import { access } from "fs";
@@ -12,8 +12,8 @@ import { access } from "fs";
 export default function SignalFeedback(props: any) {
   const { address: connectedAddress, isConnected } = useAccount();
   const [utuTokenBalance, setUtuTokenBalance] = useState<number>(0);
-  const [reviews, setReviews] = useState<any>(null);
-  const [endorsements, setEndorsements] = useState<any>(null);
+  const [reviews, setReviews] = useState<IReview[]>([]);
+  const [endorsements, setEndorsements] = useState<IEndorsements[]>([]);
 
   const {
     idsItem,
@@ -51,27 +51,19 @@ export default function SignalFeedback(props: any) {
       const targetAddress: string = nextIdHelper.getEthereumAddress(nextId);
 
       try {
-        const signalResponse =
+        const feedback: IFeedback =
           await utuSignalService.getSignal(accessToken, targetAddress, connectedAddress);
 
-        const data = signalResponse.data;
-        console.log('data', data);
-        const status = data.status;
-        console.log('status', status);
-        const result = data.result;
-        console.log('result', result);
-        const items = result.items;
-        console.log('items', items);
-        const reviews = items.reviews;
+        console.log('feedback', feedback);
+        const reviews: IReview[] = feedback.reviews;
         console.log('reviews', reviews);
-        const endorsements = items.endorsements;
+        const endorsements: IEndorsements[] | undefined = feedback.endorsements;
         console.log('endorsements', endorsements);
-
         setReviews(reviews);
-        setEndorsements(endorsements);
+        setEndorsements(endorsements ? endorsements : []);
       }
       catch (error) {
-        console.error('signalResponse error:', error);
+        console.error('getSignal error:', error);
       }
     }
   }
@@ -88,32 +80,67 @@ export default function SignalFeedback(props: any) {
     await getSignal(accessToken);
   }
 
+  const getReviewJSX = (review: IReview) => {
+    return (
+      <div>
+        <div>
+          <span style={{ display: 'inline-block', width: '150px' }}>
+            Content:
+          </span>
+          <span>{review.content}</span>
+        </div>
+        <div>
+          <span style={{ display: 'inline-block', width: '150px' }}>
+            Date:
+          </span>
+          <span>{new Date(review.date).toString()}</span>
+        </div>
+        <div>
+          <span style={{ display: 'inline-block', width: '150px' }}>
+            Summary:
+          </span>
+          <span>{review.summary}</span>
+        </div>
+      </div >
+    );
+  }
+
+  const getReviewsJSX = () => {
+
+    if (reviews.length > 0) {
+      <div>
+        {
+          reviews.map((review) => {
+            return getReviewJSX(review);
+          });
+        }
+      </div>
+    }
+    else {
+      return (
+        <div>
+          No Reviews
+        </div>
+      );
+    }
+  }
+
+  const getEndorsementsJSX = () => {
+    return '';
+  }
+
   const getSignalJSX = () => {
-
     //console.log('yyyy idsItem', idsItem);
-
     if (!utuBearerToken) {
       return '';
     }
 
-    if (reviews?.length > 0 || endorsements?.length > 0) {
-      return (
-        <div style={{ marginTop: '20px', color: 'maroon' }}>
-          <div>reviews: {reviews}</div>
-          <div>endorsements: {endorsements}</div>
-        </div>
-      );
-    }
-    else {
-      return (
-        <div style={{ marginTop: '20px', color: 'maroon' }}>
-          No Signal
-          <Link to={'/find-next-id-avatar'}> -
-            Try Searching for another next DID
-          </Link>
-        </div>
-      );
-    }
+    return (
+      <div style={{ marginTop: '20px', color: 'maroon' }}>
+        {getReviewsJSX()}
+        {getEndorsementsJSX()}
+      </div>
+    );
   }
 
   const getLoginToUtuJSX = () => {
