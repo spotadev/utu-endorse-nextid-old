@@ -4,7 +4,7 @@ import { utuTokenService } from "../../../services/utu/utuTokenService";
 import { Link } from "react-router-dom";
 import ShowNextId from "../../shared/show-next-id/ShowNextId";
 import UTUTokenBalance from "../../shared/utu-token-balance/UTUTokenBalance";
-import { IEndorsements, IFeedback, IReview, UtuAuthData, utuSignalService } from "../../../services/utu/utuSignalService";
+import { IEndorsement, IEndorsements, IEntity, IFeedback, IReview, UtuAuthData, utuSignalService } from "../../../services/utu/utuSignalService";
 import { useAccount } from "wagmi";
 import { nextIdHelper } from "../../../helpers/next.id/nextIdHelper";
 import { access } from "fs";
@@ -106,15 +106,19 @@ export default function SignalFeedback(props: any) {
   }
 
   const getReviewsJSX = () => {
-
     if (reviews.length > 0) {
-      <div>
-        {
-          reviews.map((review) => {
-            return getReviewJSX(review);
-          });
-        }
-      </div>
+      return (
+        <div>
+          <h3>Reviews</h3>
+          {
+            reviews.map(
+              (review) => {
+                return getReviewJSX(review);
+              }
+            )
+          }
+        </div>
+      );
     }
     else {
       return (
@@ -125,8 +129,97 @@ export default function SignalFeedback(props: any) {
     }
   }
 
+  const getEntityPropertiesJSX = (properties: Record<string, unknown>) => {
+    return (
+      Object.keys(properties).map((key) => {
+        let value = String(properties[key]);
+        return (
+          <div key={key}>
+            Property {key}: {value}
+          </div>
+        );
+      })
+    );
+  }
+
+  const getEntityJSX = (entity: IEntity) => {
+    return (
+      <>
+        <div>
+          <span style={{ display: 'inline-block', width: '150px' }}>
+            Entity Name:
+          </span>
+          <span>{entity.name}</span>
+        </div>
+        <div>
+          <span style={{ display: 'inline-block', width: '150px' }}>
+            Entity Uuid:
+          </span>
+          <span>{entity.uuid}</span>
+        </div>
+        <div>
+          <span style={{ display: 'inline-block', width: '150px' }}>
+            Entity Image:
+          </span>
+          <span>{entity.image}</span>
+        </div>
+        <div>
+          <span style={{ display: 'inline-block', width: '150px' }}>
+            Entity Type:
+          </span>
+          <span>{entity.type}</span>
+        </div>
+        {
+          getEntityPropertiesJSX(entity.properties)
+        }
+      </>
+    );
+  }
+
+  const getEndorsementJSX = (_endorsements: IEndorsements) => {
+    const endorsement: IEndorsement = _endorsements.endorsement;
+    const entity: IEntity = _endorsements.source;
+    return (
+      <div>
+        {
+          getEntityJSX(entity)
+        }
+        <div>
+          <span style={{ display: 'inline-block', width: '150px' }}>
+            Endorsement Value:
+          </span>
+          <span>{endorsement.value}</span>
+        </div>
+        <div>
+          <span style={{ display: 'inline-block', width: '150px' }}>
+            Endorsement Block Number:
+          </span>
+          <span>{endorsement.blockNumber}</span>
+        </div>
+      </div>
+    );
+  }
+
   const getEndorsementsJSX = () => {
-    return '';
+    if (endorsements && endorsements?.length > 0) {
+      return (
+        <div>
+          <h3>Endorsements</h3>
+          {
+            endorsements.map(
+              (_endorsements) => {
+                return getEndorsementJSX(_endorsements);
+              }
+            )
+          }
+        </div>
+      );
+    }
+    return (
+      <div>
+        No Endorsements
+      </div>
+    );
   }
 
   const getSignalJSX = () => {
