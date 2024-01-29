@@ -11,7 +11,7 @@ export default function ShowNextId(props: any) {
 
   let proofs: Proof[] = idsItem?.proofs;
 
-  if (proofs) {®
+  if (proofs) {
     for (let proof of proofs) {
       if (proof.is_valid) {
         proofsToRender.push(proof);
