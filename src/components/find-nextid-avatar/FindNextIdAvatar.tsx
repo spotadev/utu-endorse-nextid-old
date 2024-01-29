@@ -9,18 +9,17 @@ import { useAccount } from 'wagmi';
 
 export default function FindNextIdAvatar() {
 
-  const { address, isConnected } = useAccount();
-
   const {
     findPlatform,
     setFindPlatform,
     findHandle,
     setFindHandle,
-    idsItem,
     setIdsItem,
     idsItems,
     setIdsItems
   } = useGlobalStateContext();
+
+  const { address, isConnected } = useAccount();
 
   const reset = () => {
     setFindPlatform('');

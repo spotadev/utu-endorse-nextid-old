@@ -46,7 +46,7 @@ export interface IReview {
   content: string;
   date: number;
   image: string;
-  summary: string;
+  summaryText: string; // In sdk this is summary which is wrong
 }
 
 // -----------------------------------

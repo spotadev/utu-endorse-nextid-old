@@ -4,16 +4,17 @@ import { utuTokenService } from "../../../services/utu/utuTokenService";
 import { Link } from "react-router-dom";
 import ShowNextId from "../../shared/show-next-id/ShowNextId";
 import UTUTokenBalance from "../../shared/utu-token-balance/UTUTokenBalance";
-import { IEndorsement, IEndorsements, IEntity, IFeedback, IReview, UtuAuthData, utuSignalService } from "../../../services/utu/utuSignalService";
+import { IEndorsement, IEndorsements, IEntity, IFeedback, IReview, IStars, UtuAuthData, utuSignalService } from "../../../services/utu/utuSignalService";
 import { useAccount } from "wagmi";
 import { nextIdHelper } from "../../../helpers/next.id/nextIdHelper";
 import { access } from "fs";
 
-export default function SignalFeedback(props: any) {
+export default function GetSignal(props: any) {
   const { address: connectedAddress, isConnected } = useAccount();
   const [utuTokenBalance, setUtuTokenBalance] = useState<number>(0);
   const [reviews, setReviews] = useState<IReview[]>([]);
   const [endorsements, setEndorsements] = useState<IEndorsements[]>([]);
+  const [stars, setStars] = useState<IStars>();
 
   const {
     idsItem,
@@ -35,8 +36,6 @@ export default function SignalFeedback(props: any) {
   }
 
   const getSignal = async (accessToken: string) => {
-    // console.log('getSignal idsItem', idsItem);
-
     if (!connectedAddress) {
       throw new Error('Not connected to wallet');
     }
@@ -58,9 +57,11 @@ export default function SignalFeedback(props: any) {
         const reviews: IReview[] = feedback.reviews;
         console.log('reviews', reviews);
         const endorsements: IEndorsements[] | undefined = feedback.endorsements;
+        const stars = feedback.stars;
         console.log('endorsements', endorsements);
         setReviews(reviews);
         setEndorsements(endorsements ? endorsements : []);
+        setStars(stars);
       }
       catch (error) {
         console.error('getSignal error:', error);
@@ -68,21 +69,26 @@ export default function SignalFeedback(props: any) {
     }
   }
 
-  const loginAndGetSignal = async () => {
+  const login = async () => {
     let accessToken = utuBearerToken;
 
     if (!accessToken) {
       accessToken = await loginToUtu();
-      // console.log('zzzz accessToken', accessToken);
       setUtuBearerToken(accessToken);
     }
 
-    await getSignal(accessToken);
+    // await getSignal(accessToken);
   }
 
-  const getReviewJSX = (review: IReview) => {
+  const getReviewJSX = (review: IReview, index: number) => {
     return (
-      <div>
+      <div key={index}>
+        <div>
+          <span style={{ display: 'inline-block', width: '150px' }}>
+            Summary:
+          </span>
+          <span>{review.summaryText}</span>
+        </div>
         <div>
           <span style={{ display: 'inline-block', width: '150px' }}>
             Content:
@@ -95,25 +101,21 @@ export default function SignalFeedback(props: any) {
           </span>
           <span>{new Date(review.date).toString()}</span>
         </div>
-        <div>
-          <span style={{ display: 'inline-block', width: '150px' }}>
-            Summary:
-          </span>
-          <span>{review.summary}</span>
-        </div>
       </div >
     );
   }
 
   const getReviewsJSX = () => {
+    console.log('Inside getReviewsJSX(), reviews:', reviews);
+
     if (reviews.length > 0) {
       return (
         <div>
           <h3>Reviews</h3>
           {
             reviews.map(
-              (review) => {
-                return getReviewJSX(review);
+              (review, index) => {
+                return getReviewJSX(review, index);
               }
             )
           }
@@ -176,11 +178,11 @@ export default function SignalFeedback(props: any) {
     );
   }
 
-  const getEndorsementJSX = (_endorsements: IEndorsements) => {
+  const getEndorsementJSX = (_endorsements: IEndorsements, index: number) => {
     const endorsement: IEndorsement = _endorsements.endorsement;
     const entity: IEntity = _endorsements.source;
     return (
-      <div>
+      <div key={index}>
         {
           getEntityJSX(entity)
         }
@@ -207,8 +209,8 @@ export default function SignalFeedback(props: any) {
           <h3>Endorsements</h3>
           {
             endorsements.map(
-              (_endorsements) => {
-                return getEndorsementJSX(_endorsements);
+              (_endorsements, index) => {
+                return getEndorsementJSX(_endorsements, index);
               }
             )
           }
@@ -217,13 +219,49 @@ export default function SignalFeedback(props: any) {
     }
     return (
       <div>
+        <h3>Endorsements</h3>
         No Endorsements
       </div>
     );
   }
 
+  const getStarsJSX = () => {
+    return (
+      <div>
+        <div>
+          <h3>Stars</h3>
+          <div>
+            <span style={{ display: 'inline-block', width: '150px' }}>
+              Stars Summary Text:
+            </span>
+            <span>{stars ? stars.summaryText : ''}</span>
+          </div>
+          <div>
+            <span style={{ display: 'inline-block', width: '150px' }}>
+              Stars Average:
+            </span>
+            <span>{stars ? stars.avg : ''}</span>
+          </div>
+          <div>
+            <span style={{ display: 'inline-block', width: '150px' }}>
+              Stars Count:
+            </span>
+            <span>{stars ? stars.count : ''}</span>
+          </div>
+          <div>
+            <span style={{ display: 'inline-block', width: '150px' }}>
+              Stars Sum:
+            </span>
+            <span>{stars ? stars.sum : ''}</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const getSignalJSX = () => {
-    //console.log('yyyy idsItem', idsItem);
+    console.log('inside getSignalJSX()');
+
     if (!utuBearerToken) {
       return '';
     }
@@ -232,6 +270,7 @@ export default function SignalFeedback(props: any) {
       <div style={{ marginTop: '20px', color: 'maroon' }}>
         {getReviewsJSX()}
         {getEndorsementsJSX()}
+        {getStarsJSX()}
       </div>
     );
   }
@@ -247,7 +286,7 @@ export default function SignalFeedback(props: any) {
             Click the button to login.  It will ask your wallet to sign some text.
           </div>
           <div style={{ marginTop: '20px' }}>
-            <button onClick={loginAndGetSignal}>Login to UTU</button>
+            <button onClick={login}>Login to UTU</button>
           </div>
         </>
       );
@@ -256,6 +295,15 @@ export default function SignalFeedback(props: any) {
       return '';
     }
   }
+
+  useEffect(() => {
+    const _getSignal = async () => {
+      if (utuBearerToken) {
+        await getSignal(utuBearerToken);
+      }
+    }
+    _getSignal();
+  }, [utuBearerToken]);
 
   useEffect(() => {
     getUttBalance();

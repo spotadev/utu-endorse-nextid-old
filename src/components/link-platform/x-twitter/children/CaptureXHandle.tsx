@@ -3,7 +3,7 @@ import { useGlobalStateContext } from '../../../../App';
 import ProofPayloadResponse, { nextIdProofService } from '../../../../services/next-id/nextIdProofService';
 import appStyle from '../../../../App.module.css';
 
-export default function LinkXTwitter() {
+export default function CaptureXHandle() {
 
   const {
     xHandle, setXHandle,

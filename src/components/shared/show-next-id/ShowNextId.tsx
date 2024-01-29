@@ -3,7 +3,7 @@ import { useGlobalStateContext } from "../../../App";
 import GuiProof from "./children/GuiProof";
 import { IdsItem, Proof } from '../../../services/next-id/nextIdCheckAvatarService';
 
-export default function UtuEndorse(props: any) {
+export default function ShowNextId(props: any) {
 
   let proofsToRender: Proof[] = [];
   let title = props.title;
@@ -11,7 +11,7 @@ export default function UtuEndorse(props: any) {
 
   let proofs: Proof[] = idsItem?.proofs;
 
-  if (proofs) {
+  if (proofs) {®
     for (let proof of proofs) {
       if (proof.is_valid) {
         proofsToRender.push(proof);

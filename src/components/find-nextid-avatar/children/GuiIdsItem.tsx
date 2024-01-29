@@ -5,15 +5,14 @@ import GuiProof from "../../shared/show-next-id/children/GuiProof";
 
 export default function GuiIdsItem(props: any) {
 
+  const {
+    setIdsItem,
+  } = useGlobalStateContext();
+
   const navigate = useNavigate();
   const idsItem: IdsItem = props.idsItem;
   const index = props.index;
   const proofs: Proof[] = idsItem.proofs;
-
-
-  const {
-    setIdsItem,
-  } = useGlobalStateContext();
 
   const utuEndorse = (idsItem: IdsItem) => {
     setIdsItem(idsItem);

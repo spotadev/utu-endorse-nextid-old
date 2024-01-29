@@ -2,22 +2,81 @@
 Component layout
 ====================================================================================================
 
+This document describes what the components are doing and what global state they use.
+
+====================================================================================================
+Components
+====================================================================================================
+
 App.tsx 
   BrowserRouter    - React Component for routing
   Routes           - React Component for routing
   Route            - React Component for routing
   Wagmi            - Wagmi Conponent for connecting wallet
 
-Home.tsx
-  Web3ModalButtons - Web3Modal component for connecting wallet
-  CheckForNextID   - Checks if there are any avatars associated with wallet address
-    ShowNextId     - Shows if there is an avatar connected to the wallet address
-      GuiProof     - Encapsulates a Proof connected to the avatar
-    GuiPlatform    - Shows platforms which are not yet connected to the avatar
+Defines this global state:
 
+  xHandle, setXHandle, 
+  xProofPayloadResponse, setXProofPayloadResponse,
+  publicKey, setPublicKey,
+  avatarStatusResponse, setAvatarStatusResponse,
+  xProofVerified, setXProofVerified,
+  idsItem, setIdsItem,
+  idsItems, setIdsItems,
+  findPlatform, setFindPlatform,
+  findHandle, setFindHandle,
+  utuBearerToken, setUtuBearerToken
+
+====================================================================================================
+
+Home.tsx 
+  (Global State: none)
+  
+  Web3ModalButtons - Web3Modal component for connecting wallet
+    (Global State: Wagmi Config)
+  
+  CheckForNextID   - Checks if there are any avatars associated with wallet address
+    (Global State: setAvatarStatusResponse, setXProofVerified)
+    
+    ShowNextId     - Shows if there is an avatar connected to the wallet address
+      (Global State: none)
+
+      GuiProof     - Encapsulates a Proof connected to the avatar
+        (Global State: none)
+    
+    GuiPlatform    - Shows platforms which are not yet connected to the avatar.
+                     Note that in the case of twitter, clicking it opens up LinkXTwitter in a 
+                     new route,
+      (Global State: none)
+
+====================================================================================================
 
 FindNextIdAvatar   - You can type in a wallet address and find an avatar
+  (Global State: findPlatform, setFindPlatform, findHandle, setFindHandle, setIdsItem,
+                idsItems, setIdsItems)
+
   SelectNextIdDID  - Shows all the avatars which match the search
+    (Global State: none)
+
     GuiIdsItem     - Shows an avatar with the links to endorse, give and get signal. Also shows the
                      proofs the avatar already has.
+      (Global State: setIdsItem)
+
       GuiProof     - Encapsulates a Proof connected to the avatar
+        (Global State: none)
+
+====================================================================================================
+
+LinkXTwitter       - Encapsulates capturing xhandle and instructions for sending a tweet.
+  (Global State: none)
+
+  CaptureXHandle   - Shows input for adding xHandle
+    (Global State: xHandle, setXHandle, xProofPayloadResponse, setXProofPayloadResponse, 
+                  setPublicKey)
+
+  PostTweetInstructions - Shows a box to copy the contents of the tweet.
+                          Also shows an input box to paste the url of the tweet
+    (Global State: xHandle, xProofPayloadResponse, publicKey, xProofVerified, setXProofVerified)
+
+====================================================================================================
+
