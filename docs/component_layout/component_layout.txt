@@ -3,20 +3,21 @@ Component layout
 ====================================================================================================
 
 App.tsx 
-  BrowserRouter    -
-  Routes           -
-  Route            -
-  Wagmi            -
+  BrowserRouter    - React Component for routing
+  Routes           - React Component for routing
+  Route            - React Component for routing
+  Wagmi            - Wagmi Conponent for connecting wallet
 
 Home.tsx
-  Web3ModalButtons -
-  CheckForNextID   -
-    ShowNextId     -
-      GuiProof     -
-    GuiPlatform    -
+  Web3ModalButtons - Web3Modal component for connecting wallet
+  CheckForNextID   - Checks if there are any avatars associated with wallet address
+    ShowNextId     - Shows if there is an avatar connected to the wallet address
+      GuiProof     - Encapsulates a Proof connected to the avatar
+    GuiPlatform    - Shows platforms which are not yet connected to the avatar
 
 
-FindNextIdAvatar   -
-  SelectNextIdDID  -
-    GuiIdsItem     -
-      GuiProof     - 
+FindNextIdAvatar   - You can type in a wallet address and find an avatar
+  SelectNextIdDID  - Shows all the avatars which match the search
+    GuiIdsItem     - Shows an avatar with the links to endorse, give and get signal. Also shows the
+                     proofs the avatar already has.
+      GuiProof     - Encapsulates a Proof connected to the avatar
