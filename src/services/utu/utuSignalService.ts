@@ -151,16 +151,16 @@ const initEntity = (
 
   const apiEntityAddress = 'core-api-v2/entity';
   const fullUrl = `${utuBaseApiUrl}/${apiEntityAddress}`;
-  const lowerCaseTargetAddress = targetAddress.toLowerCase;
+  const lowerCaseTargetAddress = targetAddress.toLowerCase();
 
   return axios.post(
     `${fullUrl}`,
     {
-      name: targetAddress,
+      name: lowerCaseTargetAddress,
       type: targetType,
       ids: {
         uuid: lowerCaseTargetAddress,
-        addrewss: lowerCaseTargetAddress
+        address: lowerCaseTargetAddress
       }
     },
     getAxiosRequestConfig(accessToken)
@@ -187,12 +187,12 @@ const giveSignal = (
     {
       "sourceCriteria": {
         "ids": {
-          "uuid": connectedAddress.toLowerCase
+          "uuid": connectedAddress.toLowerCase()
         }
       },
       "targetCriteria": {
         "ids": {
-          "uuid": targetAddress.toLowerCase
+          "uuid": targetAddress.toLowerCase()
         }
       },
       "transactionId": transactionId,

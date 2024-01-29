@@ -86,6 +86,10 @@ export default function UtuComment() {
     const targetType: string = 'Address';
     const transactionId = `{ nextId: ${nextId} }`;
 
+    console.log('targetAddress', targetAddress);
+    console.log('targetType', targetType);
+    console.log('utuBearerToken', utuBearerToken);
+
     // Second Network Call
     await initEntity(targetAddress, targetType, utuBearerToken);
     const connectedAddress = address;
