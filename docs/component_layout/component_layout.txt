@@ -1,0 +1,22 @@
+====================================================================================================
+Component layout
+====================================================================================================
+
+App.tsx 
+  BrowserRouter    -
+  Routes           -
+  Route            -
+  Wagmi            -
+
+Home.tsx
+  Web3ModalButtons -
+  CheckForNextID   -
+    ShowNextId     -
+      GuiProof     -
+    GuiPlatform    -
+
+
+FindNextIdAvatar   -
+  SelectNextIdDID  -
+    GuiIdsItem     -
+      GuiProof     - 
