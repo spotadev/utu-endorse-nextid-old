@@ -1,8 +1,21 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import UtuTokenBalance from '../shared/utu-token-balance/UTUTokenBalance';
+import { utuTokenService } from '../../services/utu/utuTokenService';
 
 export default function About() {
+
+  const [utuTokenBalance, setUtuTokenBalance] = useState<number>(0);
+
+  useEffect(() => {
+    const getUttBalance = async () => {
+      const _utuTokenBalance = await utuTokenService.getBalance();
+      console.log('_utuTokenBalance', _utuTokenBalance);
+      setUtuTokenBalance(_utuTokenBalance);
+    }
+
+    getUttBalance();
+  }, []);
 
   return (
     <>
@@ -72,12 +85,12 @@ export default function About() {
         <p>
           In order to endorse you need UTU tokens.
         </p>
-        <UtuTokenBalance />
+        <UtuTokenBalance utuTokenBalance={utuTokenBalance} />
         <p>
           In this dApp a user can endorse a user of a next.id avatar DID.
         </p>
         <p>
-          For more details about UTU Trust see:
+          For more details about UTU Trust see: &nbsp;
           <a href="https://utu.io" target="_utu_io">https://utu.io</a>
         </p>
         <div style={{ color: 'maroon', fontWeight: 'bold', paddingTop: '20px' }}>
