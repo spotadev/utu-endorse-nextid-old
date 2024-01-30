@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import appStyle from '../../../App.module.css'
-import { Link } from 'react-router-dom';
+import { BrowserRouter, Link, useNavigate } from 'react-router-dom';
 import ShowNextId from '../../shared/show-next-id/ShowNextId';
 import { useGlobalStateContext } from '../../../App';
 import UTUTokenBalance from '../../shared/utu-token-balance/UTUTokenBalance';
@@ -11,6 +11,7 @@ import { useAccount } from 'wagmi';
 import { access } from 'fs';
 
 export default function UtuComment() {
+  const navigate = useNavigate();
 
   const { address, isConnected } = useAccount();
 
@@ -102,6 +103,7 @@ export default function UtuComment() {
     console.log('_signalResponse', _signalResponse);
     setSignalResponse(_signalResponse);
     setSaveCommentClicked(false);
+    navigate('/find-next-id-avatar');
   }
 
   const getUttBalance = async () => {
