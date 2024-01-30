@@ -231,25 +231,25 @@ export default function GetSignal(props: any) {
         <div>
           <h3>Stars</h3>
           <div>
-            <span style={{ display: 'inline-block', width: '150px' }}>
+            <span style={{ display: 'inline-block', width: '170px' }}>
               Stars Summary Text:
             </span>
             <span>{stars ? stars.summaryText : ''}</span>
           </div>
           <div>
-            <span style={{ display: 'inline-block', width: '150px' }}>
+            <span style={{ display: 'inline-block', width: '170px' }}>
               Stars Average:
             </span>
             <span>{stars ? stars.avg : ''}</span>
           </div>
           <div>
-            <span style={{ display: 'inline-block', width: '150px' }}>
+            <span style={{ display: 'inline-block', width: '170px' }}>
               Stars Count:
             </span>
             <span>{stars ? stars.count : ''}</span>
           </div>
           <div>
-            <span style={{ display: 'inline-block', width: '150px' }}>
+            <span style={{ display: 'inline-block', width: '170px' }}>
               Stars Sum:
             </span>
             <span>{stars ? stars.sum : ''}</span>
