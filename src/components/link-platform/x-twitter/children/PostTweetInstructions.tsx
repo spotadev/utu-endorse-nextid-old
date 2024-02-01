@@ -5,12 +5,8 @@ import { useGlobalStateContext } from "../../../../App";
 import ProofPayloadResponse, { PostContent } from "../../../../services/next-id/nextIdProofService";
 import { nextIdVerifyService } from "../../../../services/next-id/nextIdVerifyService";
 import { BrowserRouter as Router, useNavigate } from 'react-router-dom';
-import { signMessage } from '@wagmi/core';
 
 export default function PostTweetInstructions() {
-
-  // @todo remove when working
-  const testShowJSX = false;
 
   const {
     xHandle,
@@ -55,16 +51,8 @@ export default function PostTweetInstructions() {
   ): { firstLine: string, signedMessageBase64: string, lastLine: string } | null => {
     if (signedMessage) {
       console.log('signedMessage', signedMessage);
-
       const isBase64Boolean = isBase64(signedMessage);
       console.log('isBase64Boolean', isBase64Boolean);
-
-      // const hexStringWithoutPrefix =
-      //   signedMessage.startsWith('0x') ? signedMessage.slice(2) : signedMessage;
-
-      // const buffer = Buffer.from(hexStringWithoutPrefix, 'hex');
-      // const signedMessageBase64 = buffer.toString('base64');
-      // const signedMessageBase64 = Buffer.from(signedMessage, 'hex').toString('base64');
       const signedMessageBase64 = signedMessage;
       console.log('signedMessageBase64[', signedMessageBase64);
       const firstLine = `🎭 Verifying my Twitter ID @${xHandle} for @NextDotID.`;
@@ -107,8 +95,6 @@ export default function PostTweetInstructions() {
   useEffect(() => {
     (async () => {
       if (xProofPayloadResponse) {
-        // const signedData = await signMessage({ message: xProofPayloadResponse.sign_payload });
-
         const _window: any = window;
         const provider = _window.ethereum;
 
@@ -180,7 +166,7 @@ export default function PostTweetInstructions() {
     );
   }
 
-  if (testShowJSX || xProofPayloadResponse && !xProofVerified) {
+  if (xProofPayloadResponse && !xProofVerified) {
     return getSendTweetJSX();
   }
   else if (xProofVerified) {

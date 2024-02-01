@@ -115,7 +115,60 @@ const verifyTwitterProof = async (
   }
 }
 
+const verifyGithubProof = async (
+  githubHandle: string,
+  publicKey: string,
+  numberAtEndGistUrl: string,
+  uuid: string,
+  createdAt: string,
+): Promise<void> => {
+
+  if (!githubHandle || !publicKey || !createdAt) {
+    const errrorMessage =
+      'Expecting all of these to be populated: ' +
+      `githubHandle: ${githubHandle}, publicKey: ${publicKey}` +
+      `createdAt: ${createdAt}`;
+
+    throw new Error(errrorMessage);
+  }
+
+  const baseUrl = process.env.REACT_APP_PROOF_SERVICE_BASE_URL;
+
+  if (!baseUrl) {
+    throw new Error('Could not read env properties');
+  }
+
+  const url = baseUrl + '/v1/proof';
+
+  let config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  const request =
+  {
+    "action": "create",
+    "platform": "github",
+    "identity": githubHandle,
+    "public_key": publicKey,
+    "proof_location": numberAtEndGistUrl,
+    "extra": {},
+    "uuid": uuid,
+    "created_at": createdAt
+  };
+
+  let { status } = await axios.post<{}>(url, request, config);
+
+  if (status === 201) {
+    console.log('Verified');
+  } else {
+    throw new Error(`Failed to verify proof. Status: ${status}`);
+  }
+}
+
 export const nextIdVerifyService = {
   verifyEthereumProof,
   verifyTwitterProof,
+  verifyGithubProof,
 };

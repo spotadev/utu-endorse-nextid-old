@@ -24,14 +24,20 @@ import GetSignal from './components/signal/get-signal/GetSignal';
 export type GlobalState = {
   xHandle: string | null;
   setXHandle: (c: string) => void;
+  githubHandle: string | null;
+  setGithubHandle: (c: string) => void;
   xProofPayloadResponse: ProofPayloadResponse | null;
   setXProofPayloadResponse: (c: ProofPayloadResponse) => void;
+  githubProofPayloadResponse: ProofPayloadResponse | null;
+  setGithubProofPayloadResponse: (c: ProofPayloadResponse) => void;
   publicKey: string | null;
   setPublicKey: (c: string) => void;
   avatarStatusResponse: AvatarStatusResponse | null;
   setAvatarStatusResponse: (c: AvatarStatusResponse) => void;
   xProofVerified: boolean;
   setXProofVerified: (c: boolean) => void;
+  githubProofVerified: boolean;
+  setGithubProofVerified: (c: boolean) => void;
   idsItem: IdsItem | null;
   setIdsItem: (c: IdsItem | null) => void;
   idsItems: IdsItem[];
@@ -47,14 +53,20 @@ export type GlobalState = {
 export const SharedDataContext = createContext<GlobalState>({
   xHandle: null,
   setXHandle: () => { },
+  githubHandle: null,
+  setGithubHandle: () => { },
   xProofPayloadResponse: null,
   setXProofPayloadResponse: () => { },
+  githubProofPayloadResponse: null,
+  setGithubProofPayloadResponse: () => { },
   publicKey: null,
   setPublicKey: (c: string) => { },
   avatarStatusResponse: null,
   setAvatarStatusResponse: (c: AvatarStatusResponse) => { },
   xProofVerified: false,
   setXProofVerified: (c: boolean) => { },
+  githubProofVerified: false,
+  setGithubProofVerified: (c: boolean) => { },
   idsItem: null,
   setIdsItem: (c: IdsItem | null) => { },
   idsItems: [],
@@ -113,10 +125,13 @@ createWeb3Modal({ wagmiConfig, projectId, chains })
 
 function App() {
   const [xHandle, setXHandle] = useState<string | null>(null);
+  const [githubHandle, setGithubHandle] = useState<string | null>(null);
   const [xProofPayloadResponse, setXProofPayloadResponse] = useState<ProofPayloadResponse | null>(null);
+  const [githubProofPayloadResponse, setGithubProofPayloadResponse] = useState<ProofPayloadResponse | null>(null);
   const [publicKey, setPublicKey] = useState<string | null>(null);
   const [avatarStatusResponse, setAvatarStatusResponse] = useState<AvatarStatusResponse | null>(null);
   const [xProofVerified, setXProofVerified] = useState<boolean>(false);
+  const [githubProofVerified, setGithubProofVerified] = useState<boolean>(false);
   const [idsItem, setIdsItem] = useState<IdsItem | null>(null);
   const [idsItems, setIdsItems] = useState<IdsItem[]>([]);
   const [findPlatform, setFindPlatform] = useState<string>("");
@@ -126,10 +141,13 @@ function App() {
   return (
     <SharedDataContext.Provider value={{
       xHandle, setXHandle,
+      githubHandle, setGithubHandle,
       xProofPayloadResponse, setXProofPayloadResponse,
+      githubProofPayloadResponse, setGithubProofPayloadResponse,
       publicKey, setPublicKey,
       avatarStatusResponse, setAvatarStatusResponse,
       xProofVerified, setXProofVerified,
+      githubProofVerified, setGithubProofVerified,
       idsItem, setIdsItem,
       idsItems, setIdsItems,
       findPlatform, setFindPlatform,

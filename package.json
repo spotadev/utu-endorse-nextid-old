@@ -22,6 +22,8 @@
     "@types/react-dom": "^18.2.14",
     "@web3modal/wagmi": "^3.0.2",
     "axios": "^1.5.0",
+    "elliptic": "^6.5.4",
+    "export-from-json": "^1.7.4",
     "ethers": "^6.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -32,6 +34,7 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
+    "@types/elliptic": "^6.4.18",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@types/chrome": "^0.0.246",
     "@types/node": "^20.6.3",
